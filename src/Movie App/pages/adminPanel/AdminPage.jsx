@@ -144,15 +144,15 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <AddNewArtist />}
             />
-            {/* <Route
+            <Route
               path={"/admin/editartist"}
               exact
-              component={() => <AddNewArtist />}
-            /> */}
+              component={() => <EditArtist />}
+            />
             <Route
-              path={"/admin/editartist/:id"}
-              // exact
-              component={EditArtist}
+              path={"/admin/editartist:id"}
+              exact
+              component={() => <EditArtist />}
             />
             <Route
               path={"/admin/artistslist"}

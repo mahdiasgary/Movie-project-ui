@@ -74,8 +74,10 @@ const AdminAddItemList = ({
                       type="text"
                       className="fa rounded-sm border-transparent focus:border-transparent focus:ring-0 border-0 h-12 dark:outline-none outline-none outline-dashed bg-transparent w-full text-lg"
                       name="text"
-                      value={inputs['summary']}
-                      // {...Formik.getFieldProps("summary")}
+                      value={inputs["summary"]}
+                      onChange={(e) => {
+                        changeInput((v) => ({ ...v, summary: e.target.value }));
+                      }}
                     />
                   ) : (
                     <textarea
@@ -95,8 +97,8 @@ const AdminAddItemList = ({
             ) : item === "Released Date" ||
               item === "Created Date" ||
               item === "Date Birth" ? (
-              <DatePiker  datePiker={datePiker} title={item} />
-            ) : from === 'edit' ? (
+              <DatePiker datePiker={datePiker} title={item} />
+            ) : from === "edit" ? (
               <EditItemField
                 // editHandler={editHandler}
                 inputs={inputs}
