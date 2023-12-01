@@ -23,7 +23,11 @@ import axios from "axios";
 import { Progress } from "flowbite-react";
 const AddMovies = ({ history }) => {
   // Movie File
-  const [movieFiles, setMovieFiles] = useState([]);
+  const [movieFiless, setMovieFiles] = useState([]);
+  const ids = movieFiless?.map(({ quality }) => quality);
+  const movieFiles = movieFiless?.filter(
+    ({ quality }, index) => !ids.includes(quality, index + 1)
+  );
 
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
@@ -114,7 +118,7 @@ const AddMovies = ({ history }) => {
     artist: [7, 8],
   });
   // console.log(movieFiles);
-  const [qw, we] = useState(0);
+  const [qw, we] = useState(70);
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
@@ -145,9 +149,9 @@ const AddMovies = ({ history }) => {
     for (let i = 0; i < movieFiles.length; i++) {
       formData.append(`Files[${i}].File`, movieFiles[i].file);
     }
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`, `${typeof value}`);
-    }
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`, `${typeof value}`);
+    // }
 
     const options = {
       onUploadProgress: (progressEvent) => {
@@ -155,22 +159,18 @@ const AddMovies = ({ history }) => {
         let precentage = Math.floor((loaded * 100) / total);
         // console.log(precentage);
         we(precentage);
-        if (precentage < 100) {
-          console.log(precentage);
-        }
+        // if (precentage < 100) {
+        //   console.log(precentage);
+        // }
       },
     };
     const config = {
       onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
     };
-    const data = {
-      title: "one",
-      body: "body",
-    };
     axios
       .post("https://localhost:7175/Admin/Movie/AddMovie", formData, options)
       .then((res) => {
-        console.log("got it");
+        // setLoadingButton(false);
       });
 
     // addNewMovie(formData)
@@ -184,65 +184,11 @@ const AddMovies = ({ history }) => {
     //   })
     //   .then((error) => {}); movieFiles.length!==0 &&
   };
-  console.log(
-    movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
-  );
+  // console.log(
+  //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
+  // );
   return (
     <div className=" my-10 min-h-screen pb-20  mx-6 sm:mx-10 md:mx-28">
-      {movieFiles?.map((file, index) => (
-        <div key={index}>
-          <div class="mb-2 flex justify-between items-center">
-            <div class="flex items-center gap-x-3">
-              <span class="w-8 h-8 flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700">
-             
-              </span>
-              <div>
-                <p class="text-sm font-medium text-gray-800 dark:text-white">
-                  {file.file.name}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-500">
-                  {Math.floor(movieFiles[0].file.size / 1000000)} MB
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-x-3 whitespace-nowrap">
-            <div
-              class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700"
-              role="progressbar"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <div
-                class={`flex flex-col duration justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-700 dark:bg-blue-500 w-[${qw}%]`}
-                style={{
-                  width: `${
-                    index === 0 && qw * movieFiles.length <= 100
-                      ? qw * movieFiles.length 
-                      : index === 1
-                      ? 100 < qw * (movieFiles.length) <= 200
-                      : index === 2
-                      ? qw * (movieFiles.length) <=300
-                      : index === 3
-                      ? qw * (movieFiles.length) <=400
-                      : ""
-                  }% `,
-                }}
-              ></div>
-            </div>
-            <div class="w-6 text-end">
-              <span class="text-sm text-gray-800 dark:text-white">{qw}%</span>
-            </div>
-          </div>
-        </div>
-      ))}
-      {/* <div className="">
-        <Progress progress={qw} className="inline" />
-        <div className="inline">4</div>
-      </div> */}
-
       <button onClick={SubmiHandler}>55555</button>
       <div className="text-[23px] font-bold mt-10 mb-6 ">{"Add New Movie"}</div>
       <section className=" dark:text-screenLight text-sideBarDark  self-center mt-2  ">
@@ -322,6 +268,8 @@ const AddMovies = ({ history }) => {
                 <UplaodBox
                   setMovieFiles={setMovieFiles}
                   movieFiles={movieFiles}
+                  loadingButton={loadingButton}
+                  qw={qw}
                 />
               </li>
               <li className="ml-6 ">
@@ -329,6 +277,7 @@ const AddMovies = ({ history }) => {
               </li>
             </ol>
           </form>
+
           <div className="flex justify-center ">
             <button
               onClick={SubmiHandler}
@@ -352,6 +301,7 @@ const AddMovies = ({ history }) => {
             >
               DONE !
             </button>
+            <button onClick={SubmiHandler}>55555</button>
           </div>
         </div>
       </section>
@@ -360,29 +310,3 @@ const AddMovies = ({ history }) => {
 };
 
 export default withRouter(AddMovies);
-
-// useEffect(() => {
-// const options = {
-//   onUploadProgress: (progressEvent) => {
-//     const { loaded, total } = progressEvent;
-//     let precentage = Math.floor((loaded * 100) / total);
-//     console.log("options");
-//     console.log(precentage);
-//     if (precentage < 100) {
-//       console.log(precentage);
-//     }
-//   }
-// };
-// const config = {
-//   onUploadProgress: (progressEvent) => console.log(progressEvent.loaded)
-// };
-// const data = {
-//   title: "one",
-//   body: "body"
-// };
-// axios
-//   .put("https://jsonplaceholder.typicode.com/posts/1", data, options)
-//   .then((res) => {
-//     console.log("got it");
-//   });
-// }, []);
