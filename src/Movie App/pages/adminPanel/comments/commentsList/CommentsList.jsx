@@ -9,6 +9,10 @@ import Pagenation from "../../../../common/Pagenation";
 import { Dropdown, Tooltip } from "flowbite-react";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 import { useGetCommentListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
+import { MdOutlineDone } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import { RxTrash } from "react-icons/rx";
+import { FaCircleChevronRight } from "react-icons/fa6";
 
 const CommentsList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
@@ -21,7 +25,7 @@ const CommentsList = ({ history }) => {
       { refetchOnMountOrArgChange: true }
     );
 
-  console.log(data);
+  // console.log(data);
 
   // console.log(error);
   // const [removeUser] = useRemoveUserMutation();
@@ -194,7 +198,7 @@ const CommentsList = ({ history }) => {
                       </Dropdown>
                     </div>
                   </th>
-                  <th className=" py-2 w-[20%]  ">
+                  <th className=" py-2 w-[10%]  ">
                     <div
                       onClick={() => {
                         setsort(["createdDate", !sort[1], false]);
@@ -246,6 +250,141 @@ const CommentsList = ({ history }) => {
             totalCount={data?.totalCount}
             setCorrectPage={setCorrectPage}
           />
+        </div>
+      </div>
+      <div className="flex justify-center w-full pb-20">
+        <div className="relative flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full h-[220px]">
+          <img
+            src="https://avatars.githubusercontent.com/u/110620718?v=4"
+            alt=""
+            className="w-[60px] absolute top-5 -left-[30px] rounded-[50%] shadow-xl z-2  h-[60px]"
+          />
+          <div>
+            <div className="flex mt-10 ml-10 mr-3 justify-between">
+              <p className="text-sm text-btn font-semibold">
+                Mahdi Asgary .... id:5
+              </p>
+              <p className="text-sm">2 week ago</p>
+            </div>
+
+            <div className="px-9 mt-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Distinctio velit quidem dignissimos dolores quae. Quo,
+              reprehenderit, minus !
+            </div>
+          </div>
+
+          <div className="flex gap-2 text-[24px] pr-3 pb-[5px] self-end   justify-end ">
+            <Tooltip content="Approve">
+              <button
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setfrom("Approve");
+                }}
+                className=" text-btn hover:text-white hover:bg-opacity-100  bg-btn rounded-md bg-opacity-20 px-4 py-1 cursor-pointer self-center duration-200 "
+              >
+                <MdOutlineDone />
+              </button>
+            </Tooltip>
+            <Tooltip content="Reject">
+              <button
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setfrom("info");
+                }}
+                className=" text-red-500  hover:text-white hover:bg-opacity-100 bg-red-500 bg-opacity-20 rounded-md p-1  cursor-pointer self-center hover:text-btn duration-200 "
+              >
+                <IoClose />
+              </button>
+            </Tooltip>
+            <Tooltip content="remove">
+              <button
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setfrom("delete");
+                }}
+                className="text-red-500 dark:group-hover:text-red-300 text-[20px] cursor-pointer"
+              >
+                <RxTrash />
+                {/* <p onClick={isActive && setIsActive(false)}></p> */}
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center w-full pb-20">
+        <div className="relative flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full h-[220px]">
+          <img
+            src="https://avatars.githubusercontent.com/u/110620718?v=4"
+            alt=""
+            className="w-[60px] absolute top-5 -left-[30px] rounded-[50%]  shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] z-2  h-[60px]"
+          />
+          <div>
+            <div className="flex mt-10 ml-10 mr-3 justify-between">
+              <p className="text-sm text-btn font-semibold">
+                Mahdi Asgary .... id:5
+              </p>
+              <p className="text-sm">2 week ago</p>
+            </div>
+
+            <div className="px-9 mt-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Distinctio velit quidem dignissimos dolores quae. Quo,
+              reprehenderit, minus !
+            </div>
+          </div>
+
+          <div className="flex font-semibold">
+            <p className="text-btn text-sm pl-5 pb-2">Approved</p>
+            <p className="text-red-500 text-sm px-5 pb-2">Remove</p>
+          </div>
+
+          <div
+            className="absolute flex z-2 -bottom-4 text-gray-500 text-sm font-semibold  bg-white
+            shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] right-5 px-8 py-2 rounded-xl "
+          >
+            Reply
+            <FaCircleChevronRight className="ml-1 self-center" />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center w-full pb-20">
+        <div className="relative flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full h-[220px]">
+          <img
+            src="https://avatars.githubusercontent.com/u/110620718?v=4"
+            alt=""
+            className="w-[60px] absolute top-5 -left-[30px] rounded-[50%]  shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] z-2  h-[60px]"
+          />
+          <div>
+            <div className="flex mt-10 ml-10 mr-3 justify-between">
+              <p className="text-sm text-btn font-semibold">
+                Mahdi Asgary .... id:5
+              </p>
+              <p className="text-sm">2 week ago</p>
+            </div>
+
+            <div className="px-9 mt-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Distinctio velit quidem dignissimos dolores quae. Quo,
+              reprehenderit, minus !
+            </div>
+          </div>
+
+          {/* <div className="flex font-semibold">
+            <p className="text-btn text-sm pl-5 pb-2">Approved</p>
+            <p className="text-red-500 text-sm px-5 pb-2">Remove</p>
+          </div> */}
+
+          <div className="mx-5 flex bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
+            <input
+              placeholder="Reply ..."
+              type="text"
+              className="bg-transparent placeholder:text-gray-500 w-full px-5  rounded-xl h-12"
+            />
+            <button className="bg-btn text-white h-8 t px-4 self-center mr-2 rounded-xl">
+              post
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -29,7 +29,6 @@ const EditArtist = ({ history }) => {
     summary: "",
     datebirth: "",
   });
-
   const [date, setDate] = useState({
     DateBirth: data?.data.birthDate.split("T")[0],
   });
@@ -73,7 +72,7 @@ const EditArtist = ({ history }) => {
   const SubmitHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
-    formData.append("name", data?.data.id);
+    formData.append("id", window.location.search.split("=")[1]);
     formData.append("name", inputs["Name"]);
     formData.append("birthDate", date.DateBirth);
     formData.append("bio", inputs["summary"]);

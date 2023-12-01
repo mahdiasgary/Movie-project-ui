@@ -322,3 +322,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform:  translateX(100%) scaleX(0.1);
   }
 }
+
+.ellipsis{
+  text-overflow: ellipsis;
+}

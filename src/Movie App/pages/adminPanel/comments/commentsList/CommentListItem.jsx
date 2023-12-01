@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { RxTrash } from "react-icons/rx";
 // import { AiOutlineEdit } from "react-icons/ai";
-import { useRemoveUserMutation } from "../../../../redux/services/movieDatabase";
+import {
+  useChangeCommentStatusInAdminPanelMutation,
+  useRemoveUserMutation,
+} from "../../../../redux/services/movieDatabase";
 import { Link, withRouter } from "react-router-dom";
 import { Toast, Tooltip } from "flowbite-react";
 import AlertModal from "../../../../common/AlertModal";
@@ -13,6 +16,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 
 const CommentListItem = ({ user, removeUserHandler, history }) => {
+  const [changeStattus] = useChangeCommentStatusInAdminPanelMutation();
   const [removeUser] = useRemoveUserMutation();
   const [isActive, setIsActive] = useState(false);
   let { setqw } = useStateContext();
@@ -68,6 +72,17 @@ const CommentListItem = ({ user, removeUserHandler, history }) => {
         openModal={openModal}
         setOpenModal={setOpenModal}
       />
+      <AlertModal
+        loading={loading}
+        functionHandler={alertHandler}
+        text={
+          from === "delete"
+            ? `Are you sure you want to Delete ${user["username"]} `
+            : `Are you sure you want to confirm`
+        }
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
       <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] rounded-l-xl group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
           <span className="self-center font-semibold text-btn  text-sm ">
@@ -85,8 +100,8 @@ const CommentListItem = ({ user, removeUserHandler, history }) => {
         </div>
       </td> */}
       <td>
-        <div className="flex justify-center px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.text}
+        <div className="flex h-[64px] relative  justify-center px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center  flex-col  text-center my-1">
+          <p className=" text-start overflow-clip ellipsis  max-w-[150px] overflow-hidden text-ellipsis h-[50px]">{user.text}</p>
         </div>
       </td>
       <td>
@@ -124,7 +139,7 @@ const CommentListItem = ({ user, removeUserHandler, history }) => {
         </div>
       </td>
       <td>
-        <div className="flex px-2 min-w-[200px] group-hover:dark:bg-[#24272e] text-sm group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
+        <div className="flex px-2 min-w-[110px] group-hover:dark:bg-[#24272e] text-sm group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
           {user.createdAt?.split("T")[0]?.split(" ")[0]}
           <br />
           {user.createdAt?.split("T")[0]?.split(" ")[1]}

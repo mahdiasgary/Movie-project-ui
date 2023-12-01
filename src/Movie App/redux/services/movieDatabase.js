@@ -7,7 +7,7 @@ export const movieCoreApi = createApi({
   endpoints: (builder) => ({
     getArtisitListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Artist/Index?Page=${page ? page : 1}&searchkey=${searchkey}`,
+        `Admin/Artist/GetList?Page=${page ? page : 1}&searchkey=${searchkey}`,
     }),
     getUsersListInAdminPanel: builder.query({
       query: ({ searchkey, page, FilterType }) =>
@@ -44,7 +44,7 @@ export const movieCoreApi = createApi({
       query: ({ id }) => `Admin/User/Edit?id=${id}`,
     }),
     getArtistForEditInAdminPanel: builder.query({
-      query: ({ id }) => `Admin/Artist/Edit?id=${id}`,
+      query: ({ id }) => `Admin/Artist/GetDetailById?id=${id}`,
     }),
     addMovieInAdminPanel: builder.mutation({
       query: (payload) => ({
@@ -54,6 +54,14 @@ export const movieCoreApi = createApi({
         //headers: {
         //    "Content-Type": "application/json", // Set the content type to JSON
         //},
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    changeCommentStatusInAdminPanel: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/User/ChangeCommentStatus",
+        method: "POST",
+        body: payload,
       }),
       invalidatesTags: ["Post"],
     }),
@@ -275,6 +283,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useChangeCommentStatusInAdminPanelMutation,
   useGetCommentListInAdminPanelQuery,
   useAdminArtistUserMutation,
   useGetArtistForEditInAdminPanelQuery,
