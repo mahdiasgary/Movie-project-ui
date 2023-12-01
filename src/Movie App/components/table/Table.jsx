@@ -12,7 +12,7 @@ import Pagenation from "../../../../common/Pagenation";
 import toast from "react-hot-toast";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
 
-const LanguageList = ({ history }) => {
+const Table = () => {
   const [search, setSearch] = useState("");
   const [correctPage, setCorrectPage] = useState(1);
   useEffect(() => {
@@ -66,6 +66,9 @@ const LanguageList = ({ history }) => {
       })
       .then((error) => {});
   };
+  let row = [{ name: "ID", value: "id", style: "w-full" }];
+  let tbody = "data";
+
   return (
     <div className=" w-full min-h-screen">
       <div className="flex justify-center mt-20 mb-2">
@@ -108,4 +111,4 @@ const LanguageList = ({ history }) => {
   );
 };
 
-export default withRouter(LanguageList);
+export default withRouter(Table);

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { RxTrash } from "react-icons/rx";
-import { AiOutlineEdit } from "react-icons/ai";
-import { useRemoveUserMutation } from "../../../redux/services/movieDatabase";
+// import { AiOutlineEdit } from "react-icons/ai";
+import { useRemoveUserMutation } from "../../../../redux/services/movieDatabase";
 import { Link, withRouter } from "react-router-dom";
-import Swal from "sweetalert2";
 import { Toast, Tooltip } from "flowbite-react";
-import AlertModal from "../../../common/AlertModal";
-import { useStateContext } from "../../../contextProvider/ContextProvider";
+import AlertModal from "../../../../common/AlertModal";
+import { useStateContext } from "../../../../contextProvider/ContextProvider";
 import { HiCheck } from "react-icons/hi";
-// import { BsInfoLg } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import toast from "react-hot-toast";
+import { MdOutlineDone } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 
-const UsersItem = ({ user, removeUserHandler, history }) => {
+const CommentListItem = ({ user, removeUserHandler, history }) => {
   const [removeUser] = useRemoveUserMutation();
   const [isActive, setIsActive] = useState(false);
   let { setqw } = useStateContext();
@@ -75,7 +75,7 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
           </span>
         </div>
       </td>
-      <td>
+      {/* <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
           <img
             src={"https://localhost:7175/images/" + user.profileImage}
@@ -83,53 +83,84 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
             className="w-[40px] h-[40px] self-center rounded-[50%] "
           />
         </div>
-      </td>
+      </td> */}
       <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.username}
+        <div className="flex justify-center px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
+          {user.text}
         </div>
       </td>
       <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.email}
+          {user.userName}
         </div>
       </td>
-
       <td>
-        {user.isAdmin ? (
-          <div className="flex text-btn text-sm font-semibold px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-            Admin
+        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
+          {user.movieName}
+        </div>
+      </td>
+      <td>
+        {!user.isDeleted ? (
+          <div className="flex  text-btn text-sm font-semibold px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
+            Show
           </div>
         ) : (
           <div className="flex px-2 text-sm font-semibold group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-            User
+            Deleted
           </div>
         )}
       </td>
       <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.isActive ? (
+          {user.statusType === 1 ? (
             <div className="bg-[#213242 font-semibold bg-btn bg-opacity-10 px-2 text-sm text-btn rounded-md py-[2px]">
-              Active
+              Approved
             </div>
           ) : (
             <div className="bg-[#2d2f3b] dark:bg-opacity-80 bg-opacity-10  px-2 text-sm text-[#5e626e] rounded-md py-[2px]">
-              Inactive
+              InApproved
             </div>
           )}
         </div>
       </td>
       <td>
         <div className="flex px-2 min-w-[200px] group-hover:dark:bg-[#24272e] text-sm group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.createdDate?.split("+")[0]?.split(" ")[0]}
+          {user.createdAt?.split("T")[0]?.split(" ")[0]}
           <br />
-          {user.createdDate?.split("+")[0]?.split(" ")[1]}
+          {user.createdAt?.split("T")[0]?.split(" ")[1]}
         </div>
       </td>
       <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] rounded-r-xl group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
           <div className="flex justify-center  gap-3 text-[19px] ">
-            <Tooltip content="info">
+            {user.statusType === 1 && (
+              <div className="flex gap-2">
+                <Tooltip content="Approve">
+                  <button
+                    onClick={() => {
+                      props.setOpenModal("pop-up");
+                      setfrom("Approve");
+                    }}
+                    className=" text-btn hover:text-white hover:bg-opacity-100  bg-btn rounded-md bg-opacity-20 px-4 py-1 cursor-pointer self-center duration-200 "
+                  >
+                    <MdOutlineDone />
+                  </button>
+                </Tooltip>
+                <Tooltip content="Reject">
+                  <button
+                    onClick={() => {
+                      props.setOpenModal("pop-up");
+                      setfrom("info");
+                    }}
+                    className=" text-red-500  hover:text-white hover:bg-opacity-100 bg-red-500 bg-opacity-20 rounded-md p-1  cursor-pointer self-center hover:text-btn duration-200 "
+                  >
+                    <IoClose />
+                  </button>
+                </Tooltip>
+              </div>
+            )}
+
+            {/* <Tooltip content="info">
               <button
                 onClick={() => {
                   props.setOpenModal("pop-up");
@@ -139,7 +170,7 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
               >
                 <BsInfoCircle />
               </button>
-            </Tooltip>
+            </Tooltip> */}
             {/* <Link to={"/admin/users"}> */}
             <Tooltip content="remove">
               <button
@@ -161,4 +192,4 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
   );
 };
 
-export default withRouter(UsersItem);
+export default withRouter(CommentListItem);

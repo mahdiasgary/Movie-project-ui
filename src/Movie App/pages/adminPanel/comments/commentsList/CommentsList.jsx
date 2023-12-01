@@ -1,48 +1,53 @@
 import React, { useCallback, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
-import UsersItem from "./UsersItem";
+import CommentListItem from "./CommentListItem";
 import { BsArrowDown } from "react-icons/bs";
-import {
-  useGetUsersListInAdminPanelQuery,
-  useRemoveUserMutation,
-} from "../../../redux/services/movieDatabase";
+
 import { withRouter } from "react-router-dom";
-import LoadingAdminListItem from "../../../common/LoadingAdminListItem";
-import Pagenation from "../../../common/Pagenation";
+import LoadingAdminListItem from "../../../../common/LoadingAdminListItem";
+import Pagenation from "../../../../common/Pagenation";
 import { Dropdown, Tooltip } from "flowbite-react";
-import { IdontKnowName } from "../../../components/admin/IdontKnowName";
-const Users = ({ history }) => {
+import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
+import { useGetCommentListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
+
+const CommentsList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
+  const [, updateState] = useState();
   const [search, setSearch] = useState("");
   const [FilterType, setFilterType] = useState("");
   const { data, isFetching, isLoading, error } =
-    useGetUsersListInAdminPanelQuery(
+    useGetCommentListInAdminPanelQuery(
       { searchkey: search, page: correctPage, FilterType },
       { refetchOnMountOrArgChange: true }
     );
+
   console.log(data);
-  const [removeUser] = useRemoveUserMutation();
+
+  // console.log(error);
+  // const [removeUser] = useRemoveUserMutation();
   const [sort, setsort] = useState(["id", false, false]);
   const [searc, setSearc] = useState(false);
 
-  const removeUserHandler = ({ id, username }) => {
-    removeUser({ id })
-      .unwrap()
-      .then((r) => {
-        Swal.fire({
-          title: "Deleted!",
-          text: `${username} has been deleted.`,
-          icone: "success",
-          confirmButtonColor: "#3085d6",
-        });
-      })
-      .then((error) => {
-        console.log(error);
-      });
-    // forceUpdate()
-    setSearc(!searc);
-    // history.push("/admin/users");
-  };
+  // const removeUserHandler = ({ id, username }) => {
+  //   const forceUpdate = useCallback(() => updateState({}), []);
+
+  //   removeUser({ id })
+  //     .unwrap()
+  //     .then((r) => {
+  //       Swal.fire({
+  //         title: "Deleted!",
+  //         text: `${username} has been deleted.`,
+  //         icone: "success",
+  //         confirmButtonColor: "#3085d6",
+  //       });
+  //     })
+  //     .then((error) => {
+  //       console.log(error);
+  //     });
+  //   // forceUpdate()
+  //   setSearc(!searc);
+  //   // history.push("/admin/users");
+  // };
 
   // sort by value
   const sortBy = (key) => {
@@ -76,11 +81,11 @@ const Users = ({ history }) => {
     <div className=" w-full">
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
-        prob={[{ path: "/admin/users", value: "Users" }]}
+        prob={[{ path: "/admin/comments", value: "Comments" }]}
       />
       <div className="flex justify-center mt-10 mb-2">
         <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
-          <div className="text-[23px] font-bold ">Users List</div>
+          <div className="text-[23px] font-bold ">Comments</div>
           <div>
             <input
               value={search}
@@ -122,19 +127,20 @@ const Users = ({ history }) => {
                       </div>
                     </div>
                   </th>
-
-                  <th className="px-3 py-2 text-sm  w-[10%]  ">
-                    <Tooltip content={"profile"}>PROFILE</Tooltip>
-                  </th>
                   <th className=" py-2 w-[20%]  ">
-                    <div
-                      onClick={() => {
-                        setsort(["username", false, !sort[2]]);
-                      }}
-                      className="flex justify-center cursor-pointer w-full "
-                    >
+                    <div className="flex justify-center  w-full ">
+                      <Tooltip content={"text"} className="">
+                        <div className="">COMMENT</div>
+                      </Tooltip>
+                    </div>
+                  </th>
+                  {/* <th className="px-3 py-2 text-sm  w-[10%]  ">
+                    <Tooltip content={"profile"}>PROFILE</Tooltip>
+                  </th> */}
+                  <th className=" py-2 w-[10%]  ">
+                    <div className="flex justify-center cursor-pointer w-full ">
                       <Tooltip content={"sort by Name"} className="">
-                        <div className="">NAME</div>
+                        <div className="">USER</div>
                       </Tooltip>
                       <div
                         className={`self-center  cursor-pointer ${
@@ -147,17 +153,18 @@ const Users = ({ history }) => {
                       </div>
                     </div>
                   </th>
-                  <th className=" py-2 w-[20%]  ">
-                    <div className="flex justify-center  w-full ">
-                      <Tooltip content={"email"} className="">
-                        <div className="">Email</div>
+                  <th className=" py-2 w-[10%]  ">
+                    <div className="flex text-center justify-center cursor-pointer w-full ">
+                      <Tooltip content={"sort by Name"} className="">
+                        <div className="text-center">movie </div>
                       </Tooltip>
                     </div>
                   </th>
+
                   <th className="w-[10%] px-5">
                     <div className="flex justify-center">
                       {/* <div className="">ROLE</div> */}
-                      <Dropdown label="ROLE" inline className="px-0 mx-0">
+                      <Dropdown label="isDeleted" inline className="px-0 mx-0">
                         <Dropdown.Item
                           onClick={(e) => setFilterType("RoleAdmin")}
                         >
@@ -221,10 +228,10 @@ const Users = ({ history }) => {
               <tbody className="px-5 rounded-3xl">
                 {data &&
                   [...data?.data].sort(sortBy(sort)).map((user) => (
-                    <UsersItem
+                    <CommentListItem
                       user={user}
                       key={user.id}
-                      removeUserHandler={removeUserHandler}
+                      // removeUserHandler={removeUserHandler}
                       // forceUpdate={forceUpdate}
                     />
                   ))}
@@ -245,4 +252,4 @@ const Users = ({ history }) => {
   );
 };
 
-export default withRouter(Users);
+export default withRouter(CommentsList);

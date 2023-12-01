@@ -4,6 +4,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const MovieListItem = ({ movie }) => {
+// console.log(movie)
   return (
     <tr className=" py-10 rounded-xl  hover:text-screenLight dark:text-[#d1d1d3] group border-b dark:border-0  ">
       <td>
@@ -29,7 +30,7 @@ const MovieListItem = ({ movie }) => {
       </td>
       <td>
         <div className="flex px-2 text-sm min-w-[200px] group-hover:dark:bg-[#24272e] group-hover:bg-[#6d7077] duration-300 h-[64px] flex-col justify-center text-center mt-1 ">
-          {movie.createdDate.split(" ")[0]}
+          {movie.createdDate?.split(" ")[0]}
         </div>
       </td>
 
@@ -41,7 +42,7 @@ const MovieListItem = ({ movie }) => {
 
       <td>
         <div className="flex px-2 text-sm min-w-[200px]  group-hover:dark:bg-[#24272e] group-hover:bg-[#6d7077] duration-300 h-[64px] flex-col justify-center text-center mt-1">
-          {movie.releasedDate.split(" ")[0]}
+          {movie.releasedDate?.split(" ")[0]}
         </div>
       </td>
       <td>

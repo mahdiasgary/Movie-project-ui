@@ -24,6 +24,7 @@ import Dashboard from "./dashboard/Dashboard";
 import EditUserInfo from "./users/userInfoEdit/EditUserInfo";
 import EditArtist from "./artist/add artist/EditArtist";
 import ScrollToTop from "./ScrollToTop";
+import CommentsList from "./comments/commentsList/CommentsList";
 
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
@@ -143,6 +144,11 @@ const AdminPage = ({ history }) => {
               path={"/admin/addnewartist"}
               exact
               component={() => <AddNewArtist />}
+            />
+            <Route
+              path={"/admin/comments"}
+              exact
+              component={() => <CommentsList />}
             />
             <Route
               path={"/admin/editartist"}

@@ -19,7 +19,7 @@ const AdminAddItemList = ({
   changeInput,
   from,
 }) => {
-  // console.log(setSelectedOptions)
+  // console.log(dataQuery["artistQuery"]?.data?.data)
   const [selectedForChange, setSelectedForChange] = useState("r5");
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
@@ -59,13 +59,13 @@ const AdminAddItemList = ({
               // />
               <SelectMulti
                 selectedOptions={selectedOptions[item.toLowerCase()]}
-                handleChange={selectHandler[item]}
-                options={dataQuery["career" + "Query"]?.data?.data}
+                options={dataQuery[item.toLowerCase() + "Query"]?.data?.data}
                 key={index}
                 setSelectedOptions={setSelectedOptions}
                 title={item}
               />
-            ) : item === "Summary" ? (
+            ) : // ''
+            item === "Summary" ? (
               <div className="max-w-[900px] w-full ">
                 <fieldset className="border  border-[#787f98] focus-within:border-btn focus-within:border-2 my-1 px-3 rounded-lg w-full">
                   <legend className="px-1 text-btn text-[17px]">Summary</legend>

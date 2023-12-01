@@ -13,6 +13,10 @@ export const movieCoreApi = createApi({
       query: ({ searchkey, page, FilterType }) =>
         `Admin/User/Index?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
     }),
+    getCommentListInAdminPanel: builder.query({
+      query: ({ searchkey, page, FilterType }) =>
+        `Admin/User/GetUsersComments?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
+    }),
     getGenreListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
         `Admin/Genre/Index?Page=${page}&searchkey=${searchkey}`,
@@ -271,6 +275,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useGetCommentListInAdminPanelQuery,
   useAdminArtistUserMutation,
   useGetArtistForEditInAdminPanelQuery,
   useLazyGetArtisitListInAdminPanelQuery,

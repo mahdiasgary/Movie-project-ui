@@ -233,7 +233,7 @@ const AdminListItemCard = ({
               ) : td === "birthDate" ||
                 td === "createdDate" ||
                 td === "releasedDate" ? (
-                item[td].split(" ")[0]
+                item[td]?.split(" ")[0]
               ) : td === "action" ? (
                 <div className="flex justify-center hover:text-btn duration-200  gap-3 text-[19px] py-[2px]">
                   {from === "movie" || from === "artist" ? (

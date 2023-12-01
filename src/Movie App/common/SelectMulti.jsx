@@ -13,7 +13,7 @@ const SelectMulti = ({
     showModal: false,
     search: "",
   });
-
+// console.log(options)
   const wrapperRef = useRef(null);
   useEffect(() => {
     const useOutsideAlerter = (ref) => {
@@ -32,9 +32,9 @@ const SelectMulti = ({
 
   let filteredOption =
     options &&
-    [...options]?.filter(
+    [...options].filter(
       (o) =>
-        o["title"].includes(inputs.search) &&
+        o["title"]?.includes(inputs.search) &&
         !selectedOptions?.find((q) => q["title"] === o["title"])
     );
   let titlee = "career";
@@ -111,7 +111,7 @@ const SelectMulti = ({
             className="w-full duration-200 py-2 my-2  dark:bg-transparent  px-5"
           />
           <div className="max-h-[200px]  scrollbar-thin dark:scrollbar-track-gray-600 scrollbar-track-gray-300  scrollbar-thumb-gray-400 scrollbar-track-rounded-md   scrollbar-thumb-rounded-md  overflow-y-auto">
-            {filteredOption.map((item, index) => (
+            {filteredOption?.map((item, index) => (
               <div
                 key={index}
                 onClick={(e) => {
@@ -131,7 +131,7 @@ const SelectMulti = ({
               </div>
             ))}
           </div>
-          {filteredOption.length === 0 && (
+          {filteredOption?.length === 0 && (
             <div className="rounded-lg text-center cursor-pointer  duration-200 py-2 my-2  px-5">
               no Options{" "}
             </div>
