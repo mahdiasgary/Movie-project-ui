@@ -6,7 +6,7 @@ import {
   useRemoveUserMutation,
 } from "../../../../redux/services/movieDatabase";
 import { Link, withRouter } from "react-router-dom";
-import { Toast, Tooltip } from "flowbite-react";
+import { Dropdown, Toast, Tooltip } from "flowbite-react";
 import AlertModal from "../../../../common/AlertModal";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
 import { HiCheck } from "react-icons/hi";
@@ -14,20 +14,21 @@ import { BsInfoCircle } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { MdOutlineDone } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { FaCircleChevronRight } from "react-icons/fa6";
 
-const CommentListItem = ({ user, removeUserHandler, history }) => {
-  const [changeStattus] = useChangeCommentStatusInAdminPanelMutation();
+const CommentListItem = ({ comment, removeUserHandler, history }) => {
+  const [changeStatus] = useChangeCommentStatusInAdminPanelMutation();
   const [removeUser] = useRemoveUserMutation();
   const [isActive, setIsActive] = useState(false);
   let { setqw } = useStateContext();
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
   const [loading, setLoading] = useState(false);
-  const [from, setfrom] = useState("");
+  const [states, setState] = useState({ replyInput: false, alertTitle: "" });
   const alertHandler = () => {
     setLoading(true);
-    if (from === "delete") {
-      removeUser({ id: user.id })
+    if (states.alertTitle === "delete") {
+      removeUser({ id: comment.id })
         .unwrap()
         .then((r) => {
           setqw(Math.random());
@@ -54,156 +55,205 @@ const CommentListItem = ({ user, removeUserHandler, history }) => {
           // console.log(error);
         });
     }
-    if (from === "info") {
-      history.push(`/admin/user?id=${user.id}`);
+    if (states.alertTitle === "Approve") {
+      const formDate = new FormData();
+      formDate.append("CommentId", comment.id);
+      formDate.append("Status", "Approved");
+      changeStatus(formDate)
+        .unwrap()
+        .then((r) => {
+          setLoading(false);
+          console.log(r);
+          setqw(Math.random());
+        })
+        .catch();
+    }
+    if (states.alertTitle === "Reject") {
+      const formDate = new FormData();
+      formDate.append("CommentId", comment.id);
+      formDate.append("Status", "Rejected");
+      changeStatus(formDate)
+        .unwrap()
+        .then((r) => {
+          setLoading(false);
+          console.log(r);
+          setqw(Math.random());
+        })
+        .catch();
     }
   };
 
   return (
-    <tr className=" py-10 rounded-xl  hover:text-black dark:text-[#d1d1d3] group border-b dark:border-0  ">
-      <AlertModal
-        loading={loading}
-        functionHandler={alertHandler}
-        text={
-          from === "delete"
-            ? `Are you sure you want to Delete ${user["username"]} `
-            : `Are you sure you want to confirm`
-        }
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      />
-      <AlertModal
-        loading={loading}
-        functionHandler={alertHandler}
-        text={
-          from === "delete"
-            ? `Are you sure you want to Delete ${user["username"]} `
-            : `Are you sure you want to confirm`
-        }
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      />
-      <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] rounded-l-xl group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          <span className="self-center font-semibold text-btn  text-sm ">
-            {user.id}
-          </span>
-        </div>
-      </td>
-      {/* <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          <img
-            src={"https://localhost:7175/images/" + user.profileImage}
-            alt="ff"
-            className="w-[40px] h-[40px] self-center rounded-[50%] "
-          />
-        </div>
-      </td> */}
-      <td>
-        <div className="flex h-[64px] relative  justify-center px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center  flex-col  text-center my-1">
-          <p className=" text-start overflow-clip ellipsis  max-w-[150px] overflow-hidden text-ellipsis h-[50px]">{user.text}</p>
-        </div>
-      </td>
-      <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.userName}
-        </div>
-      </td>
-      <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.movieName}
-        </div>
-      </td>
-      <td>
-        {!user.isDeleted ? (
-          <div className="flex  text-btn text-sm font-semibold px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-            Show
+    <div className="flex justify-center w-full pb-12">
+      <div className="relative dark:bg-opacity-70 backdrop-blur-sm dark:bg-[#1c1d21] flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full max-h-[250px]">
+        <img
+          src="https://avatars.githubusercontent.com/u/110620718?v=4"
+          alt=""
+          className="w-[60px] shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] absolute top-5 -left-[30px] rounded-[50%]  z-2  h-[60px]"
+        />
+        <div className="pb-8">
+          <div className="flex mt-10 ml-10 mr-3 justify-between">
+            <p className=" flex text-btn font-semibold">
+              {comment.userName}{" "}
+              <p className="ml-10 text-sm">id:{comment.userId}</p>
+            </p>
+            <p className="text-sm self-center dark:text-gray-400">2 week ago</p>
           </div>
-        ) : (
-          <div className="flex px-2 text-sm font-semibold group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-            Deleted
-          </div>
-        )}
-      </td>
-      <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.statusType === 1 ? (
-            <div className="bg-[#213242 font-semibold bg-btn bg-opacity-10 px-2 text-sm text-btn rounded-md py-[2px]">
-              Approved
-            </div>
-          ) : (
-            <div className="bg-[#2d2f3b] dark:bg-opacity-80 bg-opacity-10  px-2 text-sm text-[#5e626e] rounded-md py-[2px]">
-              InApproved
-            </div>
-          )}
-        </div>
-      </td>
-      <td>
-        <div className="flex px-2 min-w-[110px] group-hover:dark:bg-[#24272e] text-sm group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.createdAt?.split("T")[0]?.split(" ")[0]}
-          <br />
-          {user.createdAt?.split("T")[0]?.split(" ")[1]}
-        </div>
-      </td>
-      <td>
-        <div className="flex px-2 group-hover:dark:bg-[#24272e] rounded-r-xl group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          <div className="flex justify-center  gap-3 text-[19px] ">
-            {user.statusType === 1 && (
-              <div className="flex gap-2">
-                <Tooltip content="Approve">
-                  <button
-                    onClick={() => {
-                      props.setOpenModal("pop-up");
-                      setfrom("Approve");
-                    }}
-                    className=" text-btn hover:text-white hover:bg-opacity-100  bg-btn rounded-md bg-opacity-20 px-4 py-1 cursor-pointer self-center duration-200 "
-                  >
-                    <MdOutlineDone />
-                  </button>
-                </Tooltip>
-                <Tooltip content="Reject">
-                  <button
-                    onClick={() => {
-                      props.setOpenModal("pop-up");
-                      setfrom("info");
-                    }}
-                    className=" text-red-500  hover:text-white hover:bg-opacity-100 bg-red-500 bg-opacity-20 rounded-md p-1  cursor-pointer self-center hover:text-btn duration-200 "
-                  >
-                    <IoClose />
-                  </button>
-                </Tooltip>
-              </div>
-            )}
 
-            {/* <Tooltip content="info">
+          <div className="px-9 dark:opacity-90 max-h-[72px] overflow-y-hidden mt-5">{comment.text}</div>
+        </div>
+
+        {comment.statusType === 1 && (
+          <div className="flex gap-2 text-[24px] pr-3 pb-[5px] self-end   justify-end ">
+            <Tooltip content="Approve">
               <button
                 onClick={() => {
                   props.setOpenModal("pop-up");
-                  setfrom("info");
+                  setState((v) => ({ ...v, alertTitle: "Approve" }));
                 }}
-                className=" text-btn cursor-pointer self-center hover:text-btn duration-200 "
+                className=" text-btn hover:text-white hover:bg-opacity-100  bg-btn rounded-md bg-opacity-20 px-4 py-1 cursor-pointer self-center duration-200 "
               >
-                <BsInfoCircle />
+                <MdOutlineDone />
               </button>
-            </Tooltip> */}
-            {/* <Link to={"/admin/users"}> */}
+            </Tooltip>
+            <Tooltip content="Reject">
+              <button
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setState((v) => ({ ...v, alertTitle: "Reject" }));
+                }}
+                className=" text-red-500  hover:text-white hover:bg-opacity-100 bg-red-500 bg-opacity-20 rounded-md p-1  cursor-pointer self-center hover:text-btn duration-200 "
+              >
+                <IoClose />
+              </button>
+            </Tooltip>
             <Tooltip content="remove">
               <button
                 onClick={() => {
                   props.setOpenModal("pop-up");
-                  setfrom("delete");
+                  setState((v) => ({ ...v, alertTitle: "delete" }));
                 }}
                 className="text-red-500 dark:group-hover:text-red-300 text-[20px] cursor-pointer"
               >
                 <RxTrash />
-                <p onClick={isActive && setIsActive(false)}></p>
+                {/* <p onClick={isActive && setIsActive(false)}></p> */}
               </button>
             </Tooltip>
-            {/* </Link> */}
           </div>
-        </div>
-      </td>
-    </tr>
+        )}
+        {comment.statusType === 0 &&
+          (states.replyInput ? (
+            <div className="mx-5 flex dark:bg-border bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
+              <input
+                autoFocus
+                placeholder="Reply ..."
+                type="text"
+                className="bg-transparent placeholder:text-gray-500 w-full px-5  rounded-xl h-12"
+              />
+              <button
+                onClick={() => setState((v) => ({ ...v, replyInput: false }))}
+                className="bg-gray-500 duration-100 hover:bg-gray-600 text-sm text-white h-9 t px-3 self-center mr-2 rounded-lg"
+              >
+                cancel
+              </button>
+              <button className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-5 self-center mr-2 rounded-lg">
+                post
+              </button>
+            </div>
+          ) : (
+            <div>
+              <div className="flex font-semibold">
+                <div className=" text-btn text-sm   px-2 ml-3 py-1 mb-1   hover:bg-btn  hover:bg-opacity-20 duration-200 rounded-xl">
+                  <Dropdown className="text-sm" label={"Approved"} inline>
+                    <Dropdown.Item
+                      // className={inputs.IsAdmin ? "" : "hidden"}
+                      onClick={(e) => {
+                        setState((values) => ({
+                          ...values,
+                          alertTitle: "Reject",
+                        }));
+                        props.setOpenModal("pop-up");
+                      }}
+                      className="text-sm"
+                    >
+                      Reject
+                    </Dropdown.Item>
+                  </Dropdown>
+                </div>
+                {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
+                <p className="text-red-500 cursor-pointer hover:bg-red-200 text-sm px-2 mx-3 py-1 mb-1 rounded-lg ">
+                  Remove
+                </p>
+                <p className="text-gray-500 text-sm   py-1 mb-1 ">
+                  id : {comment.id}
+                </p>
+              </div>
+
+              <div
+                onClick={() => setState((s) => ({ ...s, replyInput: true }))}
+                className="absolute flex z-2 cursor-pointer -bottom-4 text-gray-500 text-sm font-semibold
+        bg-white dark:bg-border dark:text-gray-400
+      shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] right-5 px-8 py-2 rounded-xl "
+              >
+                Reply
+                <FaCircleChevronRight className="ml-1 self-center" />
+              </div>
+            </div>
+          ))}
+        {comment.statusType === 2 && (
+          <div className="flex justify-between">
+            <div className="flex font-semibold">
+              {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
+              <p className="text-red-500 cursor-pointer hover:bg-red-200 text-sm px-2 mx-3 py-1 mb-1 rounded-lg ">
+                Remove
+              </p>
+
+              <p className="text-gray-500 text-sm   py-1 mb-1 ">
+                id : {comment.id}
+              </p>
+            </div>
+            <button className=" text-red-500 hover:text-white bg-red-500 bg-opacity-10 mr-1 py-2 text-sm   px-2 ml-3 mb-1  hover:bg-opacity-100 duration-200 rounded-xl">
+              <Dropdown className="text-sm" label={"Rejected"} inline>
+                <Dropdown.Item
+                  onClick={(e) => {
+                    setState((values) => ({
+                      ...values,
+                      alertTitle: "Approve",
+                    }));
+                    props.setOpenModal("pop-up");
+                  }}
+                  className="text-sm"
+                >
+                  Approve
+                </Dropdown.Item>
+              </Dropdown>
+            </button>
+          </div>
+        )}
+      </div>
+      <AlertModal
+        loading={loading}
+        functionHandler={alertHandler}
+        text={
+          states.alertTitle === "delete"
+            ? `Are you sure you want to confirm`
+            : `Are you sure you want to confirm`
+        }
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
+      {/* <AlertModal
+        loading={loading}
+        functionHandler={alertHandler}
+        text={
+          from === "delete"
+            ? `Are you sure you want to Delete ${user["username"]} `
+            : `Are you sure you want to confirm`
+        }
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      /> */}
+    </div>
   );
 };
 

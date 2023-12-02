@@ -19,7 +19,7 @@ const AdminAddItemList = ({
   changeInput,
   from,
 }) => {
-  // console.log(dataQuery["artistQuery"]?.data?.data)
+  // console.log(dataQuery)
   const [selectedForChange, setSelectedForChange] = useState("r5");
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };

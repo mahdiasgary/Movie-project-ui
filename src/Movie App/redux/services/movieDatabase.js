@@ -46,6 +46,18 @@ export const movieCoreApi = createApi({
     getArtistForEditInAdminPanel: builder.query({
       query: ({ id }) => `Admin/Artist/GetDetailById?id=${id}`,
     }),
+    getArtistSelectListInAdminPanel: builder.query({
+      query: () => `Admin/Artist/GetAllArtitstSelectListItem`,
+    }),
+    getGenreSelectListInAdminPanel: builder.query({
+      query: () => `Admin/Genre/GetAllGnereSelectListItem`,
+    }),
+    getLanguageSelectListInAdminPanel: builder.query({
+      query: () => `Admin/Language/GetAllLanguagesSelectListItem`,
+    }),
+    getCountrySelectListInAdminPanel: builder.query({
+      query: () => `Admin/Country/GetAllCountrySelectListItem`,
+    }),
     addMovieInAdminPanel: builder.mutation({
       query: (payload) => ({
         url: "Admin/Movie/AddMovie",
@@ -283,6 +295,10 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useGetArtistSelectListInAdminPanelQuery,
+  useGetCountrySelectListInAdminPanelQuery,
+  useGetGenreSelectListInAdminPanelQuery,
+  useGetLanguageSelectListInAdminPanelQuery,
   useChangeCommentStatusInAdminPanelMutation,
   useGetCommentListInAdminPanelQuery,
   useAdminArtistUserMutation,

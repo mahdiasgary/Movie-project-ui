@@ -12,6 +12,10 @@ import {
   useGetCountryListInAdminPanelQuery,
   useGetLanguageListInAdminPanelQuery,
   useGetArtisitListInAdminPanelQuery,
+  useGetArtistSelectListInAdminPanelQuery,
+  useGetCountrySelectListInAdminPanelQuery,
+  useGetGenreSelectListInAdminPanelQuery,
+  useGetLanguageSelectListInAdminPanelQuery,
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
@@ -32,22 +36,18 @@ const AddMovies = ({ history }) => {
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
   const [state, setState] = useState(false);
-  const genreQuery = useGetGenreListInAdminPanelQuery(
-    { searchkey: "", page: "1" },
-    { refetchOnMountOrArgChange: true }
-  );
-  const languageQuery = useGetLanguageListInAdminPanelQuery(
-    { searchkey: "", page: "1" },
-    { refetchOnMountOrArgChange: true }
-  );
-  const countryQuery = useGetCountryListInAdminPanelQuery(
-    { searchkey: "", page: "1" },
-    { refetchOnMountOrArgChange: true }
-  );
-  const artistQuery = useGetArtisitListInAdminPanelQuery(
-    { searchkey: "", page: "1" },
-    { refetchOnMountOrArgChange: true }
-  );
+  const genreQuery = useGetGenreSelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
+  const languageQuery = useGetLanguageSelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
+  const countryQuery = useGetCountrySelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
+  const artistQuery = useGetArtistSelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
 
   const initialValues = {
     title: "qw",

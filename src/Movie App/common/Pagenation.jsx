@@ -10,7 +10,9 @@ const Pagenation = ({ item, totalCount, correctPage, setCorrectPage }) => {
     <div
       className={`py-3 ${
         !totalCount && "hidden"
-      } px-2 self-center flex justify-between max-w-screen border border-t-0 dark:border-0 rounded-b-2xl `}
+      } px-2 self-center flex justify-between max-w-screen border border-t-0 dark:border-0 rounded-b-2xl ${
+        item === "comment" && "border-0"
+      } `}
     >
       <div className="self-center text-sm ">
         <span className="px-2 text-gray-500 font-semibold">count {item}</span>

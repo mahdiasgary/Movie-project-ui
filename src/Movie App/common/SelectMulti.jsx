@@ -13,7 +13,7 @@ const SelectMulti = ({
     showModal: false,
     search: "",
   });
-// console.log(options)
+  console.log(options);
   const wrapperRef = useRef(null);
   useEffect(() => {
     const useOutsideAlerter = (ref) => {
@@ -116,14 +116,14 @@ const SelectMulti = ({
                 key={index}
                 onClick={(e) => {
                   e.preventDefault();
-                  title === "Career" &&
-                    setSelectedOptions((v) => ({
-                      ...v,
-                      career: [
-                        ...v[titlee],
-                        { id: item["id"], title: item["title"] },
-                      ],
-                    }));
+                  // title === "Career" &&
+                  setSelectedOptions((v) => ({
+                    ...v,
+                    [title.toLowerCase()]: [
+                      ...selectedOptions,
+                      { id: item["id"], title: item["title"] },
+                    ],
+                  }));
                 }}
                 className="rounded-lg cursor-pointer hover:text-black dark:hover:text-white dark:hover:bg-gray-600 hover:bg-gray-100 duration-200 py-2 my-2  px-5"
               >
