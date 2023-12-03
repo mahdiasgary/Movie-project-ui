@@ -25,6 +25,7 @@ import EditUserInfo from "./users/userInfoEdit/EditUserInfo";
 import EditArtist from "./artist/add artist/EditArtist";
 import ScrollToTop from "./ScrollToTop";
 import CommentsList from "./comments/commentsList/CommentsList";
+import BlogsPage from "./blogs/BlogsPage";
 
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
@@ -94,6 +95,11 @@ const AdminPage = ({ history }) => {
               path={"/admin/addnewseries"}
               exact
               component={() => <AddSeries />}
+            />
+            <Route
+              path={"/admin/blogs"}
+              exact
+              component={() => <BlogsPage />}
             />
             <Route
               path={"/admin/addnewgenre"}

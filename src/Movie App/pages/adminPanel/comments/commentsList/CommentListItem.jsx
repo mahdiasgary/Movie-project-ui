@@ -15,6 +15,11 @@ import toast from "react-hot-toast";
 import { MdOutlineDone } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { FaCircleChevronRight } from "react-icons/fa6";
+import { IoSend } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
+import { FaTrash } from "react-icons/fa6";
+import { IoMdTrash } from "react-icons/io";
+import { BiSolidMoviePlay } from "react-icons/bi";
 
 const CommentListItem = ({ comment, removeUserHandler, history }) => {
   const [changeStatus] = useChangeCommentStatusInAdminPanelMutation();
@@ -82,7 +87,12 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         .catch();
     }
   };
+  const date1 = new Date(comment.createdAt.split("T")[0]);
+  const date2 = new Date();
 
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
+
+  console.log(diffDays);
   return (
     <div className="flex justify-center w-full pb-12">
       <div className="relative dark:bg-opacity-70 backdrop-blur-sm dark:bg-[#1c1d21] flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full max-h-[250px]">
@@ -93,14 +103,41 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         />
         <div className="pb-8">
           <div className="flex mt-10 ml-10 mr-3 justify-between">
-            <p className=" flex text-btn font-semibold">
-              {comment.userName}{" "}
-              <p className="ml-10 text-sm">id:{comment.userId}</p>
+            <div>
+              <p className=" flex text-btn font-semibold">
+                {comment.userName}{" "}
+                {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
+              </p>
+            </div>
+
+            <p className="text-gray-500 flex text-sm">
+              <BiSolidMoviePlay className="text-[18px] self-center " />{" "}
+              {comment.movieName}
             </p>
-            <p className="text-sm self-center dark:text-gray-400">2 week ago</p>
+            <p className="text-sm self-center dark:text-gray-400">
+              {diffDays === 1
+                ? "1 day ago"
+                : diffDays === 2
+                ? "2 days ago"
+                : diffDays === 3
+                ? "3 days ago"
+                : diffDays === 4
+                ? "4 days ago"
+                : diffDays === 5
+                ? "5 days ago"
+                : diffDays === 6
+                ? "6 days ago"
+                : diffDays >= 7 && diffDays <= 14
+                ? "one week ago"
+                : new Date(comment.createdAt.split("T")[0]).toDateString()}
+
+              {/* 2 week ago */}
+            </p>
           </div>
 
-          <div className="px-9 dark:opacity-90 max-h-[72px] overflow-y-hidden mt-5">{comment.text}</div>
+          <div className="px-9 dark:opacity-90 max-h-[72px] overflow-y-hidden mt-5">
+            {comment.text}
+          </div>
         </div>
 
         {comment.statusType === 1 && (
@@ -136,7 +173,6 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                 className="text-red-500 dark:group-hover:text-red-300 text-[20px] cursor-pointer"
               >
                 <RxTrash />
-                {/* <p onClick={isActive && setIsActive(false)}></p> */}
               </button>
             </Tooltip>
           </div>
@@ -154,15 +190,28 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                 onClick={() => setState((v) => ({ ...v, replyInput: false }))}
                 className="bg-gray-500 duration-100 hover:bg-gray-600 text-sm text-white h-9 t px-3 self-center mr-2 rounded-lg"
               >
-                cancel
+                <RxCross2 />
               </button>
-              <button className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-5 self-center mr-2 rounded-lg">
-                post
+              <button className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-4 self-center mr-2 rounded-lg">
+                <IoSend />{" "}
               </button>
             </div>
           ) : (
             <div>
               <div className="flex font-semibold">
+                {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
+                <p
+                  onClick={() => {
+                    props.setOpenModal("pop-up");
+                    setState((v) => ({ ...v, alertTitle: "delete" }));
+                  }}
+                  className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                >
+                  <IoMdTrash />
+                </p>
+                <p className="text-gray-500 text-sm   py-1 mb-1 ">
+                  id : {comment.id}
+                </p>
                 <div className=" text-btn text-sm   px-2 ml-3 py-1 mb-1   hover:bg-btn  hover:bg-opacity-20 duration-200 rounded-xl">
                   <Dropdown className="text-sm" label={"Approved"} inline>
                     <Dropdown.Item
@@ -180,13 +229,6 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                     </Dropdown.Item>
                   </Dropdown>
                 </div>
-                {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
-                <p className="text-red-500 cursor-pointer hover:bg-red-200 text-sm px-2 mx-3 py-1 mb-1 rounded-lg ">
-                  Remove
-                </p>
-                <p className="text-gray-500 text-sm   py-1 mb-1 ">
-                  id : {comment.id}
-                </p>
               </div>
 
               <div
@@ -204,8 +246,14 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
           <div className="flex justify-between">
             <div className="flex font-semibold">
               {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
-              <p className="text-red-500 cursor-pointer hover:bg-red-200 text-sm px-2 mx-3 py-1 mb-1 rounded-lg ">
-                Remove
+              <p
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setState((v) => ({ ...v, alertTitle: "delete" }));
+                }}
+                className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+              >
+                <IoMdTrash />
               </p>
 
               <p className="text-gray-500 text-sm   py-1 mb-1 ">

@@ -25,6 +25,7 @@ import {
   BiDna,
   IoLanguage,
 } from "../common/icons";
+import { FaBloggerB } from "react-icons/fa";
 
 export const adminArtistListTh = ["ID", "IMAGE", "NAME", "BIRTHDATE", "ACTION"];
 export const adminArtistListTd = ["id", "image", "name", "birthDate", "action"];
@@ -205,7 +206,8 @@ export const adminSidbarItem = [
     ],
   ],
 
-  [{ id: 1, title: "Comments", icon: <BiComment /> }],
+  [{ id: 10, title: "Comments", icon: <BiComment /> }],
+  [{ id: 11, title: "Blogs", icon: <FaBloggerB /> }],
 ];
 export const footerMenu = [
   { title: "Menu", icon: <MdMenu /> },

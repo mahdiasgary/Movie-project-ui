@@ -9,80 +9,24 @@ import Pagenation from "../../../../common/Pagenation";
 import { Dropdown, Tooltip } from "flowbite-react";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 import { useGetCommentListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
-import { MdOutlineDone } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
-import { RxTrash } from "react-icons/rx";
-import { FaCircleChevronRight } from "react-icons/fa6";
 
 const CommentsList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
   const [, updateState] = useState();
   const [search, setSearch] = useState("");
-  const [FilterType, setFilterType] = useState("");
+  const [FilterType, setFilterType] = useState("sort by");
   const { data, isFetching, isLoading, error } =
     useGetCommentListInAdminPanelQuery(
-      { searchkey: search, page: correctPage, FilterType },
+      {
+        searchkey: search,
+        page: correctPage,
+        FilterType: FilterType === "sort by" ? "" : FilterType,
+      },
       { refetchOnMountOrArgChange: true }
     );
-
-  console.log(data?.data[0]);
-
-  // console.log(error);
-  // const [removeUser] = useRemoveUserMutation();
-  const [sort, setsort] = useState(["id", false, false]);
-  const [searc, setSearc] = useState(false);
-
-  // const removeUserHandler = ({ id, username }) => {
-  //   const forceUpdate = useCallback(() => updateState({}), []);
-
-  //   removeUser({ id })
-  //     .unwrap()
-  //     .then((r) => {
-  //       Swal.fire({
-  //         title: "Deleted!",
-  //         text: `${username} has been deleted.`,
-  //         icone: "success",
-  //         confirmButtonColor: "#3085d6",
-  //       });
-  //     })
-  //     .then((error) => {
-  //       console.log(error);
-  //     });
-  //   // forceUpdate()
-  //   setSearc(!searc);
-  //   // history.push("/admin/users");
-  // };
-
-  // sort by value
-  const sortBy = (key) => {
-    if (key[0] === "username")
-      return function sort(a, b) {
-        let title1 = a[key[0]].toLowerCase();
-        let title2 = b[key[0]].toLowerCase();
-        if (key[2] ? title2 < title1 : title2 > title1) {
-          return -1;
-        }
-      };
-    if (key[0] === "createdDate")
-      return function sort(a, b) {
-        console.log(a[key[0]].split(" ")[0]);
-        let title1 = a[key[0]].split(" ")[0];
-        let title2 = b[key[0]].split(" ")[0];
-        if (key[1] ? title2 < title1 : title2 > title1) {
-          return -1;
-        }
-      };
-    else
-      return function sort(a, b) {
-        let value1 = a[key[0]];
-        let value2 = b[key[0]];
-        if (key[1]) return value2 - value1;
-        else value1 - value2;
-      };
-  };
-
+  // console.log(data);
   return (
-    <div className=" w-full">
+    <div className="min-h-screen pb-20 w-full">
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
         prob={[{ path: "/admin/comments", value: "Comments" }]}
@@ -90,7 +34,7 @@ const CommentsList = ({ history }) => {
       <div className="flex justify-center mt-10 mb-2">
         <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
           <div className="text-[23px] font-bold ">Comments</div>
-          <div>
+          <div className="md:flex-row-reverse flex flex-col gap-2 text-sm ">
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -98,6 +42,52 @@ const CommentsList = ({ history }) => {
               placeholder="search here .."
               className="h-[45px] w-[220px] placeholder:text-sm rounded-2xl px-2 dark:bg-transparent border-2 dark:border-border outline-btn "
             />
+            <div className="  flex justify-end">
+              <div className="bg-white self-center dark:bg-border px-3 py-2 rounded-lg ">
+                <Dropdown className="text-sm" label={FilterType} inline>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      setFilterType("ApprovedComments");
+                    }}
+                    className="text-sm"
+                  >
+                    Approved
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      setFilterType("RejectedComments");
+                    }}
+                    className="text-sm"
+                  >
+                    Rejected
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      setFilterType("PendedComments");
+                    }}
+                    className="text-sm"
+                  >
+                    Pended
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      setFilterType("CreatedDateAsc");
+                    }}
+                    className="text-sm"
+                  >
+                    Newest
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      setFilterType("CreatedDateDesc");
+                    }}
+                    className="text-sm"
+                  >
+                    Oldest
+                  </Dropdown.Item>
+                </Dropdown>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -105,6 +95,9 @@ const CommentsList = ({ history }) => {
       {data?.data.map((comment, index) => (
         <CommentListItem comment={comment} key={index} />
       ))}
+      {(data?.data.length === 0 || !data?.data) && (
+        <div className="text-center mt-10 ">Not Found Comment :(</div>
+      )}
       <div className="flex justify-center">
         <div className="self-center min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
           <Pagenation
