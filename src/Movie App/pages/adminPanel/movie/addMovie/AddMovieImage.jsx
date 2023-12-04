@@ -41,7 +41,7 @@ const AddMoveImage = ({
                   onClick={() => setMovieCover(null)}
                   className=" mt-2 bg- flex justify-center text-btn py-1 rounded-xl hover:text-white border-2 hover:bg-btn font-semibold  duration-200 border-btn text-center  "
                 >
-                  <GrPowerCycle className="self-center inline text-[18px] text-btn hover:text-white" />{" "}
+                  {/* <GrPowerCycle className="self-center inline text-[18px] text-btn hover:text-white" />{" "} */}
                   Change Picture
                 </button>
               ) : (
@@ -80,7 +80,7 @@ const AddMoveImage = ({
                   onClick={() => setMovieBackground(null)}
                   className=" mt-2 bg- flex justify-center text-btn py-1 rounded-xl hover:text-white border-2 hover:bg-btn font-semibold  duration-200 border-btn text-center  "
                 >
-                  <GrPowerCycle className="self-center inline text-[18px] text-btn hover:text-white" />{" "}
+                  {/* <GrPowerCycle className="self-center inline text-[18px] text-btn hover:text-white" />{" "} */}
                   Change Picture
                 </button>
               ) : (

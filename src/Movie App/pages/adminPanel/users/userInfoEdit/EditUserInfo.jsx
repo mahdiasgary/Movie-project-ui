@@ -28,6 +28,7 @@ const EditUserInfo = () => {
     { id: window.location.search.split("=")[1] },
     { refetchOnMountOrArgChange: true }
   );
+  console.log(data)
   const { setlogin, loginStatus } = useStateContext();
 
   const poi = ["Genral", "Favorite"];
@@ -133,7 +134,7 @@ const EditUserInfo = () => {
         root={{ path: "/admin", value: "Dashboard" }}
         prob={[
           { path: "/admin/users", value: "Users" },
-          { path: "/admin/users", value: inputs.name },
+          { path: "/admin/users", value: input.name },
         ]}
       />
 

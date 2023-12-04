@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BsJournalText } from 'react-icons/bs'
+import { PiNotebookFill } from "react-icons/pi";
 
 const AdminFromBodyInfo = ({preInfo,scondePreInfo=true,thirdPreInfo=true}) => {
   const [state , set]=useState(false)
@@ -7,7 +8,7 @@ const AdminFromBodyInfo = ({preInfo,scondePreInfo=true,thirdPreInfo=true}) => {
     <div> {(preInfo && scondePreInfo) ? (
         !thirdPreInfo ? (
           <div className="absolute flex text-screenLight items-center justify-center w-10 h-10 bg-btn rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 ">
-            <BsJournalText className="font-bold text-[20px] " />
+            <PiNotebookFill className="font-bold text-[22px] " />
           </div>
         ) : (
           <div className="absolute flex items-center justify-center w-10 h-10 bg-btn rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 dark:bg-btn">
@@ -28,7 +29,7 @@ const AdminFromBodyInfo = ({preInfo,scondePreInfo=true,thirdPreInfo=true}) => {
         )
       ) : (
         <span className="absolute flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
-          <BsJournalText className="font-bold text-[20px] " />
+          <PiNotebookFill className="font-bold text-[22px] " />
         </span>
       )}</div>
   )

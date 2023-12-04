@@ -7,6 +7,7 @@ import {
   useAdminArtistUserMutation,
   useGetArtistForEditInAdminPanelQuery,
   useGetCareerListInAdminPanelQuery,
+  useGetCareerSelectListInAdminPanelQuery,
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
@@ -20,10 +21,9 @@ const EditArtist = ({ history }) => {
   );
   const [correctPage, setCorrectPage] = useState(1);
   const [search, setSearch] = useState("");
-  const careerQuery = useGetCareerListInAdminPanelQuery(
-    { searchkey: search, page: correctPage },
-    { refetchOnMountOrArgChange: true }
-  );
+  const careerQuery = useGetCareerSelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
   const [inputs, setInputs] = useState({
     Name: data?.data.name,
     summary: "",
@@ -33,8 +33,8 @@ const EditArtist = ({ history }) => {
     DateBirth: data?.data.birthDate.split("T")[0],
   });
   const [editArtist] = useAdminArtistUserMutation();
-  const [artistImage, setArtistImage] = useState(data?.data.imageName);
-  const [artistImageIni, setArtistImageIni] = useState(data?.data.imageName);
+  const [artistImage, setArtistImage] = useState(data?.data.image);
+  const [artistImageIni, setArtistImageIni] = useState(data?.data.image);
   useEffect(() => {
     setInputs({
       Name: data?.data.name,
@@ -44,18 +44,16 @@ const EditArtist = ({ history }) => {
     setDate({
       DateBirth: data?.data.birthDate.split("T")[0],
     });
-    setArtistImage(data?.data.imageName);
-    setArtistImageIni(data?.data.imageName);
+    setArtistImage(data?.data.image);
+    setArtistImageIni(data?.data.image);
   }, [data]);
-
-  // console.log(data)
+  console.log(data);
   const initialValues = {
     name: "",
     datebirth: "",
     summary: "",
   };
   const [loadingButton, setLoadingButton] = useState(false);
-  const [selectedOption, setSelectedOption] = useState([]);
   const [selectedOptions, setSelectedOptionss] = useState({
     career: [
       { id: 1, title: "h sff" },
@@ -63,7 +61,6 @@ const EditArtist = ({ history }) => {
       { id: 1, title: "ewkfh" },
     ],
   });
-  const careerHandleChange = (selectedOptions) => {};
   const Formik = useFormik({
     initialValues,
     validateOnMount: true,
@@ -137,7 +134,6 @@ const EditArtist = ({ history }) => {
                       itemList={adminAddArtistListItems}
                       selectedOptions={selectedOptions}
                       setSelectedOptions={setSelectedOptionss}
-                      selectHandler={{ Career: careerHandleChange }}
                       from={"edit"}
                     />
                   </div>

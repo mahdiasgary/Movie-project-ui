@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Link, withRouter } from "react-router-dom";
 import {
   useAddArtistInAdminPanelMutation,
-  useGetCareerListInAdminPanelQuery,
+  useGetCareerSelectListInAdminPanelQuery,
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
@@ -14,12 +14,10 @@ import { adminAddArtistListItems } from "../../../../constans";
 import toast from "react-hot-toast";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 const AddArtist = ({ history }) => {
-  const [correctPage, setCorrectPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const careerQuery = useGetCareerListInAdminPanelQuery(
-    { searchkey: search, page: correctPage },
-    { refetchOnMountOrArgChange: true }
-  );
+
+  const careerQuery = useGetCareerSelectListInAdminPanelQuery({
+    refetchOnMountOrArgChange: true,
+  });
   const [addNewSeries] = useAddArtistInAdminPanelMutation();
   const [artistImage, setArtistImage] = useState(null);
   const [date, setDate] = useState({ DateBirth: "" });
@@ -46,14 +44,7 @@ const AddArtist = ({ history }) => {
     validationSchema,
     validateOnMount: true,
   });
-  function tranformDate(strDate) {
-    let result = "";
-    if (strDate) {
-      let parts = strDate.split("-");
-      result = `${parts[1]}/${parts[2]}/${parts[0]}`;
-    }
-    return result;
-  }
+
   const [selectedOptions, setSelectedOptionss] = useState({
     career: [],
   });

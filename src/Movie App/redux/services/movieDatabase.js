@@ -58,6 +58,9 @@ export const movieCoreApi = createApi({
     getCountrySelectListInAdminPanel: builder.query({
       query: () => `Admin/Country/GetAllCountrySelectListItem`,
     }),
+    getCareerSelectListInAdminPanel: builder.query({
+      query: () => `Admin/Career/GetAllCareerSelectListItem`,
+    }),
     addMovieInAdminPanel: builder.mutation({
       query: (payload) => ({
         url: "Admin/Movie/AddMovie",
@@ -304,6 +307,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useGetCareerSelectListInAdminPanelQuery,
   useSubmitCommentMutation,
   useGetArtistSelectListInAdminPanelQuery,
   useGetCountrySelectListInAdminPanelQuery,
