@@ -155,7 +155,7 @@ export const movieCoreApi = createApi({
 
     getLoginStatus: builder.query({
       query: () => ({
-        url: "Account/Login",
+        url: "Account/Authenticate",
         credentials: "include",
         method: "GET",
       }),
@@ -174,6 +174,15 @@ export const movieCoreApi = createApi({
       query: (payload) => ({
         url: "Account/SubmitForgotPassword",
         method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    SubmitComment: builder.mutation({
+      query: (payload) => ({
+        url: "User/SubmitComment",
+        method: "POST",
+        credentials: "include",
         body: payload,
       }),
       invalidatesTags: ["Post"],
@@ -295,6 +304,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useSubmitCommentMutation,
   useGetArtistSelectListInAdminPanelQuery,
   useGetCountrySelectListInAdminPanelQuery,
   useGetGenreSelectListInAdminPanelQuery,

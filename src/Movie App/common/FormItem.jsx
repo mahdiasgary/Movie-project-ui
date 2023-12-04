@@ -22,11 +22,6 @@ const FormItem = ({
     { id: 1, value: "jwev" },
   ]);
 
-  const [Selectedoptions, setSelectedOptions] = useState([
-    { id: 1, value: "h ewkfh" },
-    { id: 1, value: "h ewkfh" },
-    { id: 1, value: "h ewkfh" },
-  ]);
 
   const wrapperRef = useRef(null);
   useEffect(() => {

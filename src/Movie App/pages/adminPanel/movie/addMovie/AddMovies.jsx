@@ -86,38 +86,12 @@ const AddMovies = ({ history }) => {
     validateOnMount: true,
   });
 
-  // const artistHandleChange = (selectedOption) => {
-  //   selectedOption = selectedOption?.map((item) => {
-  //     return item.id;
-  //   });
-  //   setSelectedArtist(selectedOption);
-  // };
-  // const genreHandleChange = (selectedOption) => {
-  //   selectedOption = selectedOption?.map((item) => {
-  //     return item.id;
-  //   });
-  //   setSelectedGenres(selectedOption);
-  // };
-  // const languageHandleChange = (selectedOption) => {
-  //   selectedOption = selectedOption?.map((item) => {
-  //     return item.id;
-  //   });
-  //   setSelectedLanguages(selectedOption);
-  // };
-  // const countryHandleChange = (selectedOption) => {
-  //   selectedOption = selectedOption?.map((item) => {
-  //     return item.id;
-  //   });
-  //   setSelectedCountries(selectedOption);
-  // };
-
   const [selectedOptions, setSelectedOptionss] = useState({
-    genre: [7, 8],
-    language: [7, 8],
-    country: [7, 8],
-    artist: [7, 8],
+    genre: [],
+    language: [],
+    country: [],
+    artist: [],
   });
-  // console.log(movieFiles);
   const [qw, we] = useState(70);
   const SubmiHandler = () => {
     setLoadingButton(true);
@@ -131,16 +105,16 @@ const AddMovies = ({ history }) => {
     formData.append("releasedDate", date.ReleasedDate);
     formData.append("createdDate", date.CreatedDate);
     for (let i = 0; i < selectedOptions.artist.length; i++) {
-      formData.append("SelectedArtistsIds", selectedOptions.artist[i]);
+      formData.append("SelectedArtistsIds", selectedOptions.artist[i].id);
     }
     for (let i = 0; i < selectedOptions.language.length; i++) {
-      formData.append("SelectedLanguagesIds", selectedOptions.language[i]);
+      formData.append("SelectedLanguagesIds", selectedOptions.language[i].id);
     }
     for (let i = 0; i < selectedOptions.country.length; i++) {
-      formData.append("SelectedCountryIds", selectedOptions.country[i]);
+      formData.append("SelectedCountryIds", selectedOptions.country[i].id);
     }
     for (let i = 0; i < selectedOptions.genre.length; i++) {
-      formData.append("SelectedGenreIds", selectedOptions.genre[i]);
+      formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
 
     for (let i = 0; i < movieFiles.length; i++) {
@@ -149,19 +123,11 @@ const AddMovies = ({ history }) => {
     for (let i = 0; i < movieFiles.length; i++) {
       formData.append(`Files[${i}].File`, movieFiles[i].file);
     }
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`, `${typeof value}`);
-    // }
-
     const options = {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let precentage = Math.floor((loaded * 100) / total);
-        // console.log(precentage);
         we(precentage);
-        // if (precentage < 100) {
-        //   console.log(precentage);
-        // }
       },
     };
     const config = {
@@ -223,13 +189,6 @@ const AddMovies = ({ history }) => {
                     }}
                     Formik={Formik}
                     itemList={adminAddMovieListItems}
-                    // selectHandler={{
-                    //   Language: languageHandleChange,
-                    //   Genre: genreHandleChange,
-                    //   Country: countryHandleChange,
-                    //   Artist: artistHandleChange,
-                    // }}
-                    // selectedValue={{}}
                     selectedOptions={selectedOptions}
                     setSelectedOptions={setSelectedOptionss}
                   />

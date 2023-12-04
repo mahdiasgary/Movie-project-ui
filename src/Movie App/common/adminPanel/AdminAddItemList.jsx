@@ -139,7 +139,7 @@ const AdminAddItemList = ({
                   ]
                 }
                 styles={
-                  item === "Imdb" || item === "Time"
+                  item === "Imdb" || item === "Time" || item === "Year"
                     ? "min-w-[100px]"
                     : "w-full"
                 }

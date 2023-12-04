@@ -207,7 +207,25 @@ export const adminSidbarItem = [
   ],
 
   [{ id: 10, title: "Comments", icon: <BiComment /> }],
-  [{ id: 11, title: "Blogs", icon: <FaBloggerB /> }],
+  [
+    { id: 11, title: "Blogs", icon: <FaBloggerB /> },
+    [
+      {
+        id: 8,
+        title: "Add New Blog",
+        main: "addblog",
+        icon1: <CgAddR />,
+        icon2: <MdAddBox />,
+      },
+      {
+        id: 8,
+        title: "Blog List",
+        main: "bloglist",
+        icon1: <FaRegListAlt />,
+        icon2: <FaListAlt />,
+      },
+    ],
+  ],
 ];
 export const footerMenu = [
   { title: "Menu", icon: <MdMenu /> },

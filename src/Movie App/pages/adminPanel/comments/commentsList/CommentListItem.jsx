@@ -5,6 +5,8 @@ import {
   useChangeCommentStatusInAdminPanelMutation,
   useRemoveUserMutation,
 } from "../../../../redux/services/movieDatabase";
+
+// import { IoSend } from "react-icons/io5";
 import { Link, withRouter } from "react-router-dom";
 import { Dropdown, Toast, Tooltip } from "flowbite-react";
 import AlertModal from "../../../../common/AlertModal";
@@ -115,7 +117,9 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
               {comment.movieName}
             </p>
             <p className="text-sm self-center dark:text-gray-400">
-              {diffDays === 1
+              {diffDays === 0
+                ? "today"
+                : diffDays === 1
                 ? "1 day ago"
                 : diffDays === 2
                 ? "2 days ago"

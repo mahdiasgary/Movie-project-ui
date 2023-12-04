@@ -50,21 +50,24 @@ const MoviePage = ({ history }) => {
     };
   }, []);
   const genres = ["sfsfgg", "srs", "oduw", "wjnkkkkd"];
+  let backg =
+    "https://mobomovies1.space/images/movie/1995/tt0114814/cover/the-usual-suspects-1995-cover.jpg";
+  let cover =
+    "https://mobomovies1.space/images/movie/1995/tt0114814/thumbnail/the-usual-suspects-1995.jpg";
+
   return (
     <div>
       {/* <div className="dark:bg-[#101018] h-screen fixed w-full "></div> */}
-      <div className="w-full z-0 relative group top-[-84px] dark:bg-[#101018] h-[2000px]  text-screenLight">
+      <div className="w-full z-0 relative group top-[-84px]  bg-screenLight dark:bg-[#101018] h-[2000px]  text-screenLight">
         <div className=" absolute z-20 w-full mt-28 px-3 y9:px-7 sm:px-10 md:px-5 lg:px-2 xl:px-10 2xl:px-20  ">
           <div className="flex flex-col">
             <div className="flex flex-col md:flex-row">
               <div className="w-full md:w-auto flex justify-center md:justify-start ">
                 <div className="flex-col">
                   <img
-                    src={
-                      "https://mobomovies1.space/images/movie/2023/tt9603212/thumbnail/mission-impossible-dead-reckoning-part-one-2023.jpg"
-                    }
+                    src={cover}
                     alt={"k"}
-                    className="min-w-[180px] max-h-[265px] y9:min-w-[240px] y9:max-h-[352px] lg:min-w-[200px] lg:max-h-[351px]  xl:min-w-[240px] xl:max-h-[352px] self-center  rounded-lg  "
+                    className="min-w-[180px] shadow-2xl max-h-[265px] y9:min-w-[240px] y9:max-h-[352px] lg:min-w-[200px] lg:max-h-[351px]  xl:min-w-[240px] xl:max-h-[352px] self-center  rounded-lg  "
                   />
                   <div className="flex xl:hidden justify-center mt-1 z-10">
                     <button className="w-[44px] h-[44px]  bg-screenDark bg-opacity-80 hover:bg-screenDark duration-300 border border-btn   text-btn flex justify-center rounded-2xl text-[25px] ">
@@ -93,20 +96,20 @@ const MoviePage = ({ history }) => {
                   <div>
                     <div>
                       <p className="text-[25px] y9:text-[28px] font-bold text-center md:text-start  ">
-                        Last Of Us SRBtr
+                        The Usual Suspects
                       </p>
                       <div className="flex justify-center md:justify-start text-textPlight ">
-                        <p>2023</p>
+                        <p>1995</p>
                         <RxDotFilled className="self-center" />
                         <p>movie</p>
                         <RxDotFilled className="self-center" />
-                        <p>60 min</p>
+                        <p>85 min</p>
                       </div>
                       <div className="flex md:hidden mt-3 justify-center gap-2">
                         <div className="border md:border-0 border-border px-1 rounded-lg w-[100px] h-[76px] self-center text-center  backdrop-blur-sm  bg-screenDark bg-opacity-80  ">
                           <div>
                             <p className="text-[29px] text-yellow-400 inline">
-                              8.9
+                              8.5
                             </p>
                             /10
                           </div>
@@ -164,7 +167,7 @@ const MoviePage = ({ history }) => {
                       <p className="my-3 text-sm lg:text-[16px]">
                         Country :
                         <p className="inline text-[16px] ml-9 text-gray-600 md:text-btn">
-                          U.S.A , France
+                          U.S.A , Germany
                         </p>
                       </p>
                       <p className="my-3 text-sm lg:text-[16px]">
@@ -175,10 +178,10 @@ const MoviePage = ({ history }) => {
                       </p>
                     </div>
                     <div className="mt-2 ">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Fuga, ab! A, ratione quia eaque blanditiis esse adipisci
-                      eveniet nisi ad facilis aut. Reprehenderit maiores
-                      dignissimos a nesciunt harum iste temporibus!
+                      The sole survivor of a pier shoot-out tells the story of
+                      how a notorious criminal influenced the events that began
+                      with five criminals meeting in a seemingly random police
+                      lineup.
                     </div>
                   </div>
                   <div className="flex flex-col w-full justify-between mt-4 ">
@@ -223,9 +226,9 @@ const MoviePage = ({ history }) => {
               </div>
             </div>
           </div>
-          <div className="mt-28">
+          <div className="dark:md:mt-28 md:mt-[170px] text-black dark:text-screenLight">
             <div className="w-full ">
-              <div className=" sticky top-0 ">
+              <div className=" sticky z-[50] top-0 ">
                 <ul className="flex  justify-between pb-2 overflow-x-auto scrollbar:!w-1.5 scrollbar:!h-1.5 md:mx-8  xl:mx-28 2xl:mx-36 text-[17px]">
                   {poi.map((item, index) => (
                     <Link
@@ -249,7 +252,7 @@ const MoviePage = ({ history }) => {
                   ))}
                 </ul>
               </div>
-              <div className="mx-2 w-full">
+              <div className="mx-2 z-0 flex justify-center w-full">
                 {/* <Download/> */}
                 {query === "Details" && <Details />}
                 {query === "Download" && <Download />}
@@ -263,14 +266,50 @@ const MoviePage = ({ history }) => {
           <div className="w-full absolute gradient-10 h-[50px] z-20 rotate-180 top-0 " />
           <div className="z-0 bg-screenDark  overflow-hidden max-h-[680px]  ">
             <img
-              src={
-                "https://mobomovies1.space/images/2023/10/10/Mission%20Impossible.jpg"
-              }
+              src={backg}
               alt=""
               className={`opacity-30    relative min-w-[700px] w-full xl:min-h-[625px] `}
             />
           </div>
-          <div className="w-full relative gradient-10   dark:h-[150px] dark:-top-[150px] -top-[100px] h-[100px] " />
+          <div className="w-full dark:hidden absolute bottom-0">
+            <svg
+              viewBox="0 0 1428 174"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              // xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-2.000000, 44.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <path
+                    d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496"
+                    opacity="0.100000001"
+                  ></path>
+                  <path
+                    d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z"
+                    opacity="0.100000001"
+                  ></path>
+                  <path
+                    d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z"
+                    id="Path-4"
+                    opacity="0.200000003"
+                  ></path>
+                </g>
+                <g
+                  transform="translate(-4.000000, 76.000000)"
+                  fill="#f9f9f9"
+                  // fill="#0f0f0f"
+                  fill-rule="nonzero"
+                >
+                  <path d="M0.457,34.035 C57.086,53.198 98.208,65.809 123.822,71.865 C181.454,85.495 234.295,90.29 272.033,93.459 C311.355,96.759 396.635,95.801 461.025,91.663 C486.76,90.01 518.727,86.372 556.926,80.752 C595.747,74.596 622.372,70.008 636.799,66.991 C663.913,61.324 712.501,49.503 727.605,46.128 C780.47,34.317 818.839,22.532 856.324,15.904 C922.689,4.169 955.676,2.522 1011.185,0.432 C1060.705,1.477 1097.39,3.129 1121.236,5.387 C1161.703,9.219 1208.621,17.821 1235.4,22.304 C1285.855,30.748 1354.351,47.432 1440.886,72.354 L1441.191,104.352 L1.121,104.031 L0.457,34.035 Z"></path>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div className="w-full hidden dark:flex relative gradient-10   dark:h-[150px] dark:-top-[150px] -top-[100px] h-[100px] " />
         </div>
         <div className="relative -top-28 hidden md:flex">
           {/* <MoviePageDtailes/> */}

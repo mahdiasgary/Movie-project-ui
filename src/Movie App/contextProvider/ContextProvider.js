@@ -19,7 +19,7 @@ export const ContextProvider = ({ children }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  
+  console.log(data)
   // let loginStatus=data
   const [loginStatus, setloginStatus] = useState();
   const [login, setlogin] = useState(0);
@@ -29,9 +29,9 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://localhost:7175/Account/Login",
+      url: "https://localhost:7175/Account/Authenticate",
       withCredentials: true,
-    }).then((r) => setloginStatus(r.data));
+    }).then((r) => {setloginStatus(r.data)});
   }, [login]);
   
   // console.log(loginStatus);
