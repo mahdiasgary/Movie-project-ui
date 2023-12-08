@@ -1,171 +1,193 @@
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
+import MuiAccordion from "@mui/material/Accordion";
+import { styled } from "@mui/material/styles";
+import { FaCaretDown } from "react-icons/fa";
+import { useStateContext } from "../../contextProvider/ContextProvider";
 
 const Download = () => {
   const [active, setActive] = useState(false);
+  const { IsDarkMode } = useStateContext();
+  const Accordion = styled((props) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+  ))(({ theme }) => ({
+    borderLeft: `4px solid #1e74f1`,
+    font: "14px",
+    padding: "4px 0",
+    backgroundColor: !IsDarkMode ? `rgb(209 213 219)` : "#2f2f3c",
+    borderRadius: "12px",
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    "&:before": {
+      display: "none",
+    },
+  }));
+
   return (
-    <div className="mt-10">
-      <fieldset className="border-t border-border">
-        <legend className=" px-2 text-white">Seasen 1</legend>
-        <div className="flex- flex-col w-full md:mx-4 mt-3">
-          <div className="mb-3">
-            <div
-              className={`flex  justify-between  px-3 py-2  bg-border ${
-                active ? "rounded-t-lg " : "rounded-lg duration-500"
-              }  border-l-4 border-btn `}
+    <div className="mt-10 w-full">
+      <fieldset className="border-t w-full dark:border-border">
+        <legend className=" px-3  md:pr-2 text-gray-500 dark:text-white">
+          Seasen 1
+        </legend>
+
+        <div className="flex- flex-col w-full md:mx-4 px-1  mt-3">
+          <Accordion className="bg-red-500">
+            <AccordionSummary
+              expandIcon={
+                <FaCaretDown className="text-[19px] dark:text-gray-400" />
+              }
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              <div className="self-center text-sm y7:text-[16px]">
+              <Typography>
+                {" "}
                 <ul className="flex ">
-                  <li>
+                  <li className="dark:text-white text-sm">
                     <span className="text-btn"> Quality:</span> WEB-DL 720p{" "}
                   </li>
-                  <li className="mx-5">
+                  <li className="mx-5 dark:text-white text-sm">
                     <span className="text-btn ">Size:</span> 1.3GB{" "}
                   </li>
                 </ul>
-              </div>
-              <div>
-                <button
-                  onClick={() => setActive(!active)}
-                  className="bg-btn px-4 rounded-md py-2"
-                >
-                  LINKS
-                </button>
-              </div>
-            </div>
-            <div
-              className={`origin-top ${!active ? "scale-y-0 h-0 duration-100" : 'duration-500 py-2'}  px-3   flex justify-between    bg-border rounded-b-lg border-l-4 border-btn `}
-            >
-              <div className="flex flex-wrap gap-2 ">
-                <button className="bg-secondColorDark  hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">01</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">02</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">03</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">04</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">05</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">06</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              className={`flex  justify-between  px-3 py-2  bg-border ${
-                active ? "rounded-t-lg " : "rounded-lg duration-500"
-              }  border-l-4 border-btn `}
-            >
-              <div className="self-center text-sm y7:text-[16px]">
-                <ul className="flex ">
-                  <li>
-                    <span className="text-btn"> Quality:</span> WEB-DL 720p{" "}
-                  </li>
-                  <li className="mx-5">
-                    <span className="text-btn ">Size:</span> 1.3GB{" "}
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <button
-                  onClick={() => setActive(!active)}
-                  className="bg-btn px-4 rounded-md py-2"
-                >
-                  LINKS
-                </button>
-              </div>
-            </div>
-            
-          </div>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <div className="flex flex-wrap gap-2 ">
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                </div>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
         </div>
       </fieldset>
-      <fieldset className="border-t border-border">
-        <legend className=" px-2 text-white">Seasen 2</legend>
-        <div className="flex- flex-col w-full md:mx-4 mt-3">
-          <div className="mb-3">
-            <div
-              className={`flex  justify-between  px-3 py-2  bg-border ${
-                active ? "rounded-t-lg " : "rounded-lg duration-500"
-              }  border-l-4 border-btn `}
+      <fieldset className="border-t w-full mt-3 dark:border-border">
+        <legend className=" px-3  md:pr-2 text-gray-500 dark:text-white">
+          Seasen 1
+        </legend>
+
+        <div className="flex- flex-col w-full md:mx-4 px-1  mt-3">
+          <Accordion className="bg-red-500">
+            <AccordionSummary
+              expandIcon={
+                <FaCaretDown className="text-[19px] dark:text-gray-400" />
+              }
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              <div className="self-center text-sm y7:text-[16px]">
+              <Typography>
+                {" "}
                 <ul className="flex ">
-                  <li>
+                  <li className="dark:text-white text-sm">
                     <span className="text-btn"> Quality:</span> WEB-DL 720p{" "}
                   </li>
-                  <li className="mx-5">
+                  <li className="mx-5 dark:text-white text-sm">
                     <span className="text-btn ">Size:</span> 1.3GB{" "}
                   </li>
                 </ul>
-              </div>
-              <div>
-                <button
-                  onClick={() => setActive(!active)}
-                  className="bg-btn px-4 rounded-md py-2"
-                >
-                  LINKS
-                </button>
-              </div>
-            </div>
-            <div
-              className={`origin-top ${!active ? "scale-y-0 h-0 duration-100" : 'duration-500 py-2'}  px-3   flex justify-between    bg-border rounded-b-lg border-l-4 border-btn `}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <div className="flex flex-wrap gap-2 ">
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                </div>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+      </fieldset>
+      <fieldset className="border-t w-full mt-3 dark:border-border">
+        <legend className=" px-3  md:pr-2 text-gray-500 dark:text-white">
+          Seasen 1
+        </legend>
+
+        <div className="flex- flex-col w-full md:mx-4 px-1  mt-3">
+          <Accordion className="bg-red-500">
+            <AccordionSummary
+              expandIcon={
+                <FaCaretDown className="text-[19px] dark:text-gray-400" />
+              }
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              <div className="flex flex-wrap gap-2 ">
-                <button className="bg-secondColorDark  hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">01</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">02</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">03</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">04</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">05</span>
-                </button>
-                <button className="bg-secondColorDark hover:bg-screenDark duration-200 px-5 py-1 rounded-md">
-                  Eeeee <span className="text-btn font-semibold ">06</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              className={`flex  justify-between  px-3 py-2  bg-border ${
-                active ? "rounded-t-lg " : "rounded-lg duration-500"
-              }  border-l-4 border-btn `}
-            >
-              <div className="self-center text-sm y7:text-[16px]">
+              <Typography>
+                {" "}
                 <ul className="flex ">
-                  <li>
+                  <li className="dark:text-white text-sm">
                     <span className="text-btn"> Quality:</span> WEB-DL 720p{" "}
                   </li>
-                  <li className="mx-5">
+                  <li className="mx-5 dark:text-white text-sm">
                     <span className="text-btn ">Size:</span> 1.3GB{" "}
                   </li>
                 </ul>
-              </div>
-              <div>
-                <button
-                  onClick={() => setActive(!active)}
-                  className="bg-btn px-4 rounded-md py-2"
-                >
-                  LINKS
-                </button>
-              </div>
-            </div>
-            
-          </div>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <div className="flex flex-wrap gap-2 ">
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>{" "}
+                  <button className="dark:bg-secondColorDark dark:text-gray-100 bg-white text-sm hover:bg-opacity-10 text-prameryColorDark  hover:bg-screenDark duration-200 px-5 py-[7px] rounded-md">
+                    episode <span className="text-btn font-semibold ">1</span>
+                  </button>
+                </div>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
         </div>
       </fieldset>
     </div>

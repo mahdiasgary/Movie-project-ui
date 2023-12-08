@@ -10,7 +10,8 @@ const UserGeneral = ({
   setShowCropImg,
   setProfilePicture,
   data,
-  editHandler,modal
+  editHandler,
+  modal,
 }) => {
   const poi = ["Genral", "Favorite"];
   const { setlogin, loginStatus } = useStateContext();
@@ -26,9 +27,11 @@ const UserGeneral = ({
       </legend>
       <ProfileImage
         inputs={inputs}
+        changeInput={changeInput}
         profilePicture={profilePicture}
         setShowCropImg={setShowCropImg}
         setProfilePicture={setProfilePicture}
+        editHandler={editHandler}
       />
       <div className="hidden sm:flex">
         <UserProfileGenral

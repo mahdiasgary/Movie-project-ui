@@ -126,7 +126,7 @@ const MovieChart = ({data}) => {
         // width={"100%"}
         height={"81%"}
       />
-      <div className="flex gap-4">
+      <div className="flex sm:flex-row xl:flex-row lg:hidden xl:flex flex-col gap-4">
         <div className=" bg-white dark:bg-opacity-70 dark:bg-gray-800  text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
           <div className="min-w-[110px]">
           <BiSolidMoviePlay className="text-[39px] text-btn" />

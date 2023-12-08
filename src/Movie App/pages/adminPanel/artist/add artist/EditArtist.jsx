@@ -47,7 +47,6 @@ const EditArtist = ({ history }) => {
     setArtistImage(data?.data.image);
     setArtistImageIni(data?.data.image);
   }, [data]);
-  console.log(data);
   const initialValues = {
     name: "",
     datebirth: "",
@@ -56,9 +55,7 @@ const EditArtist = ({ history }) => {
   const [loadingButton, setLoadingButton] = useState(false);
   const [selectedOptions, setSelectedOptionss] = useState({
     career: [
-      { id: 1, title: "h sff" },
-      { id: 1, title: "sffh" },
-      { id: 1, title: "ewkfh" },
+ 
     ],
   });
   const Formik = useFormik({

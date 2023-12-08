@@ -4,16 +4,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { RxDotFilled } from "react-icons/rx";
 import { BiLike, BiDislike } from "react-icons/bi";
-import {
-  AiFillHeart,
-  AiOutlineHeart,
-  AiFillLike,
-  AiFillDislike,
-} from "react-icons/ai";
+import { AiOutlineHeart, AiFillLike, AiFillDislike } from "react-icons/ai";
 import Trailer from "./Trailer";
 import Comments from "./Comments";
 import Download from "./Download";
 import Details from "./Details";
+import { MdBookmarkAdded, MdBookmarkBorder } from "react-icons/md";
 
 const poi = ["Details", "Download", "Trailer", "Comments"];
 const MoviePage = ({ history }) => {
@@ -22,7 +18,7 @@ const MoviePage = ({ history }) => {
   // const { data, fetching, error } = useGetMovieImgQuery({
   //   movieId: movieData?.id.match(/\d+/g)[0],
   // });
-  const data = [];
+  // const data = [];
   const [windowSize, setWindowSize] = useState(window.innerWidth - 290 + "px");
   const [likedd, setlikedd] = useState(false);
   useEffect(() => {
@@ -49,16 +45,81 @@ const MoviePage = ({ history }) => {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
+  const data = [
+    {
+      title: "Thor: Love and Thunder",
+      image:
+        "https://mobomovies1.space/images/movie/2022/tt10648342/thumbnail/thor-love-and-thunder-2022.jpg",
+      year: 2023,
+      rating: 7.6,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "The Killer",
+      image:
+        "https://mobomovies1.space/images/movie/2023/tt1136617/thumbnail/the-killer-2023.jpg",
+      year: 2023,
+      rating: 6,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "She Came to Me",
+      image:
+        "https://mobomovies1.space/images/movie/2023/tt6689014/thumbnail/she-came-to-me-2023.jpg",
+      year: 2023,
+      rating: 7.1,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "The Usual Suspects",
+      image:
+        "https://mobomovies1.space/images/movie/1995/tt0114814/thumbnail/the-usual-suspects-1995.jpg",
+      year: 2023,
+      rating: 9.9,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "Thor: Love and Thunder",
+      image:
+        "https://mobomovies1.space/images/movie/2022/tt10648342/thumbnail/thor-love-and-thunder-2022.jpg",
+      year: 2023,
+      rating: 8,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "The Killer",
+      image:
+        "https://mobomovies1.space/images/movie/2023/tt1136617/thumbnail/the-killer-2023.jpg",
+      year: 2023,
+      rating: 8.7,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "She Came to Me",
+      image:
+        "https://mobomovies1.space/images/movie/2023/tt6689014/thumbnail/she-came-to-me-2023.jpg",
+      year: 2023,
+      rating: 3.8,
+      genre: ["comedy", "action", "love"],
+    },
+    {
+      title: "The Usual Suspects",
+      image:
+        "https://mobomovies1.space/images/movie/1995/tt0114814/thumbnail/the-usual-suspects-1995.jpg",
+      year: 2023,
+      rating: 9.3,
+      genre: ["comedy", "action", "love"],
+    },
+  ];
   const genres = ["sfsfgg", "srs", "oduw", "wjnkkkkd"];
   let backg =
-    "https://mobomovies1.space/images/movie/1995/tt0114814/cover/the-usual-suspects-1995-cover.jpg";
+    "https://filmkio30.pw/wp-content/uploads/2023/11/squid-game-the-challenge-wallpaper.jpg";
   let cover =
-    "https://mobomovies1.space/images/movie/1995/tt0114814/thumbnail/the-usual-suspects-1995.jpg";
-
+    "https://filmkio30.pw/wp-content/uploads/2023/12/killers-of-the-flower-moon-poster-207x310.jpg";
   return (
     <div>
       {/* <div className="dark:bg-[#101018] h-screen fixed w-full "></div> */}
-      <div className="w-full z-0 relative group top-[-84px]  bg-screenLight dark:bg-[#101018] h-[2000px]  text-screenLight">
+      <div className="w-full z-0 relative group top-[-84px]  bg-screenLight dark:bg-[#101018] h-[2000px]  dark:text-screenLight">
         <div className=" absolute z-20 w-full mt-28 px-3 y9:px-7 sm:px-10 md:px-5 lg:px-2 xl:px-10 2xl:px-20  ">
           <div className="flex flex-col">
             <div className="flex flex-col md:flex-row">
@@ -73,7 +134,9 @@ const MoviePage = ({ history }) => {
                     <button className="w-[44px] h-[44px]  bg-screenDark bg-opacity-80 hover:bg-screenDark duration-300 border border-btn   text-btn flex justify-center rounded-2xl text-[25px] ">
                       <BsPlay className="self-center" />
                     </button>
-                    <p className="self-center mx-2 ">View Trailar </p>
+                    <p className="self-center text-gray-200 mx-2 ">
+                      View Trailar{" "}
+                    </p>
                   </div>
                   {/* <div className=" text-[28px] cursor-pointer text-green-700 md:border-0 border border-border w-[60px] h-[76px] rounded-lg text-center flex justify-center self-center backdrop-blur-sm  bg-screenDark bg-opacity-50  hover:bg-screenDark ">
                     {likedd ? (
@@ -95,7 +158,7 @@ const MoviePage = ({ history }) => {
                 <div className=" flex flex-col  mx-2 xl:mx-5   md:flex-row md:justify-between ">
                   <div>
                     <div>
-                      <p className="text-[25px] y9:text-[28px] font-bold text-center md:text-start  ">
+                      <p className="text-[25px] y9:text-[28px] text-screenLight font-bold text-center md:text-start  ">
                         The Usual Suspects
                       </p>
                       <div className="flex justify-center md:justify-start text-textPlight ">
@@ -108,15 +171,10 @@ const MoviePage = ({ history }) => {
                       <div className="flex md:hidden mt-3 justify-center gap-2">
                         <div className="border md:border-0 border-border px-1 rounded-lg w-[100px] h-[76px] self-center text-center  backdrop-blur-sm  bg-screenDark bg-opacity-80  ">
                           <div>
-                            <p className="text-[29px] text-yellow-400 inline">
-                              8.5
-                            </p>
+                            <p className="text-[29px] text-btn inline">8.5</p>
                             /10
                           </div>
-                          <p className="text-sm text-textPDark ">
-                            {" "}
-                            338k votes{" "}
-                          </p>
+                          <p className="text-sm text-gray-500 "> 338k votes </p>
                         </div>
                         {/* <div className=" text-[28px] cursor-pointer text-green-700 md:border-0 border border-border w-[60px] h-[76px] rounded-lg text-center flex justify-center self-center backdrop-blur-sm  bg-screenDark bg-opacity-50  hover:bg-screenDark ">
                           {likedd ? (
@@ -137,14 +195,14 @@ const MoviePage = ({ history }) => {
                           onClick={() => setlikedd(!likedd)}
                         >
                           {likedd ? (
-                            <AiFillHeart className="self-center" />
+                            <MdBookmarkAdded className="self-center text-btn" />
                           ) : (
-                            <AiOutlineHeart className="self-center" />
+                            <MdBookmarkAdded className="self-center text-btn" />
                           )}
                         </div>
                       </div>
                       <div className="flex justify-center md:justify-start mt-5">
-                        {genres.slice(0, 5).map((genre, index) => (
+                        {genres.slice(0, 3).map((genre, index) => (
                           <Link
                             key={index}
                             to={{
@@ -152,32 +210,32 @@ const MoviePage = ({ history }) => {
                               state: { genre },
                             }}
                           >
-                            <p className="mr-2 backdrop-blur-sm  bg-gray-200  dark:bg-opacity-10 bg-opacity-20 py-1 px-3 mt-2 rounded-sm hover:bg-screenDark  hover:text-screenLight duration-300 ">
+                            <p className="mr-2 backdrop-blur-sm md:text-white bg-gray-200  dark:bg-opacity-10 bg-opacity-70 md:bg-opacity-20 py-1 px-3 mt-2 rounded-sm hover:bg-screenDark  hover:text-screenLight duration-300 ">
                               {genre}
                             </p>
                           </Link>
                         ))}
                       </div>
-                      <p className="my-3 text-sm lg:text-[16px] ">
+                      <p className="my-3 text-sm md:text-gray-200 lg:text-[16px] ">
                         Cast :
-                        <p className="inline text-[16px] ml-16   text-gray-600  md:text-btn">
-                          Bryan Cranston , Aaron Paul , Anna Gunn
+                        <p className="inline text-[16px] ml-16   text-gray-600  md:text-white">
+                          Bryan Cranston , Aaron Paul , Anna
                         </p>
                       </p>
-                      <p className="my-3 text-sm lg:text-[16px]">
+                      <p className="my-3 text-sm md:text-gray-200 lg:text-[16px]">
                         Country :
-                        <p className="inline text-[16px] ml-9 text-gray-600 md:text-btn">
+                        <p className="inline text-[16px] ml-9 text-gray-600 md:text-white">
                           U.S.A , Germany
                         </p>
                       </p>
-                      <p className="my-3 text-sm lg:text-[16px]">
+                      <p className="my-3 text-sm md:text-gray-200 lg:text-[16px]">
                         Language :
-                        <p className="inline text-[16px] ml-6  text-gray-600 md:text-btn">
+                        <p className="inline text-[16px] ml-6  text-gray-600 md:text-white">
                           English
                         </p>
                       </p>
                     </div>
-                    <div className="mt-2 ">
+                    <div className="mt-2  md:text-gray-200">
                       The sole survivor of a pier shoot-out tells the story of
                       how a notorious criminal influenced the events that began
                       with five criminals meeting in a seemingly random police
@@ -204,9 +262,9 @@ const MoviePage = ({ history }) => {
                             onClick={() => setlikedd(!likedd)}
                           >
                             {likedd ? (
-                              <AiFillHeart className="self-center text-btn " />
+                              <MdBookmarkAdded className="self-center text-[29px] text-btn " />
                             ) : (
-                              <AiOutlineHeart className="self-center text-btn" />
+                              <MdBookmarkBorder className="self-center text-[29px] text-btn" />
                             )}
                           </div>
                         </div>
@@ -252,7 +310,7 @@ const MoviePage = ({ history }) => {
                   ))}
                 </ul>
               </div>
-              <div className="mx-2 z-0 flex justify-center w-full">
+              <div className=" z-0 flex justify-center w-full">
                 {/* <Download/> */}
                 {query === "Details" && <Details />}
                 {query === "Download" && <Download />}
@@ -264,11 +322,11 @@ const MoviePage = ({ history }) => {
         </div>
         <div className="w-full relative  z-0 group ">
           <div className="w-full absolute gradient-10 h-[50px] z-20 rotate-180 top-0 " />
-          <div className="z-0 bg-screenDark  overflow-hidden max-h-[680px]  ">
+          <div className="z-0 bg-screenDark   flex justify-center overflow-hidden max-h-[680px]  ">
             <img
               src={backg}
               alt=""
-              className={`opacity-30    relative min-w-[700px] w-full xl:min-h-[625px] `}
+              className={`opacity-30    relative min-w-[1050px] md:min-w-[950px] lg:min-w-[820px] xl:min-w-[700px]  w-full xl:min-h-[625px] `}
             />
           </div>
           <div className="w-full dark:hidden absolute bottom-0">

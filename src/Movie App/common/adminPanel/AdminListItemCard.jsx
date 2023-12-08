@@ -173,7 +173,7 @@ const AdminListItemCard = ({
     history.push({
       pathname: `${
         from === "movie"
-          ? "edit"
+          ? `editMovie?id=${item["id"]}`
           : from === "artist"
           ? `editartist?id=${item["id"]}`
           : ""

@@ -2,7 +2,6 @@
 import { styles } from "../../../styles/styles";
 import { MdMenu, MdMenuOpen } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { DarkModeToggle } from "@anatoliygatt/dark-mode-toggle";
 import logoImage from "../../../assets/logoImage.png";
 import logoImageDark from "../../../assets/logoImageDark.png";
 import AdminSideBarList from "./AdminSideBarList";
@@ -24,25 +23,7 @@ const AdminSideBar = ({ openMenu, setOpenMenu, mode, setMode }) => {
       </div>
       <div className={` lg:hidden flex  flex-col `}>
         <button className={`${styles.loginBtn2} mx-5 my-5 `}>LOG IN</button>
-        <div className="mx-2  ">
-          <DarkModeToggle
-            mode={mode}
-            dark="dark"
-            light="light"
-            size="sm"
-            inactiveTrackColor="#e2e8f0"
-            inactiveTrackColorOnHover="#f8fafc"
-            inactiveTrackColorOnActive="#cbd5e1"
-            activeTrackColor="#334155"
-            activeTrackColorOnHover="#1e293b"
-            activeTrackColorOnActive="#0f172a"
-            inactiveThumbColor="#1e293b"
-            activeThumbColor="#e2e8f0"
-            onChange={(mode) => {
-              setMode(mode);
-            }}
-          />
-        </div>
+       
       </div>
       <div className=" font-extrabold hidden sm:mx-3 md:mx-5 lg:mx-8 mb-8  mt-10 lg:flex min-w-[145px] sm:min-w-[150px] ">
         <img

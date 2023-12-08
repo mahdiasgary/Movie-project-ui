@@ -65,7 +65,7 @@ const AvatarCrop = ({
                   loadingFor: 'image',
                   loading:true
                 }));
-                editHandler()
+                editHandler(1,avatarCrop.preview)
               }}
               className={`h-[40px] ${
                 avatarCrop.preview ? " " : "bg-gray-500"

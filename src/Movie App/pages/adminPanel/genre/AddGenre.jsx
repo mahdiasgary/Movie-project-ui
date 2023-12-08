@@ -68,7 +68,7 @@ const AddGenre = ({ history }) => {
       .then((error) => {
         console.log(error);
       });
-  };
+  }; 
   return (
     <div className=" my-10  mx-6 sm:mx-10 md:mx-28">
       <div className="text-[23px] font-bold mt-10 mb-6 ">Add New Genre </div>

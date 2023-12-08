@@ -4,13 +4,11 @@ import UserProfileGenral from "../../../profile/profile/UserProfileGenral";
 import { Link } from "react-router-dom";
 import UserGeneral from "../../../../components/user profile/UserGeneral";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ExploreItemCard from "../../../../components/explore/ExploreItemCard";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
 import { Modal, Button, Toast, Dropdown } from "flowbite-react";
-import { HiCheck, HiOutlineExclamationCircle } from "react-icons/hi";
 import { withRouter } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
@@ -28,8 +26,6 @@ const EditUserInfo = () => {
     { id: window.location.search.split("=")[1] },
     { refetchOnMountOrArgChange: true }
   );
-  console.log(data)
-  const { setlogin, loginStatus } = useStateContext();
 
   const poi = ["Genral", "Favorite"];
   let qqq = ["name", "email"];
@@ -42,6 +38,7 @@ const EditUserInfo = () => {
   const [showCropImg, setShowCropImg] = useState(false);
   const [avatarCrop, setAvatarCrop] = useState({ preview: null });
   const [profilePicture, setProfilePicture] = useState(null);
+
   function dataURLtoFile(dataurl, filename) {
     if (dataurl)
       var arr = dataurl?.split(","),
@@ -52,12 +49,9 @@ const EditUserInfo = () => {
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([u8arr], filename, { type: mime });
+    return new File([u8arr], filename, { type: "image/png" });
   }
-  var file = dataURLtoFile(
-    profilePicture,
-    data?.data.profileImage?.split(".")[0] + Math.random() + ".png"
-  );
+
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
 
@@ -91,19 +85,21 @@ const EditUserInfo = () => {
       loading: false,
       image: data?.data.profileImage,
     });
+    // setProfilePicture(data?.data.profileImage)
   }, [data]);
+
   const [editUser] = useAdminEditUserMutation();
-  const editHandler = (from) => {
+
+  const editHandler = (type, photo) => {
+    let image0 = type ===1 && dataURLtoFile(photo, "qw.png");
     inputs.loading = true;
     const formDate = new FormData();
     formDate.append("Id", data?.data?.id);
     formDate.append("Username", inputs.name);
     formDate.append("Email", inputs.email);
     formDate.append("IsAdmin", inputs.IsAdmin);
-    formDate.append("IsAdmin", inputs.IsActive);
-    profilePicture !== null
-      ? formDate.append("Image", file)
-      : formDate.append("ImageName", inputs.image);
+    formDate.append("IsActive", inputs.IsActive);
+    formDate.append("Image", type === 8 ? null : image0);
 
     editUser(formDate)
       .unwrap()
@@ -130,6 +126,14 @@ const EditUserInfo = () => {
 
   return data ? (
     <div className="flex flex-col w-full min-h-screen pb-20">
+      <button onClick={editHandler}>555555</button>
+      {/* <img
+        className="ring-2 ring-btn  h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   rounded-[50%]"
+        src={URL.createObjectURL(file)}
+        alt="profile picture"
+      /> */}
+      {/* <input type="file" onChange={(e) => console.log(e.target.files[0])} /> */}
+
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
         prob={[

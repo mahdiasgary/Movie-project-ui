@@ -1,4 +1,6 @@
 import avatar from "../assets/avatar.png";
+import { TbBrandBlogger } from "react-icons/tb";
+import { RiPlayList2Fill } from "react-icons/ri";
 
 import {
   AiOutlineHeart,
@@ -55,18 +57,9 @@ export const sidbarItem = [
   { id: 1, title: "Explore", icon: <MdOutlineExplore /> },
   { id: 2, title: "Movies", icon: <BiCameraMovie /> },
   { id: 3, title: "Series", icon: <MdMonitor /> },
-  { id: 4, title: "Anime", icon: <GiCeremonialMask /> },
+  { id: 4, title: "Blog", icon: <TbBrandBlogger /> },
   { id: 5, title: "Genres", icon: <BiGift /> },
-  { id: 6, title: "Favourites", icon: <AiOutlineHeart /> },
-  {
-    id: 7,
-    title: "Theme",
-    icon: <AiOutlineHeart />,
-    arrow: "",
-  },
-  { id: 8, title: "Light Mode", icon: <AiOutlineHeart /> },
-
-  { title: "User", icon: <IoNewspaperOutline /> },
+  { id: 6, title: "Watch list", icon: <RiPlayList2Fill /> },
   { title: "Coming Soon", icon: <AiOutlineSchedule /> },
 ];
 export const adminSidbarItem = [
@@ -227,11 +220,23 @@ export const adminSidbarItem = [
     ],
   ],
 ];
+import { MdLogin } from "react-icons/md";
+import { MdExplore } from "react-icons/md";
+// import { IoTvSharp } from "react-icons/lia";
+import { PiMonitorPlayBold } from "react-icons/pi";
+import { PiMonitorPlayFill } from "react-icons/pi";
+import { BiSolidCameraMovie } from "react-icons/bi";
+
 export const footerMenu = [
-  { title: "Menu", icon: <MdMenu /> },
-  { title: "Movies", icon: <BiCameraMovie /> },
-  { title: "Series", icon: <MdMonitor /> },
-  { title: "Explore", icon: <MdOutlineExplore /> },
+  { title: "Menu", icon: <MdMenu />, iconP: <MdMenu /> },
+  { title: "Movies", icon: <BiCameraMovie />, iconP: <BiSolidCameraMovie /> },
+  {
+    title: "Series",
+    icon: <PiMonitorPlayBold />,
+    iconP: <PiMonitorPlayFill />,
+  },
+  { title: "Explore", icon: <MdOutlineExplore />, iconP: <MdExplore /> },
+  { title: "Login", icon: <MdLogin /> },
 ];
 
 export const genres = [
@@ -357,7 +362,7 @@ export const adminAddMovieListItems = [
   ["Created Date", "Released Date"],
   ["Summary"],
 ];
-export const adminAddOthersListItems = [["Title"]];
+export const adminAddOthersListItems = [["Title"],["TimeForRead"]];
 export const adminAddArtistListItems = [
   ["Name"],
   ["Date Birth"],

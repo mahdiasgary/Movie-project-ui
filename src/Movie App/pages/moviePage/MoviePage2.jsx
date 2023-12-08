@@ -1,7 +1,6 @@
 import { Link, withRouter } from "react-router-dom";
 import { BsPlay } from "react-icons/bs";
 import { useGetMovieImgQuery } from "../../redux/services/movieDatabase";
-import { Spin } from "antd";
 const MoviePage = ({ history }) => {
   const movieData = history.location.state?.data;
   const { data, fetching, error } = useGetMovieImgQuery({
@@ -9,7 +8,7 @@ const MoviePage = ({ history }) => {
   });
   return (
     <div className="text-textDark">
-      <Spin/>
+      {/* <Spin/> */}
       <div className="bg-black bg-opacity-80 absolute top-0 right-0 z-10 w-full h-[625px]   "></div>
       <div className="absolute top-0 z-0  ">
         <img

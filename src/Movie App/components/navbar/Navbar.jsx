@@ -1,4 +1,3 @@
-import { DarkModeToggle } from "@anatoliygatt/dark-mode-toggle";
 import { MdMenu, MdMenuOpen } from "react-icons/md";
 import { styles } from "../../styles/styles";
 import logoImage from "../../assets/logoImage.png";
@@ -13,7 +12,6 @@ import { withRouter } from "react-router-dom";
 
 const Navbar = ({ history, isSearch, setIsSearch, openMenu, setOpenMenu }) => {
   const { IsDarkMode, setMode, loginStatus } = useStateContext();
-  // console.log(window.location)
   return (
     <div className="flex justify-between pt-3 mx-3 md:mx-7 ">
       <div className="flex self-center justify-center ">
@@ -38,7 +36,19 @@ const Navbar = ({ history, isSearch, setIsSearch, openMenu, setOpenMenu }) => {
           </p>
         </div>
       </div>
-      <Search isSearch={isSearch} setIsSearch={setIsSearch} />
+      <div className="flex">
+        <Search isSearch={isSearch} setIsSearch={setIsSearch} />
+        <div
+          onClick={() => setMode(!IsDarkMode)}
+          className="self-center lg:hidden ml-2 mt-2 text-[26px] cursor-pointer "
+        >
+          {IsDarkMode ? (
+            <HiSun />
+          ) : (
+            <IoMdMoon className="text-[25px] self-center text-btn " />
+          )}
+        </div>
+      </div>
       <div className="self-center  z-20 hidden lg:flex  ">
         <div
           onClick={() => setMode(!IsDarkMode)}

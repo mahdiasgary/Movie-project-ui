@@ -7,13 +7,15 @@ const ProfileImage = ({
   profilePicture,
   setShowCropImg,
   inputs,
+  editHandler,
+  changeInput,
 }) => {
   return (
     <div className="flex sm:flex-col justify-between sm:justify-center sm:w-auto  w-full  sm:pr-10 mt-1  ">
       {/* avtar picture */}
       {inputs.image ? (
         <div className="self-center  items-center ">
-          {inputs.loading && inputs.loadingFor==='image' && profilePicture ? (
+          {inputs.loading && inputs.loadingFor === "image" && profilePicture ? (
             <div className="relative self-center items-center ">
               <img
                 className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
@@ -53,7 +55,7 @@ const ProfileImage = ({
         </div>
       ) : (
         <div className="self-center items-center ">
-          {inputs.loading && inputs.loadingFor==='image' && profilePicture ? (
+          {inputs.loading && inputs.loadingFor === "image" && profilePicture ? (
             <div className="relative self-center items-center ">
               <img
                 className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
@@ -99,7 +101,16 @@ const ProfileImage = ({
       <div className="flex mx-5 se:mx-0 self-center md:self-start md:mt-3  sm:flex-col-reverse t">
         <div className="mx-2">
           <button
-            onClick={() => setProfilePicture(null)}
+            onClick={() => {
+              setShowCropImg(false);
+              setProfilePicture(null);
+              changeInput((values) => ({
+                ...values,
+                loadingFor: "image",
+                loading: true,
+              }));
+              editHandler(8);
+            }}
             className="h-[40px] my-3 sm:my-0  text-sm min-w-[80px] w-full border-2  border-red-500 text-red-500 font-semibold hover:bg-red-500 hover:text-white duration-300 self-center rounded-3xl flex flex-col justify-center items-center "
           >
             remove

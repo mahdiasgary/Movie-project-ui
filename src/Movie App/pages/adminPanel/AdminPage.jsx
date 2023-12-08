@@ -5,7 +5,6 @@ import AddMovies from "./movie/addMovie/AddMovies";
 import MoviesList from "./movie/movieList/MoviesList";
 import SeriesList from "./series/seriesList/SeriesList";
 import AddGenre from "./genre/AddGenre";
-import AddSeries from "./series/AddSeries";
 import Users from "./users/Users";
 import AdminSideBar from "../../components/admin/AdminSideBar/AdminSideBar";
 import AdminNavBar from "../../components/admin/adminNavBar/AdminNavBar";
@@ -26,7 +25,8 @@ import EditArtist from "./artist/add artist/EditArtist";
 import ScrollToTop from "./ScrollToTop";
 import CommentsList from "./comments/commentsList/CommentsList";
 import BlogsPage from "./blogs/BlogsPage";
-
+import AddSeries from "./movie - Copy/addMovie/AddMovies";
+import EditMovie from "./movie/editMovie/EditMovie";
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
   const [openMenu, setOpenMenu] = useState(false);
@@ -80,7 +80,17 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <MoviesList />}
             />
-            <Route path={"/admin/edit"} exact component={() => <AddMovies />} />
+            <Route
+              path={"/admin/editMovie:id"}
+              exact
+              component={() => <EditMovie />}
+            />
+
+            <Route
+              path={"/admin/editMovie"}
+              exact
+              component={() => <EditMovie />}
+            />
             <Route
               path={"/admin/user"}
               exact
@@ -97,7 +107,7 @@ const AdminPage = ({ history }) => {
               component={() => <AddSeries />}
             />
             <Route
-              path={"/admin/blogs"}
+              path={"/admin/addnewblog"}
               exact
               component={() => <BlogsPage />}
             />
@@ -166,6 +176,7 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <EditArtist />}
             />
+
             <Route
               path={"/admin/artistslist"}
               // exact

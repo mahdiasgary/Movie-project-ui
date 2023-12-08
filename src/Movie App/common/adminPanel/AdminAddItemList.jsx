@@ -100,13 +100,10 @@ const AdminAddItemList = ({
               <DatePiker datePiker={datePiker} title={item} />
             ) : from === "edit" ? (
               <EditItemField
-                // editHandler={editHandler}
                 inputs={inputs}
                 changeInput={changeInput}
-                // qqq={qqq}
                 selectedForChange={selectedForChange}
                 setSelectedForChange={setSelectedForChange}
-                // www={www}
                 modal={props}
                 item={item}
               />

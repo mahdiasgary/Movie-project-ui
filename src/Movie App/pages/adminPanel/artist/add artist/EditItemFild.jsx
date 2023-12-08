@@ -19,7 +19,7 @@ const EditItemField = ({ changeInput, inputs, item }) => {
             // type={type}
             name="text"
             onChange={(e) => {
-             item==='Name' && changeInput((v) => ({ ...v, Name: e.target.value }));
+              changeInput((v) => ({ ...v, [item]: e.target.value }));
             }}
             value={inputs[item]}
             className="fa rounded-sm h-10 border-0  border-transparent focus:border-transparent focus:ring-0  w-full outline-white bg-transparent  text-lg px-2 "

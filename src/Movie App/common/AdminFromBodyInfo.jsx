@@ -5,7 +5,8 @@ import { PiNotebookFill } from "react-icons/pi";
 const AdminFromBodyInfo = ({preInfo,scondePreInfo=true,thirdPreInfo=true}) => {
   const [state , set]=useState(false)
   return (
-    <div> {(preInfo && scondePreInfo) ? (
+    <div> 
+      {(preInfo && scondePreInfo) ? (
         !thirdPreInfo ? (
           <div className="absolute flex text-screenLight items-center justify-center w-10 h-10 bg-btn rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 ">
             <PiNotebookFill className="font-bold text-[22px] " />

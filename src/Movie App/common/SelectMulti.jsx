@@ -14,7 +14,6 @@ const SelectMulti = ({
     showModal: false,
     search: "",
   });
-  console.log(options);
   const wrapperRef = useRef(null);
   useEffect(() => {
     const useOutsideAlerter = (ref) => {
@@ -114,7 +113,7 @@ const SelectMulti = ({
               ? "-bottom-[222px]"
               : filteredOption?.length === 2
               ? "-bottom-[175px]"
-              : "-bottom-[270px]"
+              : "-bottom-[285px]"
           } bg-white right-0 absolute shadow-xl  max-h-[270px] pb-3 px-1  dark:bg-border  rounded-xl  w-full z-[20]`}
         >
           <input

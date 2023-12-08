@@ -10,8 +10,10 @@ export const movieCoreApi = createApi({
         `Admin/Artist/GetList?Page=${page ? page : 1}&searchkey=${searchkey}`,
     }),
     getUsersListInAdminPanel: builder.query({
-      query: ({ searchkey, page, FilterType }) =>
-        `Admin/User/Index?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
+      query: ({ searchkey, page, FilterType }) => ({
+        url: `Admin/User/GetList?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
+        credentials: "include",
+      }),
     }),
     getCommentListInAdminPanel: builder.query({
       query: ({ searchkey, page, FilterType }) =>
@@ -19,32 +21,35 @@ export const movieCoreApi = createApi({
     }),
     getGenreListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Genre/Index?Page=${page}&searchkey=${searchkey}`,
+        `Admin/Genre/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
     getCareerListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Career/Index?Page=${page}&searchkey=${searchkey}`,
+        `Admin/Career/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
     getLanguageListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Language/Index?Page=${page}&searchkey=${searchkey}`,
+        `Admin/Language/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
     getCountryListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Country/Index?Page=${page}&searchkey=${searchkey}`,
+        `Admin/Country/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
     getMovieListInAdminPanel: builder.query({
       query: ({ searchkey, page }) =>
-        `Admin/Movie/Index?Page=${page}&searchkey=${searchkey}`,
+        `Admin/Movie/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
     getDashBoadrdDataInAdminPanel: builder.query({
       query: () => "Admin/Home/GetDashBoadrdData",
     }),
     getUserForEditInAdminPanel: builder.query({
-      query: ({ id }) => `Admin/User/Edit?id=${id}`,
+      query: ({ id }) => `Admin/User/GetDetailById?id=${id}`,
     }),
     getArtistForEditInAdminPanel: builder.query({
-      query: ({ id }) => `Admin/Artist/GetDetailById?id=${id}`,
+      query: ({ id }) => ({
+        url: `Admin/Artist/GetDetailById?id=${id}`,
+        credentials: "include",
+      }),
     }),
     getArtistSelectListInAdminPanel: builder.query({
       query: () => `Admin/Artist/GetAllArtitstSelectListItem`,
@@ -61,9 +66,26 @@ export const movieCoreApi = createApi({
     getCareerSelectListInAdminPanel: builder.query({
       query: () => `Admin/Career/GetAllCareerSelectListItem`,
     }),
+    getMovieForEditInAdminPanel: builder.query({
+      query: ({ id }) => ({
+        url: `Admin/Movie/GetDetailById?Id=${id}`,
+        credentials: "include",
+      }),
+    }),
     addMovieInAdminPanel: builder.mutation({
       query: (payload) => ({
         url: "Admin/Movie/AddMovie",
+        method: "POST",
+        body: payload,
+        //headers: {
+        //    "Content-Type": "application/json", // Set the content type to JSON
+        //},
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    addSeriesInAdminPanel: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/Series/AddSeries",
         method: "POST",
         body: payload,
         //headers: {
@@ -303,10 +325,21 @@ export const movieCoreApi = createApi({
       }),
       invalidatesTags: ["Post"],
     }),
+    SubmitAnswerForUserComment: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/User/SubmitAnswerForUserComment",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Post"],
+    }),
   }),
 });
 
 export const {
+  useGetMovieForEditInAdminPanelQuery,
+  useAddSeriesInAdminPanelMutation,
+  useSubmitAnswerForUserCommentMutation,
   useGetCareerSelectListInAdminPanelQuery,
   useSubmitCommentMutation,
   useGetArtistSelectListInAdminPanelQuery,

@@ -16,10 +16,10 @@ const Comments = ({ id = 1210 }) => {
       .unwrap()
       .then((r) => console.log(r))
       .catch();
-  };
+  }; 
   return (
     <div className="flex w-full justify-center">
-      <fieldset className="border-t dark:bg-opacity-60  border-border">
+      <fieldset className="border-t dark:bg-opacity-60  dark:border-border">
         <legend className=" px-2 text-gray-500 dark:text-white ">
           Comments
         </legend>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AvatarCrop from "./AvatarCrop";
 import UserProfileGenral from "./UserProfileGenral";
 import { Link } from "react-router-dom";
@@ -9,146 +9,164 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
-import { useLoginOutMutation } from "../../../redux/services/movieDatabase";
+import {
+  useAdminEditUserMutation,
+  useGetUserForEditInAdminPanelQuery,
+  useLoginOutMutation,
+} from "../../../redux/services/movieDatabase";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
-import { Modal, Button, Toast } from "flowbite-react";
+import { Modal, Button, Toast, Dropdown } from "flowbite-react";
 import { HiCheck, HiOutlineExclamationCircle } from "react-icons/hi";
 import { withRouter } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import AlertModal from "../../../common/AlertModal";
 
 const UserProfile = ({ history }) => {
-  const [openModal, setOpenModal] = useState();
-  const props = { openModal, setOpenModal };
-  const { setlogin, loginStatus } = useStateContext();
-  // <button
-  //         onClick={() => props.setOpenModal("pop-up")}
-  //         className="px-6 text-red-500 hover:text-white   py-2 border-red-500 border-2 hover:bg-red-500 duration-200 rounded-3xl"
-  //       >
-  //         log out
-  //       </button>
+  let { setqw } = useStateContext();
+
+  const { data } = useGetUserForEditInAdminPanelQuery(
+    { id: 3 },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const poi = ["Genral", "Favorite"];
-  let qqq = ["name", "email", "phone"];
+  let qqq = ["name", "email"];
   let www = {
-    name: loginStatus?.data?.userName,
-    email: "brerfee@kwb.cn",
-    phone: "09268557406",
+    name: data && data.data.username,
+    email: data && data.data.email,
   };
-  const input = {
-    name: "",
-    email: "",
-    IsAdmin: "in",
-    IsActive: "ive",
-    loading: false,
-    loadingFor: "",
-    image: "",
-    from: "",
-  };
-  const [inputs, changeInput] = useState(input);
   const [query, setQuery] = useState("Genral");
   const [selectedForChange, setSelectedForChange] = useState("r5");
   const [showCropImg, setShowCropImg] = useState(false);
   const [avatarCrop, setAvatarCrop] = useState({ preview: null });
   const [profilePicture, setProfilePicture] = useState(null);
-  let data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [loginOutMutation] = useLoginOutMutation();
-  const loginOutMutationHand = () => {
-    loginOutMutation()
+
+  function dataURLtoFile(dataurl, filename) {
+    if (dataurl)
+      var arr = dataurl?.split(","),
+        mime = arr[0]?.match(/:(.*?);/)[1],
+        bstr = atob(arr[arr.length - 1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: "image/png" });
+  }
+
+  const [openModal, setOpenModal] = useState();
+  const props = { openModal, setOpenModal };
+
+  const input = {
+    name: data?.data.username,
+    email: data?.data.email,
+    IsAdmin: data?.data.isAdmin,
+    IsActive: data?.data.isActive,
+    loading: false,
+    loadingFor: "",
+    image: data?.data.profileImage,
+    from: "",
+  };
+
+  const [inputs, changeInput] = useState({
+    name: data?.data.username,
+    email: data?.data.email,
+    IsAdmin: data?.data.isAdmin,
+    IsActive: data?.data.isActive,
+    loading: false,
+    loadingFor: "",
+    image: data?.data.profileImage,
+    from: "",
+  });
+  useEffect(() => {
+    changeInput({
+      name: data?.data.username,
+      email: data?.data.email,
+      IsAdmin: data?.data.isAdmin,
+      IsActive: data?.data.isActive,
+      loading: false,
+      image: data?.data.profileImage,
+    });
+    // setProfilePicture(data?.data.profileImage)
+  }, [data]);
+
+  const [editUser] = useAdminEditUserMutation();
+
+  const editHandler = (type, photo) => {
+    let image0 = type === 1 && dataURLtoFile(photo, "qw.png");
+    inputs.loading = true;
+    const formDate = new FormData();
+    formDate.append("Id", data?.data?.id);
+    formDate.append("Username", inputs.name);
+    formDate.append("Email", inputs.email);
+    formDate.append("IsAdmin", inputs.IsAdmin);
+    formDate.append("IsActive", inputs.IsActive);
+    formDate.append("Image", type === 8 ? null : image0);
+
+    editUser(formDate)
       .unwrap()
       .then((r) => {
-        console.log(r);
+        setqw(Math.random());
         if (r.isSuccessFull) {
-          toast.custom(
-            <div>
-              <Toast>
-                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-                  <HiCheck className="h-5 w-5" />
-                </div>
-                <div className="ml-3 text-sm font-normal">
-                  Your log out is successfully.
-                </div>
-                <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
-              </Toast>
-            </div>,
-            {}
-          );
-          setlogin(99);
-          setTimeout(() => history.push("/"), 800);
+          changeInput((values) => ({
+            ...values,
+            loadingFor: "",
+            loading: false,
+          }));
+          toast.success("Successfully Edited!", {
+            position: "top-center",
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
         }
       })
       .then((error) => {});
   };
-  const editHandler = (from) => {
-    // inputs.loading = true;
-    // const formDate = new FormData();
-    // formDate.append("Id", data?.data?.id);
-    // formDate.append("Username", inputs.name);
-    // formDate.append("Email", inputs.email);
-    // formDate.append("IsAdmin", inputs.IsAdmin);
-    // formDate.append("IsAdmin", inputs.IsActive);
-    // profilePicture !== null
-    //   ? formDate.append("Image", file)
-    //   : formDate.append("ImageName", inputs.image);
-    // editUser(formDate)
-    //   .unwrap()
-    //   .then((r) => {
-    //     setqw(Math.random());
-    //     if (r.isSuccessFull) {
-    //       changeInput((values) => ({
-    //         ...values,
-    //         loadingFor: "",
-    //         loading: false,
-    //       }));
-    //       toast.success("Successfully Edited!", {
-    //         position: "top-center",
-    //         style: {
-    //           borderRadius: "10px",
-    //           background: "#333",
-    //           color: "#fff",
-    //         },
-    //       });
-    //     }
-    //   })
-    //   .then((error) => {});
-  };
-  return (
-    <div className="flex flex-col w-full ">
-      <Modal
-        show={props.openModal === "pop-up"}
-        size="md"
-        popup
-        onClose={() => props.setOpenModal(undefined)}
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to log out this account?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                onClick={loginOutMutationHand}
-                className="bg-red-500 text-white hover:px-1 duration-150"
-                color="red-500"
-                // onClick={() => props.setOpenModal(undefined)}
-              >
-                Yes, I'm sure
-              </Button>
-              <Button
-                color="gray"
-                onClick={() => props.setOpenModal(undefined)}
-              >
-                No, cancel
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
 
+  return data ? (
+    <div className="flex flex-col w-full min-h-screen pb-20">
+      <button onClick={editHandler}>555555</button>
+      {/* <img
+        className="ring-2 ring-btn  h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   rounded-[50%]"
+        src={URL.createObjectURL(file)}
+        alt="profile picture"
+      /> */}
+      {/* <input type="file" onChange={(e) => console.log(e.target.files[0])} /> */}
+
+      {/* <IdontKnowName
+        root={{ path: "/admin", value: "Dashboard" }}
+        prob={[
+          { path: "/admin/users", value: "Users" },
+          { path: "/admin/users", value: input.name },
+        ]}
+      /> */}
+
+      <AlertModal
+        loading={inputs.loading}
+        input={input}
+        functionHandler={editHandler}
+        functionHandler2={changeInput}
+        text={"Are you sure you want to Confirm"}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        from={"user"}
+      />
+      {showCropImg && (
+        <div>
+          <div
+            onClick={() => setShowCropImg(false)}
+            className="fixed w-full z-[5000] h-[130%] -top-20 pb-20 bg-gray-900 bg-opacity-60 backdrop-blur-sm  "
+          />
+        </div>
+      )}
       {/* avatarCrop */}
       {showCropImg && (
         <AvatarCrop
+          editHandler={editHandler}
+          changeInput={changeInput}
           setAvatarCrop={setAvatarCrop}
           setShowCropImg={setShowCropImg}
           avatarCrop={avatarCrop}
@@ -157,6 +175,81 @@ const UserProfile = ({ history }) => {
       )}
       <div className="flex justify-between font-bold mx-5 mt-8 mb-10 md:mb-8">
         <h1 className="text-2xl self-center ">Account</h1>
+        <div className="flex gap-4">
+          <div className="px-4 text-btn text-sm hover:text-white   py-2 hover:bg-btn bg-btn bg-opacity-20 duration-200 rounded-xl">
+            <Dropdown
+              className="mr-8"
+              label={data?.data?.isAdmin ? "Admin" : "User"}
+              inline
+            >
+              <Dropdown.Item
+                className={inputs.IsAdmin ? "" : "hidden"}
+                onClick={(e) => {
+                  changeInput((values) => ({
+                    ...values,
+                    IsAdmin: false,
+                  }));
+                  props.setOpenModal("pop-up");
+                }}
+              >
+                {" "}
+                to User
+              </Dropdown.Item>
+              <Dropdown.Item
+                className={!inputs.IsAdmin ? "" : "hidden"}
+                onClick={(e) => {
+                  changeInput((values) => ({
+                    ...values,
+                    IsAdmin: true,
+                  }));
+                  props.setOpenModal("pop-up");
+                }}
+              >
+                to Admin
+              </Dropdown.Item>
+            </Dropdown>{" "}
+          </div>
+          <div
+            className={`px-4 ${
+              !data?.data.isActive
+                ? "text-gray-500 bg-gray-500 hover:bg-opacity-95"
+                : " text-green-400 hover:bg-green-400 bg-green-400"
+            } text-sm hover:text-white   py-2  bg-opacity-20 duration-200 rounded-xl`}
+          >
+            <Dropdown
+              className="mr-8"
+              label={data?.data.isActive ? "Active" : "inActive"}
+              inline
+            >
+              <Dropdown.Item
+                className={!inputs.IsActive ? "" : "hidden"}
+                onClick={(e) => {
+                  changeInput((values) => ({
+                    ...values,
+                    IsActive: true,
+                  }));
+                  props.setOpenModal("pop-up");
+                }}
+              >
+                {" "}
+                to Active
+              </Dropdown.Item>
+              <Dropdown.Item
+                className={inputs.IsActive ? "" : "hidden"}
+                onClick={(e) => {
+                  changeInput((values) => ({
+                    ...values,
+                    IsActive: false,
+                  }));
+                  props.setOpenModal("pop-up");
+                }}
+              >
+                to InActive
+              </Dropdown.Item>
+            </Dropdown>{" "}
+          </div>
+        </div>
+        {/* </button> */}
       </div>
       <div className="md:flex w-full px-4 y7:px-6 xl:px-16">
         <UserGeneral
@@ -297,6 +390,32 @@ const UserProfile = ({ history }) => {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  ) : (
+    <div className="flex h-screen justify-center">
+      <div className="flex mt-20 text-[19px]">
+        <svg
+          class="w-5 h-5 mt-2 mr-2 -ml-1 text-btn animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        please be patient
       </div>
     </div>
   );

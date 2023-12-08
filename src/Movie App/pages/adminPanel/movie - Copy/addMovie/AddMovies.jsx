@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { BiLinkAlt } from "react-icons/bi";
+import { BiLinkAlt, BiSolidMoviePlay } from "react-icons/bi";
 import AddMoveImage from "./AddMovieImage";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import { useAddSeriesInAdminPanelMutation } from "../../../../redux/services/movieDatabase";
 import {
-  useAddMovieInAdminPanelMutation,
-  useGetGenreListInAdminPanelQuery,
-} from "../../../../redux/services/movieDatabase";
-import UplaodBox from "./UplaodBox";
-import {
-  useGetCountryListInAdminPanelQuery,
-  useGetLanguageListInAdminPanelQuery,
-  useGetArtisitListInAdminPanelQuery,
   useGetArtistSelectListInAdminPanelQuery,
   useGetCountrySelectListInAdminPanelQuery,
   useGetGenreSelectListInAdminPanelQuery,
@@ -24,16 +16,18 @@ import { withRouter } from "react-router-dom";
 import AdminAddItemList from "../../../../common/adminPanel/AdminAddItemList";
 import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
-import { Progress } from "flowbite-react";
+import AddSeasonFile from "./AddSeasonFile/AddSeasonFile";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
-const AddMovies = ({ history }) => {
+const AddSeries = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
-  const ids = movieFiless?.map(({ quality }) => quality);
-  const movieFiles = movieFiless?.filter(
-    ({ quality }, index) => !ids.includes(quality, index + 1)
-  );
+  const [seasonFile, setSeasonFile] = useState([]);
+  const ids = seasonFile?.map(({ id }) => id);
 
+  const seriesFiles = seasonFile?.filter(
+    ({ id }, index) => !ids.includes(id, index + 1)
+  );
+  console.log(seriesFiles);
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
   const [state, setState] = useState(false);
@@ -57,7 +51,7 @@ const AddMovies = ({ history }) => {
     time: "7",
     summary: "qw",
   };
-  const [addNewMovie] = useAddMovieInAdminPanelMutation();
+  const [addNewMovie] = useAddSeriesInAdminPanelMutation();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -118,11 +112,17 @@ const AddMovies = ({ history }) => {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
 
-    for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].Quality`, movieFiles[i].quality);
+    for (let i = 0; i < seriesFiles.length; i++) {
+      formData.append(`Files[${i}].Quality`, seriesFiles[i].quality);
     }
-    for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].File`, movieFiles[i].file);
+    for (let i = 0; i < seriesFiles.length; i++) {
+      formData.append(`Files[${i}].File`, seriesFiles[i].file);
+    }
+    for (let i = 0; i < seriesFiles.length; i++) {
+      formData.append(`Files[${i}].Season`, seriesFiles[i].season);
+    }
+    for (let i = 0; i < seriesFiles.length; i++) {
+      formData.append(`Files[${i}].Episode`, seriesFiles[i].episode);
     }
     const options = {
       onUploadProgress: (progressEvent) => {
@@ -131,13 +131,14 @@ const AddMovies = ({ history }) => {
         we(precentage);
       },
     };
-    const config = {
-      onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
-    };
+    // const config = {
+    //   onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
+    // };
     axios
-      .post("https://localhost:7175/Admin/Movie/Add", formData, options)
+      .post("https://localhost:7175/Admin/Series/Add", formData, options)
       .then((res) => {
         // setLoadingButton(false);
+        console.log(res);
       });
 
     // addNewMovie(formData)
@@ -158,11 +159,11 @@ const AddMovies = ({ history }) => {
     <div>
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
-        prob={[{ path: "/admin/addnewmovie", value: "Add Movie" }]}
+        prob={[{ path: "/admin/addnewseries", value: "Add Series" }]}
       />{" "}
       <div className=" my-10 min-h-screen pb-20  mx-6 sm:mx-10 md:mx-28">
         <div className="text-[23px] font-bold mt-10 mb-6 ">
-          {"Add New Movie"}
+          {"Add New Series"}
         </div>
         <section className=" dark:text-screenLight text-sideBarDark  self-center mt-2  ">
           <div className="">
@@ -183,7 +184,7 @@ const AddMovies = ({ history }) => {
                     thirdPreInfo={state}
                   />
                   <h3 className="font-medium leading-tight pt-2 ml-3 px-1">
-                    Movie Info
+                    Series Info
                   </h3>
                   <div className="min-w-[200px] mt-4 md:mt-8 mx-3 ">
                     <AdminAddItemList
@@ -231,12 +232,134 @@ const AddMovies = ({ history }) => {
                     </span>
                   )}
 
-                  <UplaodBox
-                    setMovieFiles={setMovieFiles}
-                    movieFiles={movieFiles}
-                    loadingButton={loadingButton}
-                    qw={qw}
-                  />
+                  {/* <UplaodBox
+                  setMovieFiles={setMovieFiles}
+                  movieFiles={movieFiles}
+                  loadingButton={loadingButton}
+                  qw={qw}
+                /> */}
+                  {loadingButton ? (
+                    <div
+                      className={` px-5 pb-6 md:mx-3 mx-4 mt-16 rounded-lg cursor-pointer border-2 border-[#787f98] border-dashed text-center m-2   flex flex-col`}
+                    >
+                      <p className="pt-3 ">Uplaode Box</p>
+
+                      {seriesFiles?.map((file, index) => (
+                        <div key={index}>
+                          {qw >= (100 * (index + 1)) / seriesFiles.length ? (
+                            <div>
+                              <div class="mb-2 flex justify-between items-center">
+                                <div class="flex items-center gap-x-3">
+                                  <span class="w-8 h-8 text-[21px] flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700">
+                                    <BiSolidMoviePlay />
+                                  </span>
+                                  <div>
+                                    <p class="text-sm font-medium text-gray-800 dark:text-white">
+                                      {file.file.name}
+                                    </p>
+                                    <p class="text-xs text-start text-gray-500 dark:text-gray-500">
+                                      {Math.floor(
+                                        seriesFiles[0].file.size / 1000000
+                                      )}{" "}
+                                      MB
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center gap-x-3 whitespace-nowrap">
+                                <div
+                                  class="flex w-full h-[5px] bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700"
+                                  role="progressbar"
+                                  aria-valuenow="25"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                >
+                                  <div
+                                    class={`flex  flex-col duration justify-center rounded-full overflow-hidden bg-btn text-xs text-white text-center whitespace-nowrap transition duration-700 dark:bg-btn w-[${qw}%]`}
+                                    style={{
+                                      width: `${
+                                        qw >=
+                                          (100 * (index + 1)) /
+                                            seriesFiles.length && "100"
+                                      }% `,
+                                    }}
+                                  ></div>
+                                </div>
+                                <div class="w-6 text-end">
+                                  <span class="text-sm text-gray-800 dark:text-white">
+                                    {qw >=
+                                      (100 * (index + 1)) /
+                                        seriesFiles.length && "100"}
+                                    %
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <div class="mb-2 flex justify-between items-center">
+                                <div class="flex items-center gap-x-3">
+                                  <span class="w-8 h-8 text-[21px] flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700">
+                                    <BiSolidMoviePlay />
+                                  </span>
+                                  <div>
+                                    <p class="text-sm font-medium text-gray-800 dark:text-white">
+                                      {file.file.name}
+                                    </p>
+                                    <p class="text-xs text-start text-gray-500 dark:text-gray-500">
+                                      {Math.floor(
+                                        seriesFiles[0].file.size / 1000000
+                                      )}{" "}
+                                      MB
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex items-center gap-x-3 whitespace-nowrap">
+                                <div class="demo-container w-full">
+                                  <div class="progress-bar w-full">
+                                    <div class="progress-bar-value w-full"></div>
+                                  </div>
+                                </div>
+                                <div class="w-6 text-end">
+                                  <div className="pl-3">
+                                    {/* <div className="self-center"> */}
+                                    <svg
+                                      class="w-4 h-4 mr-3 -ml-1 text-btn animate-spin"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <circle
+                                        class="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="4"
+                                      ></circle>
+                                      <path
+                                        class="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <AddSeasonFile
+                      seasonFile={seriesFiles}
+                      setSeasonFile={setSeasonFile}
+                      loadingButton={loadingButton}
+                      qw={qw}
+                    />
+                  )}
                 </li>
                 <li className="ml-6 ">
                   <AdminFormDoneIcon preDone={movieCover} />
@@ -276,4 +399,4 @@ const AddMovies = ({ history }) => {
   );
 };
 
-export default withRouter(AddMovies);
+export default withRouter(AddSeries);

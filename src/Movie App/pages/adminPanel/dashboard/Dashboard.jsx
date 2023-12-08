@@ -6,9 +6,8 @@ const Dashboard = () => {
   const getDashBoadrdDataInAdminPanelQuery =
     useGetDashBoadrdDataInAdminPanelQuery();
 
-  
   return (
-    <div className="dark:text-white mt-14 px-14">
+    <div className="dark:text-white mt-14 px-3 sm:px-7  md:px-14">
       <div className="">
         <div className="mb-10">
           <DashboardItemNum data={getDashBoadrdDataInAdminPanelQuery} />

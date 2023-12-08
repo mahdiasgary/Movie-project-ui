@@ -12,7 +12,6 @@ import { useGetCommentListInAdminPanelQuery } from "../../../../redux/services/m
 
 const CommentsList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
-  const [, updateState] = useState();
   const [search, setSearch] = useState("");
   const [FilterType, setFilterType] = useState("sort by");
   const { data, isFetching, isLoading, error } =
@@ -24,7 +23,7 @@ const CommentsList = ({ history }) => {
       },
       { refetchOnMountOrArgChange: true }
     );
-  // console.log(data);
+  console.log(data);
   return (
     <div className="min-h-screen pb-20 w-full">
       <IdontKnowName

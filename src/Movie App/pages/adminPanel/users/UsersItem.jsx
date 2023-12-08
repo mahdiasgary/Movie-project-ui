@@ -121,9 +121,9 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
       </td>
       <td>
         <div className="flex px-2 min-w-[200px] group-hover:dark:bg-[#24272e] text-sm group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
-          {user.createdDate?.split("+")[0]?.split(" ")[0]}
+          {user.createdAt?.split("T")[0]?.split(" ")[0]}
           <br />
-          {user.createdDate?.split("+")[0]?.split(" ")[1]}
+          {user.createdAt?.split("T")[0]?.split(" ")[1]}
         </div>
       </td>
       <td>

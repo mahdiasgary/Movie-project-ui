@@ -4,6 +4,7 @@ import { RxTrash } from "react-icons/rx";
 import {
   useChangeCommentStatusInAdminPanelMutation,
   useRemoveUserMutation,
+  useSubmitAnswerForUserCommentMutation,
 } from "../../../../redux/services/movieDatabase";
 
 // import { IoSend } from "react-icons/io5";
@@ -26,12 +27,17 @@ import { BiSolidMoviePlay } from "react-icons/bi";
 const CommentListItem = ({ comment, removeUserHandler, history }) => {
   const [changeStatus] = useChangeCommentStatusInAdminPanelMutation();
   const [removeUser] = useRemoveUserMutation();
+  const [submitAnswer] = useSubmitAnswerForUserCommentMutation();
   const [isActive, setIsActive] = useState(false);
   let { setqw } = useStateContext();
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
   const [loading, setLoading] = useState(false);
-  const [states, setState] = useState({ replyInput: false, alertTitle: "" });
+  const [states, setState] = useState({
+    replyInput: false,
+    alertTitle: "",
+    replyText: "",
+  });
   const alertHandler = () => {
     setLoading(true);
     if (states.alertTitle === "delete") {
@@ -88,6 +94,19 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         })
         .catch();
     }
+    if (states.alertTitle === "answer") {
+      const formDate = new FormData();
+      formDate.append("CommentId", comment.id);
+      formDate.append("Text", states.replyText);
+      submitAnswer(formDate)
+        .unwrap()
+        .then((r) => {
+          setLoading(false);
+          console.log(r);
+          setqw(Math.random());
+        })
+        .catch();
+    }
   };
   const date1 = new Date(comment.createdAt.split("T")[0]);
   const date2 = new Date();
@@ -97,9 +116,9 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
   console.log(diffDays);
   return (
     <div className="flex justify-center w-full pb-12">
-      <div className="relative dark:bg-opacity-70 backdrop-blur-sm dark:bg-[#1c1d21] flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full max-h-[250px]">
+      <div className="relative dark:bg-opacity-70 backdrop-blur-sm dark:bg-[#1c1d21] flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full max-h-[270px]">
         <img
-          src="https://avatars.githubusercontent.com/u/110620718?v=4"
+          src={"https:/localhost:7175/images/" + comment.image}
           alt=""
           className="w-[60px] shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] absolute top-5 -left-[30px] rounded-[50%]  z-2  h-[60px]"
         />
@@ -182,9 +201,14 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
           </div>
         )}
         {comment.statusType === 0 &&
+          !comment.answer &&
           (states.replyInput ? (
             <div className="mx-5 flex dark:bg-border bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
               <input
+                value={states.replyText}
+                onChange={(e) =>
+                  setState((v) => ({ ...v, replyText: e.target.value }))
+                }
                 autoFocus
                 placeholder="Reply ..."
                 type="text"
@@ -196,7 +220,13 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
               >
                 <RxCross2 />
               </button>
-              <button className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-4 self-center mr-2 rounded-lg">
+              <button
+                onClick={() => {
+                  props.setOpenModal("pop-up");
+                  setState((v) => ({ ...v, alertTitle: "answer" }));
+                }}
+                className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-4 self-center mr-2 rounded-lg"
+              >
                 <IoSend />{" "}
               </button>
             </div>
@@ -243,6 +273,128 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
               >
                 Reply
                 <FaCircleChevronRight className="ml-1 self-center" />
+              </div>
+            </div>
+          ))}
+        {comment.statusType === 0 &&
+          comment.answer &&
+          (states.replyInput ? (
+            <div>
+              <div className="mx-5 flex dark:bg-border bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
+                <input
+                  value={states.replyText}
+                  onChange={(e) =>
+                    setState((v) => ({ ...v, replyText: e.target.value }))
+                  }
+                  autoFocus
+                  placeholder="Reply ..."
+                  type="text"
+                  className="bg-transparent placeholder:text-gray-500 w-full px-5  rounded-xl h-12"
+                />
+                <button
+                  onClick={() => setState((v) => ({ ...v, replyInput: false }))}
+                  className="bg-gray-500 duration-100 hover:bg-gray-600 text-sm text-white h-9 t px-3 self-center mr-2 rounded-lg"
+                >
+                  <RxCross2 />
+                </button>
+                <button
+                  onClick={() => {
+                    props.setOpenModal("pop-up");
+                    setState((v) => ({ ...v, alertTitle: "Approve" }));
+                  }}
+                  className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-4 self-center mr-2 rounded-lg"
+                >
+                  <IoSend />{" "}
+                </button>
+              </div>
+              <div>
+                <div className="flex font-semibold">
+                  {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
+                  <p
+                    onClick={() => {
+                      props.setOpenModal("pop-up");
+                      setState((v) => ({ ...v, alertTitle: "delete" }));
+                    }}
+                    className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                  >
+                    <IoMdTrash />
+                  </p>
+                  <p className="text-gray-500 text-sm   py-1 mb-1 ">
+                    id : {comment.id}
+                  </p>
+                  <div className=" text-btn text-sm   px-2 ml-3 py-1 mb-1   hover:bg-btn  hover:bg-opacity-20 duration-200 rounded-xl">
+                    <Dropdown className="text-sm" label={"Approved"} inline>
+                      <Dropdown.Item
+                        // className={inputs.IsAdmin ? "" : "hidden"}
+                        onClick={(e) => {
+                          setState((values) => ({
+                            ...values,
+                            alertTitle: "Reject",
+                          }));
+                          props.setOpenModal("pop-up");
+                        }}
+                        className="text-sm"
+                      >
+                        Reject
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <fieldset className="mx-5 flex dark:bg-border bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
+                <legend className="mx-3 px-1 text-sm text-btn">
+                  Admin Answer
+                </legend>
+                <div className="bg-transparent self-center pt-2 placeholder:text-gray-500 w-full px-5  rounded-xl h-12">
+                  {comment.answer.text}
+                </div>
+
+                <button
+                  onClick={() => {
+                    // props.setOpenModal("pop-up");
+                    setState((v) => ({ ...v, replyInput: true }));
+                  }}
+                  className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 mb-2 t px-4 self-center mr-2 rounded-lg"
+                >
+                  {/* <IoSend />{" "} */}E
+                </button>
+              </fieldset>
+              <div>
+                <div className="flex font-semibold">
+                  {/* <p className="text-btn text-sm pl-5  py-1 mb-1 ">Approved</p> */}
+                  <p
+                    onClick={() => {
+                      props.setOpenModal("pop-up");
+                      setState((v) => ({ ...v, alertTitle: "delete" }));
+                    }}
+                    className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                  >
+                    <IoMdTrash />
+                  </p>
+                  <p className="text-gray-500 text-sm   py-1 mb-1 ">
+                    id : {comment.id}
+                  </p>
+                  <div className=" text-btn text-sm   px-2 ml-3 py-1 mb-1   hover:bg-btn  hover:bg-opacity-20 duration-200 rounded-xl">
+                    <Dropdown className="text-sm" label={"Approved"} inline>
+                      <Dropdown.Item
+                        // className={inputs.IsAdmin ? "" : "hidden"}
+                        onClick={(e) => {
+                          setState((values) => ({
+                            ...values,
+                            alertTitle: "Reject",
+                          }));
+                          props.setOpenModal("pop-up");
+                        }}
+                        className="text-sm"
+                      >
+                        Reject
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
