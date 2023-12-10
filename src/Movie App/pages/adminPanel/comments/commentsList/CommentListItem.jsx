@@ -5,6 +5,7 @@ import {
   useChangeCommentStatusInAdminPanelMutation,
   useRemoveUserMutation,
   useSubmitAnswerForUserCommentMutation,
+  useSubmitEditAnswerForUserCommentMutation,
 } from "../../../../redux/services/movieDatabase";
 
 // import { IoSend } from "react-icons/io5";
@@ -20,14 +21,15 @@ import { IoClose } from "react-icons/io5";
 import { FaCircleChevronRight } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import { FaTrash } from "react-icons/fa6";
 import { IoMdTrash } from "react-icons/io";
 import { BiSolidMoviePlay } from "react-icons/bi";
+import { BiSolidEdit } from "react-icons/bi";
 
 const CommentListItem = ({ comment, removeUserHandler, history }) => {
   const [changeStatus] = useChangeCommentStatusInAdminPanelMutation();
   const [removeUser] = useRemoveUserMutation();
   const [submitAnswer] = useSubmitAnswerForUserCommentMutation();
+  const [editAnswer] = useSubmitEditAnswerForUserCommentMutation();
   const [isActive, setIsActive] = useState(false);
   let { setqw } = useStateContext();
   const [openModal, setOpenModal] = useState();
@@ -37,6 +39,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
     replyInput: false,
     alertTitle: "",
     replyText: "",
+    from: "",
   });
   const alertHandler = () => {
     setLoading(true);
@@ -94,7 +97,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         })
         .catch();
     }
-    if (states.alertTitle === "answer") {
+    if (states.alertTitle === "answer" && states.from !== "edit") {
       const formDate = new FormData();
       formDate.append("CommentId", comment.id);
       formDate.append("Text", states.replyText);
@@ -107,13 +110,25 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         })
         .catch();
     }
+    if (states.alertTitle === "answer" && states.from === "edit") {
+      const formDate = new FormData();
+      formDate.append("CommentId", comment.id);
+      formDate.append("Text", states.replyText);
+      editAnswer(formDate)
+        .unwrap()
+        .then((r) => {
+          setLoading(false);
+          console.log(r);
+          setqw(Math.random());
+        })
+        .catch();
+    }
   };
   const date1 = new Date(comment.createdAt.split("T")[0]);
   const date2 = new Date();
-
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
 
-  console.log(diffDays);
+  // console.log(diffDays);
   return (
     <div className="flex justify-center w-full pb-12">
       <div className="relative dark:bg-opacity-70 backdrop-blur-sm dark:bg-[#1c1d21] flex flex-col justify-between z-0 min-w-[80vw] max-w-[80vw] md:min-w-[60vw] md:max-w-[60vw] rounded-2xl  bg-white shadow-lg w-full max-h-[270px]">
@@ -345,7 +360,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
           ) : (
             <div>
               <fieldset className="mx-5 flex dark:bg-border bg-gray-200 bg-opacity-80 rounded-xl mb-3 ">
-                <legend className="mx-3 px-1 text-sm text-btn">
+                <legend className="mx-3 px-1 text-sm text-gray-500 dark:text-white opacity-70">
                   Admin Answer
                 </legend>
                 <div className="bg-transparent self-center pt-2 placeholder:text-gray-500 w-full px-5  rounded-xl h-12">
@@ -355,11 +370,11 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                 <button
                   onClick={() => {
                     // props.setOpenModal("pop-up");
-                    setState((v) => ({ ...v, replyInput: true }));
+                    setState((v) => ({ ...v, replyInput: true, from: "edit" }));
                   }}
-                  className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 mb-2 t px-4 self-center mr-2 rounded-lg"
+                  className="bg-btn duration-200 text-[20px] hover:bg-blue-800 text-white h-9 mb-2 t px-2 self-center mr-2 rounded-lg"
                 >
-                  {/* <IoSend />{" "} */}E
+                  <BiSolidEdit />{" "}
                 </button>
               </fieldset>
               <div>

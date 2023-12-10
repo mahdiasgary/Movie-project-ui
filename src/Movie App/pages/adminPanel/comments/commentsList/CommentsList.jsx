@@ -23,7 +23,7 @@ const CommentsList = ({ history }) => {
       },
       { refetchOnMountOrArgChange: true }
     );
-  console.log(data);
+  // console.log(data);
   return (
     <div className="min-h-screen pb-20 w-full">
       <IdontKnowName

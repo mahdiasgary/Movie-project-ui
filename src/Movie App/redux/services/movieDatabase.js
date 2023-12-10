@@ -333,10 +333,19 @@ export const movieCoreApi = createApi({
       }),
       invalidatesTags: ["Post"],
     }),
+    SubmitEditAnswerForUserComment: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/User/EditAnswerComment",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Post"],
+    }),
   }),
 });
 
 export const {
+  useSubmitEditAnswerForUserCommentMutation,
   useGetMovieForEditInAdminPanelQuery,
   useAddSeriesInAdminPanelMutation,
   useSubmitAnswerForUserCommentMutation,
