@@ -299,7 +299,7 @@ const EditMovie = ({ history }) => {
                 //     : false
                 // }
               >
-                DONE !
+                SAVE !
               </button>
               <button onClick={SubmiHandler}>55555</button>
             </div>

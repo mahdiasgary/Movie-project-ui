@@ -47,11 +47,7 @@ const AddFileItem = ({
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
 
-  // const editHandler = () => {
-  //   alert(5);
-  // };
   const editHandler = () => {
-    // setLoadingButton(true);
     props.setOpenModal(undefined);
     setState((v) => ({ ...v, loading: true }));
     const formData = new FormData();
@@ -118,7 +114,7 @@ const AddFileItem = ({
                       quality : {quality}
                     </div>
                   </div>
-                  <FaCaretDown className="text-[19px] self-center  dark:text-gray-400" />
+                  <FaCaretDown className={`${open===1 && "rotate-180"} duration-200 text-[19px] self-center  dark:text-gray-400`} />
                 </div>{" "}
               </AccordionHeader>
               <AccordionBody>
@@ -309,7 +305,7 @@ const AddFileItem = ({
               hover:file:text-screenLight
               "
             />
-            <p className="self-center md:text-[16px] text-sm ">{quality}</p>
+            <p className={`${quality==='Thriller' && 'text-btn font-semibold'} self-center md:text-[16px] text-[13px] `}>{quality}</p>
           </div>
         )}
       </div>

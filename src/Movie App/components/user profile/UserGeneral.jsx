@@ -21,28 +21,30 @@ const UserGeneral = ({
   const [selectedForChange, setSelectedForChange] = useState("r5");
 
   return (
-    <fieldset className="flex w-full dark:bg-border bg-white dark:bg-opacity-40 p-4 rounded-3xl">
+    <fieldset className="flex w-full dark:bg-border bg-white dark:bg-opacity-40   py-4 rounded-3xl">
       <legend className="hidden md:flex text-btn  mx-2 text-[18px] font-bold">
         General
       </legend>
-      <ProfileImage
-        inputs={inputs}
-        changeInput={changeInput}
-        profilePicture={profilePicture}
-        setShowCropImg={setShowCropImg}
-        setProfilePicture={setProfilePicture}
-        editHandler={editHandler}
-      />
-      <div className="hidden sm:flex">
-        <UserProfileGenral
-          editHandler={editHandler}
-          changeInput={changeInput}
-          modal={modal}
+      <div className="flex px-4 y:px-0 sm:px-5  md:px-10">
+        <ProfileImage
           inputs={inputs}
-          selectedForChange={selectedForChange}
-          setSelectedForChange={setSelectedForChange}
-          www={www}
+          changeInput={changeInput}
+          profilePicture={profilePicture}
+          setShowCropImg={setShowCropImg}
+          setProfilePicture={setProfilePicture}
+          editHandler={editHandler}
         />
+        <div className="hidden sm:flex">
+          <UserProfileGenral
+            editHandler={editHandler}
+            changeInput={changeInput}
+            modal={modal}
+            inputs={inputs}
+            selectedForChange={selectedForChange}
+            setSelectedForChange={setSelectedForChange}
+            www={www}
+          />
+        </div>
       </div>
     </fieldset>
   );

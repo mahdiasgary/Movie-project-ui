@@ -1,21 +1,18 @@
 import React, { useCallback, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
-import CommentListItem from "./CommentListItem";
-import { BsArrowDown } from "react-icons/bs"; 
-
+import BlogListItem from "./BlogListItem";
 import { withRouter } from "react-router-dom";
-import LoadingAdminListItem from "../../../../common/LoadingAdminListItem";
-import Pagenation from "../../../../common/Pagenation";
+import Pagenation from "../../../common/Pagenation";
 import { Dropdown, Tooltip } from "flowbite-react";
-import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
-import { useGetCommentListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
+import { IdontKnowName } from "../../../components/admin/IdontKnowName";
+import { useGetBlogListInAdminPanelQuery } from "../../../redux/services/movieDatabase";
 
-const CommentsList = ({ history }) => {
+const BlogList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
   const [search, setSearch] = useState("");
   const [FilterType, setFilterType] = useState("sort by");
   const { data, isFetching, isLoading, error } =
-    useGetCommentListInAdminPanelQuery(
+    useGetBlogListInAdminPanelQuery(
       {
         searchkey: search,
         page: correctPage,
@@ -23,16 +20,16 @@ const CommentsList = ({ history }) => {
       },
       { refetchOnMountOrArgChange: true }
     );
-  // console.log(data);
+  console.log(data);
   return (
     <div className="min-h-screen pb-20 w-full">
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
-        prob={[{ path: "/admin/comments", value: "Comments" }]}
+        prob={[{ path: "/admin/bloglist", value: "Blogs" }]}
       />
       <div className="flex justify-center mt-10 mb-2">
         <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
-          <div className="text-[23px] font-bold ">Comments</div>
+          <div className="text-[23px] font-bold ">Blogs</div>
           <div className="md:flex-row-reverse flex flex-col gap-2 text-sm ">
             <input
               value={search}
@@ -91,16 +88,16 @@ const CommentsList = ({ history }) => {
         </div>
       </div>
 
-      {data?.data.map((comment, index) => (
-        <CommentListItem comment={comment} key={index} />
+      {data?.data.map((blog, index) => (
+        <BlogListItem comment={blog} key={index} />
       ))}
       {(data?.data.length === 0 || !data?.data) && (
-        <div className="text-center mt-10 ">Not Found Comment :(</div>
+        <div className="text-center mt-10 ">Not Found Blog :(</div>
       )}
       <div className="flex justify-center">
         <div className="self-center min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
           <Pagenation
-            item={"comment"}
+            item={"Blog"}
             correctPage={correctPage}
             totalCount={data?.totalCount}
             setCorrectPage={setCorrectPage}
@@ -111,7 +108,7 @@ const CommentsList = ({ history }) => {
   );
 };
 
-export default withRouter(CommentsList);
+export default withRouter(BlogList);
 
 // <div className="pb-36 flex justify-center w-full">
 //         <div className="dark:bg-[#1c1d21] bg-white rounded-2xl  ">
@@ -243,7 +240,7 @@ export default withRouter(CommentsList);
 //               <tbody className="px-5 rounded-3xl">
 //                 {data &&
 //                   [...data?.data].sort(sortBy(sort)).map((user) => (
-//                     <CommentListItem
+//                     <BlogListItem
 //                       user={user}
 //                       key={user.id}
 //                       // removeUserHandler={removeUserHandler}

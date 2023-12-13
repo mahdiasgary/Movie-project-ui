@@ -27,6 +27,8 @@ import CommentsList from "./comments/commentsList/CommentsList";
 import BlogsPage from "./blogs/BlogsPage";
 import AddSeries from "./movie - Copy/addMovie/AddMovies";
 import EditMovie from "./movie/editMovie/EditMovie";
+import BlogList from "./blogs/BlogList";
+import EditBlog from "./blogs/EditBlog";
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
   const [openMenu, setOpenMenu] = useState(false);
@@ -166,6 +168,22 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <CommentsList />}
             />
+            <Route
+              path={"/admin/bloglist"}
+              exact
+              component={() => <BlogList />}
+            />
+            <Route
+              path={"/admin/editBlog"}
+              exact
+              component={() => <EditBlog />}
+            />
+            <Route
+              path={"/admin/editBlog:id"}
+              exact
+              component={() => <EditBlog />}
+            />
+
             <Route
               path={"/admin/editartist"}
               exact

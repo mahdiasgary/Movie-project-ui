@@ -15,6 +15,12 @@ export const movieCoreApi = createApi({
         credentials: "include",
       }),
     }),
+    getBlogListInAdminPanel: builder.query({
+      query: ({ searchkey, page, FilterType }) => ({
+        url: `Admin/Blog/GetList?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
+        credentials: "include",
+      }),
+    }),
     getCommentListInAdminPanel: builder.query({
       query: ({ searchkey, page, FilterType }) =>
         `Admin/User/GetUsersComments?Page=${page}&searchkey=${searchkey}&FilterType=${FilterType}`,
@@ -44,6 +50,9 @@ export const movieCoreApi = createApi({
     }),
     getUserForEditInAdminPanel: builder.query({
       query: ({ id }) => `Admin/User/GetDetailById?id=${id}`,
+    }),
+    getBlogForEditInAdminPanel: builder.query({
+      query: ({ id }) => `Admin/Blog/GetDetailById?id=${id}`,
     }),
     getArtistForEditInAdminPanel: builder.query({
       query: ({ id }) => ({
@@ -341,10 +350,61 @@ export const movieCoreApi = createApi({
       }),
       invalidatesTags: ["Post"],
     }),
+    AddGenreAdminPanel: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/Blog/Add",
+        method: "POST",
+        body: payload,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    EditGenreAdminPanel: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/Blog/Edit",
+        method: "POST",
+        body: payload,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    DeleteBlogAdminPanel: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/Blog/Delete",
+        method: "Delete",
+        params: payload,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Delete"],
+    }),
+    AddMovieToWatchListUserSide: builder.mutation({
+      query: (payload) => ({
+        url: "User/AddMovieToWatchList",
+        method: "POST",
+        body: payload,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    GetUserWatchListUserSide: builder.query({
+      query: () => ({
+        url: "User/GetUserWatchList",
+        credentials: "include",
+        method: "GET",
+      }),
+      invalidatesTags: ["Get"],
+    }),
   }),
 });
 
 export const {
+  useGetUserWatchListUserSideQuery,
+  useAddMovieToWatchListUserSideMutation,
+  useDeleteBlogAdminPanelMutation,
+  useEditGenreAdminPanelMutation,
+  useGetBlogForEditInAdminPanelQuery,
+  useGetBlogListInAdminPanelQuery,
+  useAddGenreAdminPanelMutation,
   useSubmitEditAnswerForUserCommentMutation,
   useGetMovieForEditInAdminPanelQuery,
   useAddSeriesInAdminPanelMutation,

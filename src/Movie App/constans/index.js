@@ -53,6 +53,7 @@ export const adminNormalListTd = ["id", "title", "action"];
 export const adminNormalListTh = ["ID", "TITLE", "ACTION"];
 export const adminGenreListTd = ["id", "image", "title", "action"];
 export const adminGenreListTh = ["ID", "IMAGE", "TITLE", "ACTION"];
+
 export const sidbarItem = [
   { id: 1, title: "Explore", icon: <MdOutlineExplore /> },
   { id: 2, title: "Movies", icon: <BiCameraMovie /> },

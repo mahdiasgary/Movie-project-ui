@@ -18,7 +18,11 @@ const AddBlogCover = ({ BlogCover, setBlogCover }) => {
             <div className="w-[190px] mb-5 max-h-[270px] flex flex-col ">
               <img
                 alt="not found"
-                src={URL.createObjectURL(BlogCover)}
+                src={
+                  typeof BlogCover === "string"
+                    ? "https://localhost:7175/images/" + BlogCover
+                    : URL.createObjectURL(BlogCover)
+                }
                 className="max-w-[190px] max-h-[270px] rounded-xl "
               />
               <button

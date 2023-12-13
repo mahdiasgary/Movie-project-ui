@@ -1,12 +1,15 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { IdontKnowName } from "../../../components/admin/IdontKnowName";
-
-import React, { useState } from "react";
+import { useStateContext } from "../../../contextProvider/ContextProvider";
+import React, { useEffect, useState } from "react";
 import AddGenreCover from "./AddBlogCover";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAddGenreAdminPanelMutation } from "../../../redux/services/movieDatabase";
+import {
+  useEditGenreAdminPanelMutation,
+  useGetBlogForEditInAdminPanelQuery,
+} from "../../../redux/services/movieDatabase";
 import { withRouter } from "react-router-dom";
 import AdminFromBodyInfo from "../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../common/AdminFormDoneIcon";
@@ -17,19 +20,44 @@ import { Toast } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
 import { FaEye } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import { RiTimerFill } from "react-icons/ri";
 
-const BlogsPage = ({ history }) => {
+const EditBlog = ({ history }) => {
+  let { setqw } = useStateContext();
+
   const [value, setValue] = useState("");
-
-  const [switchPreview, setswitchPreview] = useState(false);
+  const { data } = useGetBlogForEditInAdminPanelQuery(
+    { id: window.location.search.split("=")[1] },
+    { refetchOnMountOrArgChange: true }
+  );
+  const [switchPreview, setswitchPreview] = useState(true);
 
   const [blogCover, setBlogCover] = useState(null);
   const initialValues = {
     title: "",
     timeforread: "",
   };
+  const [inputs, setInputes] = useState({
+    Title: "",
+    autor: "",
+    TimeForRead: "",
+    createdAt: "",
+    labels: "",
+  });
+  useEffect(() => {
+    data &&
+      setInputes({
+        Title: data.data.tittle,
+        autor: data.data.autor,
+        TimeForRead: data.data.readingTime,
+        createdAt: data.data.createdAt,
+        labels: data.data.labels,
+      });
+    setValue(data?.data.description);
+    setBlogCover(data?.data.image);
+  }, [data]);
   const [loadingButton, setLoadingButton] = useState(false);
-  const [addNewBlog] = useAddGenreAdminPanelMutation();
+  const [editBlog] = useEditGenreAdminPanelMutation();
   const validationSchema = Yup.object({
     title: Yup.string().required("title is requried"),
     timeforread: Yup.string().required("time is requried"),
@@ -43,44 +71,25 @@ const BlogsPage = ({ history }) => {
   const SubmitHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
-    formData.append("Tittle", Formik.values.title);
+    formData.append("Id", data.data.id);
+    formData.append("Tittle", inputs.Title);
     formData.append("Image", blogCover);
     formData.append("Description", value);
     formData.append("Labels", "mahdi asgary");
-    formData.append("ReadingTime", Formik.values.timeforread);
+    formData.append("ReadingTime", inputs.TimeForRead);
 
-    addNewBlog(formData)
+    editBlog(formData)
       .unwrap()
       .then((r) => {
-        console.log(r);
+        setqw(Math.random());
         setLoadingButton(false);
-        // toast.success(`${Formik.values.title} add to Genres `, {
-        //   autoClose: 1100,
-        //   position: "top-right",
-        // });
-        toast.success(`${Formik.values.title} add to Blogs `, {
-          // position: "top-center",
+        toast.success(`Edit successfully`, {
           style: {
             borderRadius: "10px",
             background: "#333",
             color: "#fff",
           },
         });
-        // toast.custom(
-        //   <div>
-        //     <Toast>
-        //       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-        //         <HiCheck className="h-5 w-5" />
-        //       </div>
-        //       <div className="ml-3 text-sm font-normal">
-        //         {Formik.values.title} add to Genres{" "}
-        //       </div>
-        //       <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
-        //     </Toast>
-        //   </div>,
-        //   { }
-        // );
-        // history.push("genreslist");
       })
       .then((error) => {
         console.log(error);
@@ -90,7 +99,10 @@ const BlogsPage = ({ history }) => {
     <div>
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
-        prob={[{ path: "/admin/addblog", value: "Add blog" }]}
+        prob={[
+          { path: "/admin/bloglist", value: "Blogs" },
+          { path: "#", value: "Edit" },
+        ]}
       />
       <div className=" my-10  mx-6 sm:mx-10 min-h-screen pb-36 md:mx-28">
         <div className="text-[23px]  justify-between flex font-bold mt-10 mb-6 ">
@@ -136,8 +148,11 @@ const BlogsPage = ({ history }) => {
                     <div className="">
                       <div className="min-w-[200px] mt-4 md:mt-8 mx-3 ">
                         <AdminAddItemList
+                          inputs={inputs}
+                          changeInput={setInputes}
                           Formik={Formik}
                           itemList={adminAddOthersListItems}
+                          from={"edit"}
                         />
                       </div>
                     </div>
@@ -226,6 +241,7 @@ const BlogsPage = ({ history }) => {
                   </button>
                 )}
               </div>
+              <p onClick={SubmitHandler}>5555555</p>
             </div>
           </section>
         ) : (
@@ -233,30 +249,42 @@ const BlogsPage = ({ history }) => {
             <div>
               <img
                 alt="not found"
-                src={blogCover && URL.createObjectURL(blogCover)}
+                src={
+                  typeof blogCover === "string"
+                    ? "https://localhost:7175/images/" + blogCover
+                    : blogCover
+                    ? URL.createObjectURL(blogCover)
+                    : ""
+                }
                 className="w-full rounded-xl "
               />
               <div className="flex justify-between mt-8">
-                <p className="text-[23px] font-semibold">
-                  {Formik.values.title}
+                <p className="text-gray-500 flex self-center  text-sm">
+                  {/* <RiTimerFill className="text-[18px]   self-center" />{" "} */}
+                  {inputs.createdAt?.split("T")[0]}
                 </p>
-                <p className="self-center"> 3 minites</p>
+                <p className="text-gray-500 flex self-center  text-sm">
+                  <RiTimerFill className="text-[18px]   self-center" />{" "}
+                  {inputs.TimeForRead} min
+                </p>
               </div>
             </div>
+            <p className="text-[23px]  mt-4 font-semibold">{inputs?.Title}</p>
             <div className="font-">
               <div
                 className="mt-10"
                 dangerouslySetInnerHTML={{
-                  __html: value
-                    .replace("ql-font-monospace", "font-mono")
-                    .replace("ql-size-large", "text-[18px]")
-                    .replace("ql-size-huge", "text-[25px]")
-                    .replace("<ul>", " <ul class='list-disc'	/>")
-                    .replace("<ol>", " <ul class='list-decimal'	/>")
-                    .replace("</ol>", "</ul>")
-                    .replace("ql-align-center", "text-center")
-                    .replace("ql-align-right", "text-end"),
-                  // .replace("ql-align-center", "text-center"),
+                  __html:
+                    value &&
+                    value
+                      .replace("ql-font-monospace", "font-mono")
+                      .replace("ql-size-large", "text-[18px]")
+                      .replace("ql-size-huge", "text-[25px]")
+                      .replace("<ul>", " <ul class='list-disc pl-8'	/>")
+                      .replace("<ol>", " <ul class='list-decimal pl-8'	/>")
+                      .replace("</ol>", "</ul>")
+                      .replace("ql-align-center", "text-center")
+                      .replace("ql-align-right", "text-end"),
                 }}
               ></div>
             </div>
@@ -267,4 +295,4 @@ const BlogsPage = ({ history }) => {
   );
 };
 
-export default withRouter(BlogsPage);
+export default withRouter(EditBlog);

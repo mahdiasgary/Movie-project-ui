@@ -8,6 +8,7 @@ const UplaodBox = ({
   initialInputs,
 }) => {
   const qualities = [
+    "Thriller",
     "WEB-DL 1080p",
     "WEB-DL 720p",
     "WEB-DL 720p x265 10bit",
