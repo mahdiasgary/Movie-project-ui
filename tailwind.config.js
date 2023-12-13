@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   darkMode: "class",
   theme: {
     extend: {
@@ -49,7 +52,7 @@ module.exports = {
   //   extend: {},
   // },
   plugins: [require("tailwind-scrollbar")],
-};
+});
 // --primaryColor: #6d28d9;
 // --secondaryColor: #ede9fe;
 // --mainWhite: #fff;border:"#2f2f3c"

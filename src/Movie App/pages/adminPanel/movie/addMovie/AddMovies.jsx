@@ -136,8 +136,10 @@ const AddMovies = ({ history }) => {
     };
     axios
       .post("https://localhost:7175/Admin/Movie/Add", formData, options)
-      .then((res) => {
-        // setLoadingButton(false);
+      .then((r) => {
+        console.log(r);
+        setqw(Math.random());
+
       });
 
     // addNewMovie(formData)

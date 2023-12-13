@@ -356,13 +356,13 @@ export const trendingItem = [
 ];
 
 export const adminAddMovieListItems = [
-  ["Title", "Imdb"],
-  ["Artist", "Year", "Genre"],
-  ["Language", "Time", "Country"],
+  ["Title", "Imdb", "Time"],
+  ["Artist", "Genre"],
+  ["Language", "Country"],
   ["Created Date", "Released Date"],
   ["Summary"],
 ];
-export const adminAddOthersListItems = [["Title"],["TimeForRead"]];
+export const adminAddOthersListItems = [["Title"], ["TimeForRead"]];
 export const adminAddArtistListItems = [
   ["Name"],
   ["Date Birth"],

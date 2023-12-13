@@ -3,17 +3,15 @@ import { BiLinkAlt } from "react-icons/bi";
 import AddMoveImage from "../addMovie/AddMovieImage";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  useAddMovieInAdminPanelMutation,
-  useGetGenreListInAdminPanelQuery,
-  useGetMovieForEditInAdminPanelQuery,
-} from "../../../../redux/services/movieDatabase";
+
 import UplaodBox from "../addMovie/UplaodBox";
 import {
   useGetArtistSelectListInAdminPanelQuery,
   useGetCountrySelectListInAdminPanelQuery,
   useGetGenreSelectListInAdminPanelQuery,
   useGetLanguageSelectListInAdminPanelQuery,
+  useGetMovieForEditInAdminPanelQuery,
+  useAddMovieInAdminPanelMutation,
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
@@ -29,8 +27,15 @@ const EditMovie = ({ history }) => {
   const movieFiles = movieFiless?.filter(
     ({ quality }, index) => !ids.includes(quality, index + 1)
   );
-  const { data } = useGetMovieForEditInAdminPanelQuery({ id: 1210 });
+  const { data } = useGetMovieForEditInAdminPanelQuery(
+    { id: window.location.search.split("=")[1] },
+    { refetchOnMountOrArgChange: true }
+  );
+  const [initialInputs, setInitialInputs] = useState({ files: [] });
   console.log(data);
+  useEffect(() => {
+    data && setInitialInputs((v) => ({ files: data.data.files }));
+  }, [data]);
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
   const [state, setState] = useState(false);
@@ -91,6 +96,40 @@ const EditMovie = ({ history }) => {
     artist: [],
   });
   const [qw, we] = useState(70);
+  // console.log(
+  //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
+  // );
+  const [inputs, setInputs] = useState({
+    Title: data?.data.title,
+    Imdb: data?.data.imdb,
+    year: "7",
+    Time: data?.data.time,
+    summary: data?.data.summary,
+  });
+  useEffect(() => {
+    setInputs({
+      Title: data?.data.title,
+      Imdb: data?.data.imdb,
+      year: "7",
+      Time: data?.data.time,
+      summary: data?.data.summary,
+    });
+    setDate({
+      CreatedDate: data?.data.createdDate?.split("T")[0],
+      ReleasedDate: data?.data.releasedDate?.split("T")[0],
+    });
+    setSelectedOptionss({
+      artist: data?.data.artists,
+      country: data?.data.country,
+      genre: data?.data.genre,
+      language: data?.data.languages,
+    });
+    setMovieCover(data?.data.cover);
+    setMovieBackground(data?.data.image);
+    // setArtistImage(data?.data.image);
+    // setArtistImageIni(data?.data.image);
+  }, [data]);
+  console.log(typeof movieCover === "string");
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
@@ -128,11 +167,9 @@ const EditMovie = ({ history }) => {
         we(precentage);
       },
     };
-    const config = {
-      onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
-    };
+
     axios
-      .post("https://localhost:7175/Admin/Movie/Add", formData, options)
+      .post("https://localhost:7175/Admin/Movie/Edit", formData, options)
       .then((res) => {
         // setLoadingButton(false);
       });
@@ -148,37 +185,7 @@ const EditMovie = ({ history }) => {
     //   })
     //   .then((error) => {}); movieFiles.length!==0 &&
   };
-  // console.log(
-  //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
-  // );
-  const [inputs, setInputs] = useState({
-    Title: data?.data.title,
-    Imdb: data?.data.imdb,
-    year: "7",
-    Time: data?.data.time,
-    summary: data?.data.summary,
-  });
-  useEffect(() => {
-    setInputs({
-      Title: data?.data.title,
-      Imdb: data?.data.imdb,
-      year: "7",
-      Time: data?.data.time,
-      summary: data?.data.summary,
-    });
-    setDate({
-      CreatedDate: data?.data.createdDate.split("T")[0],
-      ReleasedDate: data?.data.releasedDate.split("T")[0],
-    });
-    setSelectedOptionss({
-      artist: data?.data.artists,
-      country: data?.data.country,
-      genre: data?.data.genre,
-      language: data?.data.languages,
-    });
-    // setArtistImage(data?.data.image);
-    // setArtistImageIni(data?.data.image);
-  }, [data]);
+
   return (
     <div>
       <IdontKnowName
@@ -262,6 +269,7 @@ const EditMovie = ({ history }) => {
                     movieFiles={movieFiles}
                     loadingButton={loadingButton}
                     qw={qw}
+                    initialInputs={initialInputs}
                   />
                 </li>
                 <li className="ml-6 ">

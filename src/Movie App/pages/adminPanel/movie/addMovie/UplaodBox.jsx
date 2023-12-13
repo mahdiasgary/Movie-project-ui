@@ -1,6 +1,12 @@
 import React from "react";
-import AddFileItem from './AddFileItem'
-const UplaodBox = ({setMovieFiles,movieFiles,loadingButton,qw}) => {
+import AddFileItem from "./AddFileItem";
+const UplaodBox = ({
+  setMovieFiles,
+  movieFiles,
+  loadingButton,
+  qw,
+  initialInputs,
+}) => {
   const qualities = [
     "WEB-DL 1080p",
     "WEB-DL 720p",
@@ -14,7 +20,15 @@ const UplaodBox = ({setMovieFiles,movieFiles,loadingButton,qw}) => {
       <p className="pt-3">Uplaode Box</p>
       <div className="my-3">
         {qualities.map((quality, index) => (
-          <AddFileItem key={index} loadingButton={loadingButton} qw={qw} quality={quality} setMovieFiles={setMovieFiles} movieFiles={movieFiles}/>
+          <AddFileItem
+            key={index}
+            loadingButton={loadingButton}
+            qw={qw}
+            quality={quality}
+            setMovieFiles={setMovieFiles}
+            movieFiles={movieFiles}
+            initialInputs={initialInputs}
+          />
         ))}
       </div>
     </div>

@@ -112,7 +112,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
     }
     if (states.alertTitle === "answer" && states.from === "edit") {
       const formDate = new FormData();
-      formDate.append("CommentId", comment.id);
+      formDate.append("CommentId", comment.answer.id);
       formDate.append("Text", states.replyText);
       editAnswer(formDate)
         .unwrap()
@@ -124,6 +124,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         .catch();
     }
   };
+  console.log(states)
   const date1 = new Date(comment.createdAt.split("T")[0]);
   const date2 = new Date();
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
@@ -315,7 +316,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                 <button
                   onClick={() => {
                     props.setOpenModal("pop-up");
-                    setState((v) => ({ ...v, alertTitle: "Approve" }));
+                    setState((v) => ({ ...v, alertTitle: "answer" }));
                   }}
                   className="bg-btn duration-200 hover:bg-blue-800 text-white h-9 t px-4 self-center mr-2 rounded-lg"
                 >

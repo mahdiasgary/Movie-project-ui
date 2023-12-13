@@ -19,7 +19,7 @@ export const ContextProvider = ({ children }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  console.log(data)
+  // console.log(data)
   // let loginStatus=data
   const [loginStatus, setloginStatus] = useState();
   const [login, setlogin] = useState(0);

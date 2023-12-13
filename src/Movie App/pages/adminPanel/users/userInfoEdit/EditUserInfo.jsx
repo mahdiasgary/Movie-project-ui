@@ -51,7 +51,7 @@ const EditUserInfo = () => {
     }
     return new File([u8arr], filename, { type: "image/png" });
   }
-
+ 
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
 

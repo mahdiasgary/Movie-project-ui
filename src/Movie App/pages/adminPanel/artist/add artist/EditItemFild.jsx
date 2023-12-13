@@ -2,7 +2,7 @@ import React from "react";
 import { AiFillEdit } from "react-icons/ai";
 
 const EditItemField = ({ changeInput, inputs, item }) => {
-  console.log(inputs);
+  // console.log(inputs);
   return (
     <div className="w-full">
       <div className={` w-full`}>

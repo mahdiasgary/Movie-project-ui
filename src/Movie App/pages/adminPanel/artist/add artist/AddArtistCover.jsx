@@ -10,7 +10,6 @@ const AddArtistCover = ({
   editProccss,
   artistImageIni,
 }) => {
-  console.log(artistImage);
   return (
     <li className=" ml-6 flex flex-col">
       <div className="flex">

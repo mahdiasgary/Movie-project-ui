@@ -9,7 +9,7 @@ const AddMoveImage = ({
   setMovieCover,
   movieBackground,
   setMovieBackground,
-  image
+  image,
 }) => {
   return (
     <li className="mb-7 ml-6 flex flex-col">
@@ -26,7 +26,11 @@ const AddMoveImage = ({
               {editProccss ? (
                 <img
                   alt="not found"
-                  src={"https://localhost:7175/images/" + movieCover}
+                  src={
+                    typeof movieCover === "string"
+                      ? "https://localhost:7175/images/" + movieCover
+                      : URL.createObjectURL(movieCover)
+                  }
                   className="max-w-[190px] max-h-[270px] rounded-xl "
                 />
               ) : (
@@ -56,19 +60,25 @@ const AddMoveImage = ({
           ) : (
             <div className="text-center overflow-hidden">
               <DragDropImage setImage={setMovieCover} content={"cover"} />
-              <p className="text-btn mt-3 font-semibold pr-1">Upload Movies Cover</p>
+              <p className="text-btn mt-3 font-semibold pr-1">
+                Upload Movies Cover
+              </p>
             </div>
           )}
 
           {movieBackground ? (
-            <div className="w-[190px] mt-0 md:mt-0 h-[270px] flex flex-col ">
+            <div className="w-[190px] mt-0 md:mt-0 max-h-[270px] flex flex-col ">
               {editProccss ? (
                 <img
-                alt="not found"
-                src={"https://localhost:7175/images/" + image}
-                className="max-w-[190px] max-h-[270px] rounded-xl "
+                  alt="not found"
+                  src={
+                    typeof movieBackground === "string"
+                      ? "https://localhost:7175/images/" + movieBackground
+                      : URL.createObjectURL(movieBackground)
+                  }
+                  className="max-w-[190px] max-h-[270px] rounded-xl "
                 />
-                ) : (
+              ) : (
                 <img
                   alt="not found"
                   src={URL.createObjectURL(movieBackground)}
