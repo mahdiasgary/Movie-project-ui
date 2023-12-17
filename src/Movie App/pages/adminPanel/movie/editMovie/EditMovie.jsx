@@ -20,6 +20,7 @@ import AdminAddItemList from "../../../../common/adminPanel/AdminAddItemList";
 import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
+import { useStateContext } from "../../../../contextProvider/ContextProvider";
 const EditMovie = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -31,10 +32,21 @@ const EditMovie = ({ history }) => {
     { id: window.location.search.split("=")[1] },
     { refetchOnMountOrArgChange: true }
   );
-  const [initialInputs, setInitialInputs] = useState({ files: [] });
-  console.log(data);
+  const [initialInputs, setInitialInputs] = useState({
+    files: [],
+    id: "",
+    Trailer: "",
+  });
+  // console.log(data);
+
+  // console.log(movieFiles);
   useEffect(() => {
-    data && setInitialInputs((v) => ({ files: data.data.files }));
+    data &&
+      setInitialInputs((v) => ({
+        files: data.data.files,
+        id: data.data.id,
+        Trailer: data.data.trailer,
+      }));
   }, [data]);
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
@@ -51,6 +63,7 @@ const EditMovie = ({ history }) => {
   const artistQuery = useGetArtistSelectListInAdminPanelQuery({
     refetchOnMountOrArgChange: true,
   });
+  let { setqw } = useStateContext();
 
   const initialValues = {
     title: "qw",
@@ -95,7 +108,7 @@ const EditMovie = ({ history }) => {
     country: [],
     artist: [],
   });
-  const [qw, we] = useState(70);
+  const [qw, we] = useState(0);
   // console.log(
   //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
   // );
@@ -109,10 +122,11 @@ const EditMovie = ({ history }) => {
   useEffect(() => {
     setInputs({
       Title: data?.data.title,
-      Imdb: data?.data.imdb,
+      Imdb: data?.data.imdbRate,
       year: "7",
       Time: data?.data.time,
       summary: data?.data.summary,
+      id: data?.data.id,
     });
     setDate({
       CreatedDate: data?.data.createdDate?.split("T")[0],
@@ -129,14 +143,16 @@ const EditMovie = ({ history }) => {
     // setArtistImage(data?.data.image);
     // setArtistImageIni(data?.data.image);
   }, [data]);
-  console.log(typeof movieCover === "string");
+  // console.log(typeof movieCover === "string");
   const SubmiHandler = () => {
     setLoadingButton(true);
+    console.log(5)
     const formData = new FormData();
-    formData.append("title", Formik.values.title);
-    formData.append("imdb", Formik.values.imdb);
-    formData.append("Summary", Formik.values.summary);
-    formData.append("time", Formik.values.time);
+    formData.append("id", inputs.id);
+    formData.append("title", inputs.Title);
+    formData.append("imdbRate", inputs.Imdb);
+    formData.append("Summary", inputs.summary);
+    formData.append("time", inputs.Time);
     formData.append("cover", movieCover);
     formData.append("image", movieBackground);
     formData.append("releasedDate", date.ReleasedDate);
@@ -153,13 +169,12 @@ const EditMovie = ({ history }) => {
     for (let i = 0; i < selectedOptions.genre.length; i++) {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
+    // movieFiles.find((m) => m.quality === "Trailer") &&
+    //   formData.append(
+    //     "Trailer",
+    //     movieFiles[movieFiles.findIndex((m) => m.quality === "Trailer")].file
+    //   );
 
-    for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].Quality`, movieFiles[i].quality);
-    }
-    for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].File`, movieFiles[i].file);
-    }
     const options = {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
@@ -171,19 +186,10 @@ const EditMovie = ({ history }) => {
     axios
       .post("https://localhost:7175/Admin/Movie/Edit", formData, options)
       .then((res) => {
-        // setLoadingButton(false);
+        setLoadingButton(false);
+        setqw(Math.random());
+        console.log(res);
       });
-
-    // addNewMovie(formData)
-    //   .unwrap()
-    //   .then((r) => {
-    //     // toast.success(`${Formik.values.title} add to Movies `, {
-    //     //   autoClose: 1100,
-    //     //   position: "top-right",
-    //     // });
-    //     // setTimeout(() => history.push("movieslist"), 800);
-    //   })
-    //   .then((error) => {}); movieFiles.length!==0 &&
   };
 
   return (
@@ -270,6 +276,9 @@ const EditMovie = ({ history }) => {
                     loadingButton={loadingButton}
                     qw={qw}
                     initialInputs={initialInputs}
+                    from={"edit"}
+                    selectedOptions={selectedOptions}
+
                   />
                 </li>
                 <li className="ml-6 ">

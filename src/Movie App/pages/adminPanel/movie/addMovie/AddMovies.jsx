@@ -19,13 +19,13 @@ import {
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
-import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import AdminAddItemList from "../../../../common/adminPanel/AdminAddItemList";
 import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import { Progress } from "flowbite-react";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
+import toast from "react-hot-toast";
 const AddMovies = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -97,14 +97,14 @@ const AddMovies = ({ history }) => {
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
-    formData.append("title", Formik.values.title);
-    formData.append("imdb", Formik.values.imdb);
+    formData.append("Title", Formik.values.title);
+    formData.append("ImdbRate", Formik.values.imdb);
     formData.append("Summary", Formik.values.summary);
-    formData.append("time", Formik.values.time);
-    formData.append("cover", movieCover);
-    formData.append("image", movieBackground);
-    formData.append("releasedDate", date.ReleasedDate);
-    formData.append("createdDate", date.CreatedDate);
+    formData.append("Time", Formik.values.time);
+    formData.append("Cover", movieCover);
+    formData.append("Image", movieBackground);
+    formData.append("ReleasedDate", date.ReleasedDate);
+    formData.append("CreatedDate", date.CreatedDate);
     for (let i = 0; i < selectedOptions.artist.length; i++) {
       formData.append("SelectedArtistsIds", selectedOptions.artist[i].id);
     }
@@ -117,12 +117,18 @@ const AddMovies = ({ history }) => {
     for (let i = 0; i < selectedOptions.genre.length; i++) {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
+    formData.append(
+      "Trailer",
+      movieFiles[movieFiles.findIndex((m) => m.quality === "Trailer")].file
+    );
 
     for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].Quality`, movieFiles[i].quality);
+      movieFiles.find((m) => m.quality !== "Trailer") &&
+        formData.append(`Files[${i}].Quality`, movieFiles[i].quality);
     }
     for (let i = 0; i < movieFiles.length; i++) {
-      formData.append(`Files[${i}].File`, movieFiles[i].file);
+      movieFiles.find((m) => m.quality !== "Trailer") &&
+        formData.append(`Files[${i}].File`, movieFiles[i].file);
     }
     const options = {
       onUploadProgress: (progressEvent) => {
@@ -138,24 +144,26 @@ const AddMovies = ({ history }) => {
       .post("https://localhost:7175/Admin/Movie/Add", formData, options)
       .then((r) => {
         console.log(r);
-        setqw(Math.random());
-
+        // setqw(Math.random());
+        if (r.data.isSuccessFull) {
+          toast.success(`${Formik.values.title} add to Movies `, {
+            autoClose: 1100,
+            position: "top-right",
+          });
+          setTimeout(() => history.push("movieslist"), 800);
+        }
       });
 
     // addNewMovie(formData)
     //   .unwrap()
     //   .then((r) => {
-    //     // toast.success(`${Formik.values.title} add to Movies `, {
-    //     //   autoClose: 1100,
-    //     //   position: "top-right",
-    //     // });
-    //     // setTimeout(() => history.push("movieslist"), 800);
     //   })
     //   .then((error) => {}); movieFiles.length!==0 &&
   };
   // console.log(
   //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
   // );
+  // console.log(movieFiles);
   return (
     <div>
       <IdontKnowName
@@ -238,6 +246,7 @@ const AddMovies = ({ history }) => {
                     movieFiles={movieFiles}
                     loadingButton={loadingButton}
                     qw={qw}
+                    from={"add"}
                   />
                 </li>
                 <li className="ml-6 ">

@@ -3,8 +3,8 @@ import Chart from "react-apexcharts";
 import { BiSolidMoviePlay } from "react-icons/bi";
 import { MdMovieFilter } from "react-icons/md";
 
-const MovieChart = ({data}) => {
-  const queryData =data?.data?.data
+const MovieChart = ({ data }) => {
+  const queryData = data?.data?.data;
 
   let state = {
     series: [
@@ -13,7 +13,7 @@ const MovieChart = ({data}) => {
         // color: "#ffffff",
 
         // data: data?.data?.charts,
-        data:queryData?.movieChart
+        data: queryData?.movieChart,
       },
       {
         name: "series",
@@ -115,7 +115,7 @@ const MovieChart = ({data}) => {
       colors: ["#1e74f1"],
     },
   };
-  
+
   return (
     <div>
       <Chart
@@ -126,26 +126,46 @@ const MovieChart = ({data}) => {
         // width={"100%"}
         height={"81%"}
       />
-      <div className="flex sm:flex-row xl:flex-row lg:hidden xl:flex flex-col gap-4">
-        <div className=" bg-white dark:bg-opacity-70 dark:bg-gray-800  text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
-          <div className="min-w-[110px]">
-          <BiSolidMoviePlay className="text-[39px] text-btn" />
+      <div className="flex md:flex-row w-full xl:flex-row lg:hidden xl:flex flex-col gap-4">
+        <div className=" bg-white w-full dark:bg-opacity-70 dark:bg-gray-800  text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
+          <div className="min-w-[90px]">
+            <BiSolidMoviePlay className="text-[39px] text-btn" />
             <div className="text-[25px] font-extrabold">25</div>
             <div className="font-semibold">Download Count</div>
           </div>
-          <div className="items-center flex flex-col justify-center">
+          <div className="w-full flex flex-col justify-center">
             <Chart
               // class="w-[150px]"
               options={spark1.options}
               series={spark1.series}
               // type="line"
-              // width={"100%"}
+              width={"100%"}
               height={"40%"}
               // width={"50%"}
             />
+            <span className="self-center"></span>
           </div>
         </div>
-        <div className=" bg-white  dark:bg-gray-800 dark:bg-opacity-70 text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
+        <div className=" bg-white w-full dark:bg-opacity-70 dark:bg-gray-800  text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
+          <div className="min-w-[90px]">
+            <BiSolidMoviePlay className="text-[39px] text-btn" />
+            <div className="text-[25px] font-extrabold">25</div>
+            <div className="font-semibold">Download Count</div>
+          </div>
+          <div className="w-full  flex flex-col justify-center">
+            <Chart
+              // class="w-[150px]"
+              options={spark1.options}
+              series={spark1.series}
+              // type="line"
+              width={"100%"}
+              height={"40%"}
+              // width={"50%"}
+            />
+            <span className="self-center"></span>
+          </div>
+        </div>
+        {/* <div className=" bg-white  dark:bg-gray-800 dark:bg-opacity-70 text- p-3 pl-5 rounded-3xl min-w-[270px] flex">
           <div className="min-w-[110px]">
             <BiSolidMoviePlay className="text-[39px] text-btn" />
             <div className="text-[25px] font-extrabold">25</div>
@@ -162,7 +182,7 @@ const MovieChart = ({data}) => {
               // width={"50%"}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

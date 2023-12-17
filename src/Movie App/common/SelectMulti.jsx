@@ -50,6 +50,8 @@ const SelectMulti = ({
         title === "Imdb"
           ? "text-yellow-400"
           : " text-screenDark dark:text-screenLight"
+      } ${
+        inputs.showModal && "border-2 border-btn"
       } relative flex-col justify-center border border-[#787f98] w-full   my-1 px-3 rounded-lg  min-h-[69px] `}
     >
       <legend className={`px-1 text-sm y9:text-[16px] text-btn  text-[17px]`}>
@@ -113,7 +115,7 @@ const SelectMulti = ({
               ? "-bottom-[222px]"
               : filteredOption?.length === 2
               ? "-bottom-[175px]"
-              : "-bottom-[285px]"
+              : "-bottom-[270px]"
           } bg-white right-0 absolute shadow-xl  max-h-[270px] pb-3 px-1  dark:bg-border  rounded-xl  w-full z-[20]`}
         >
           <input

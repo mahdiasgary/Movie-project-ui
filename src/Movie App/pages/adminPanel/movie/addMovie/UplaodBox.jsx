@@ -1,14 +1,18 @@
 import React from "react";
 import AddFileItem from "./AddFileItem";
+import AddOrEditTrailer from "./AddOrEditTrailer";
+import EditFileItem from "./EditItem";
 const UplaodBox = ({
   setMovieFiles,
   movieFiles,
   loadingButton,
   qw,
   initialInputs,
+  from,
+  selectedOptions,
 }) => {
   const qualities = [
-    "Thriller",
+    "Trailer",
     "WEB-DL 1080p",
     "WEB-DL 720p",
     "WEB-DL 720p x265 10bit",
@@ -20,17 +24,43 @@ const UplaodBox = ({
     >
       <p className="pt-3">Uplaode Box</p>
       <div className="my-3">
-        {qualities.map((quality, index) => (
-          <AddFileItem
-            key={index}
-            loadingButton={loadingButton}
-            qw={qw}
-            quality={quality}
-            setMovieFiles={setMovieFiles}
-            movieFiles={movieFiles}
-            initialInputs={initialInputs}
-          />
-        ))}
+        {qualities.map((quality, index) =>
+          from === "add" ? (
+            <AddFileItem
+              key={index}
+              loadingButton={loadingButton}
+              qw={qw}
+              quality={quality}
+              setMovieFiles={setMovieFiles}
+              movieFiles={movieFiles}
+              initialInputs={initialInputs}
+              from={from}
+            />
+          ) : quality === "Trailer" ? (
+            <AddOrEditTrailer
+              key={index}
+              loadingButton={loadingButton}
+              qw={qw}
+              quality={quality}
+              setMovieFiles={setMovieFiles}
+              movieFiles={movieFiles}
+              initialInputs={initialInputs}
+              from={from}
+              selectedOptions={selectedOptions}
+            />
+          ) : (
+            <EditFileItem
+              key={index}
+              loadingButton={loadingButton}
+              qw={qw}
+              quality={quality}
+              setMovieFiles={setMovieFiles}
+              movieFiles={movieFiles}
+              initialInputs={initialInputs}
+              from={from}
+            />
+          )
+        )}
       </div>
     </div>
   );
