@@ -42,7 +42,7 @@ const AdminListItems = ({ dataQuery, thAndTdAdminList, from, editHandler }) => {
                     ? "w-[10%]"
                     : th === "NAME" ||
                       th === "BIRTH DATE" ||
-                      th === " CREATED DATE" ||
+                      th === "CREATED DATE" ||
                       th === "RELEASED DATE"
                     ? "w-[20%]  "
                     : "w-[10%}"
@@ -54,10 +54,10 @@ const AdminListItems = ({ dataQuery, thAndTdAdminList, from, editHandler }) => {
                       th === "NAME" ||
                       th === "TITLE" ||
                       th === "TIME" ||
-                      th === "BIRTHDATE") &&
+                      th === "BIRTH DATE") &&
                     setsort([
                       th,
-                      th === "ID" || th === "TIME" || th === "BIRTHDATE"
+                      th === "ID" || th === "TIME" || th === "BIRTH DATE"
                         ? !sort[1]
                         : false,
                       th === "NAME" || th === "TITLE" ? !sort[2] : false,
@@ -76,7 +76,7 @@ const AdminListItems = ({ dataQuery, thAndTdAdminList, from, editHandler }) => {
                     th === "NAME" ||
                     th === "TITLE" ||
                     th === "TIME" ||
-                    th === "BIRTHDATE") && (
+                    th === "BIRTH DATE") && (
                     <div
                       className={`self-center  cursor-pointer ${
                         sort[0] === th ? "text-white" : "text-gray-300"

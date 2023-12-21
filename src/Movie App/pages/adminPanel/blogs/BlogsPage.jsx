@@ -11,7 +11,7 @@ import { withRouter } from "react-router-dom";
 import AdminFromBodyInfo from "../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../common/AdminFormDoneIcon";
 import AdminAddItemList from "../../../common/adminPanel/AdminAddItemList";
-import { adminAddOthersListItems } from "../../../constans";
+import { adminAddBlogListItems } from "../../../constans";
 import { toast } from "react-hot-toast";
 import { Toast } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
@@ -54,33 +54,15 @@ const BlogsPage = ({ history }) => {
       .then((r) => {
         console.log(r);
         setLoadingButton(false);
-        // toast.success(`${Formik.values.title} add to Genres `, {
-        //   autoClose: 1100,
-        //   position: "top-right",
-        // });
+        setTimeout(() => history.push("bloglist"), 300);
+
         toast.success(`${Formik.values.title} add to Blogs `, {
-          // position: "top-center",
           style: {
             borderRadius: "10px",
             background: "#333",
             color: "#fff",
           },
         });
-        // toast.custom(
-        //   <div>
-        //     <Toast>
-        //       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-        //         <HiCheck className="h-5 w-5" />
-        //       </div>
-        //       <div className="ml-3 text-sm font-normal">
-        //         {Formik.values.title} add to Genres{" "}
-        //       </div>
-        //       <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
-        //     </Toast>
-        //   </div>,
-        //   { }
-        // );
-        // history.push("genreslist");
       })
       .then((error) => {
         console.log(error);
@@ -137,19 +119,23 @@ const BlogsPage = ({ history }) => {
                       <div className="min-w-[200px] mt-4 md:mt-8 mx-3 ">
                         <AdminAddItemList
                           Formik={Formik}
-                          itemList={adminAddOthersListItems}
+                          itemList={adminAddBlogListItems}
                         />
                       </div>
                     </div>
-                    <div className="flex justify-center pt-8 mx-3">
-                      <div className=" min-w-[200px] w-full  dark:bg-[#1c1d21] dark:bg-opacity-50 bg-white border-0 rounded-2xl">
+                    <div className=" flex justify-center pt-8 mx-3">
+                      <div className="fa min-w-[200px] min-h-[700px] w-full   dark:bg-[#1c1d21] dark:bg-opacity-50 bg-white border-0 rounded-2xl">
                         <ReactQuill
-                          style={{ border: "none" }}
+                          style={{ border: "none", "font-family": "Vazirmatn" }}
                           className="border-0 "
                           theme="snow"
                           modules={{
                             toolbar: [
-                              [{ header: "1" }, { header: "2" }, { font: [] }],
+                              [
+                                { header: "1" },
+                                { header: "2" },
+                                { font: [] },
+                              ],
                               [
                                 { align: "" },
                                 { align: "center" },
@@ -229,7 +215,7 @@ const BlogsPage = ({ history }) => {
             </div>
           </section>
         ) : (
-          <div className="mt-20">
+          <div className="fa mt-20">
             <div>
               <img
                 alt="not found"
@@ -240,21 +226,24 @@ const BlogsPage = ({ history }) => {
                 <p className="text-[23px] font-semibold">
                   {Formik.values.title}
                 </p>
-                <p className="self-center"> 3 minites</p>
+                <p className="self-center">
+                  {" "}
+                  {Formik.values.timeforread} minites
+                </p>
               </div>
             </div>
-            <div className="font-">
+            <div className="font- ">
               <div
-                className="mt-10"
+                className="mt-10 fa"
                 dangerouslySetInnerHTML={{
                   __html: value
-                    .replace("ql-font-monospace", "font-mono")
+                    .replace("ql-font-monospace", " font-mono")
                     .replace("ql-size-large", "text-[18px]")
                     .replace("ql-size-huge", "text-[25px]")
                     .replace("<ul>", " <ul class='list-disc'	/>")
                     .replace("<ol>", " <ul class='list-decimal'	/>")
                     .replace("</ol>", "</ul>")
-                    .replace("ql-align-center", "text-center")
+                    .replace("ql-align-center", "fa text-center")
                     .replace("ql-align-right", "text-end"),
                   // .replace("ql-align-center", "text-center"),
                 }}

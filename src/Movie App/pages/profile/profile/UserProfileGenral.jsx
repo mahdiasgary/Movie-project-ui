@@ -7,13 +7,12 @@ const UserProfileGenral = ({
   www,
   changeInput,
   inputs,
-  editHandler,modal
+  editHandler,
+  modal,
 }) => {
-  let userListItem = ["name", "email"];
-  // console.log(inputs[userListItem[1]]);
+  let userListItem = ["name", "email", "mobile"];
   return (
     <div className="flex w-full flex-col self-center   ">
-      {/* <h1 className="text-xl font-semibold md:hidden">General</h1> */}
       <div className="flex flex-wrap gap-4 ">
         {userListItem.map((userInfo, index) => (
           <fieldset

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
+// import "react-tooltip/dist/react-tooltip.css";
 
 import { withRouter } from "react-router-dom";
 import {

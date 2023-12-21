@@ -14,6 +14,7 @@ import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
 import AdminAddItemList from "../../../../common/adminPanel/AdminAddItemList";
 import { adminAddArtistListItems } from "../../../../constans";
 import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 const EditArtist = ({ history }) => {
   const { data } = useGetArtistForEditInAdminPanelQuery(
     { id: window.location.search.split("=")[1] },
@@ -35,7 +36,11 @@ const EditArtist = ({ history }) => {
   const [editArtist] = useAdminArtistUserMutation();
   const [artistImage, setArtistImage] = useState(data?.data.image);
   const [artistImageIni, setArtistImageIni] = useState(data?.data.image);
+  const [selectedOptions, setSelectedOptionss] = useState({
+    career: [],
+  });
   useEffect(() => {
+    setSelectedOptionss({ career: data?.data.careersList });
     setInputs({
       Name: data?.data.name,
       summary: data?.data.bio,
@@ -53,11 +58,6 @@ const EditArtist = ({ history }) => {
     summary: "",
   };
   const [loadingButton, setLoadingButton] = useState(false);
-  const [selectedOptions, setSelectedOptionss] = useState({
-    career: [
- 
-    ],
-  });
   const Formik = useFormik({
     initialValues,
     validateOnMount: true,
@@ -192,27 +192,9 @@ const EditArtist = ({ history }) => {
   ) : (
     <div className="flex h-screen justify-center">
       <div className="flex mt-20 text-[19px]">
-        <svg
-          class="w-5 h-5 mt-2 mr-2 -ml-1 text-btn animate-spin"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        please be patient
+        <div className="flex justify-center">
+          <BeatLoader size={"20px"} color="#1e74f1" />
+        </div>
       </div>
     </div>
   );

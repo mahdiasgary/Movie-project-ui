@@ -20,7 +20,7 @@ const UplaodBox = ({
   ];
   return (
     <div
-      className={`w-full rounded-lg cursor-pointer border-2 border-[#787f98] border-dashed text-center m-2   flex flex-col`}
+      className={`w-full  rounded-lg cursor-pointer border-2 border-[#787f98] border-dashed text-center    flex flex-col`}
     >
       <p className="pt-3">Uplaode Box</p>
       <div className="my-3">

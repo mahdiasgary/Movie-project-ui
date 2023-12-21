@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { footerMenu } from "../../constans";
 import { Link, withRouter } from "react-router-dom";
-import { color } from "framer-motion";
+// import { color } from "framer-motion";
 const FooterMenu = ({ history, setOpenMenu, openMenu }) => {
   const [selected, setSelected] = useState("explore");
   const pathname = history.location.pathname.split("/")[1];

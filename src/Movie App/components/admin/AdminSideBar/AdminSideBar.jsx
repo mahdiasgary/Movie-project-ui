@@ -21,18 +21,15 @@ const AdminSideBar = ({ openMenu, setOpenMenu, mode, setMode }) => {
       <div className=" lg:hidden " onClick={() => setOpenMenu(!openMenu)}>
         <MdMenuOpen className="text-[27px] mt-10 mx-10 cursor-pointer text-btn  " />
       </div>
-      <div className={` lg:hidden flex  flex-col `}>
-        <button className={`${styles.loginBtn2} mx-5 my-5 `}>LOG IN</button>
-       
-      </div>
+
       <div className=" font-extrabold hidden sm:mx-3 md:mx-5 lg:mx-8 mb-8  mt-10 lg:flex min-w-[145px] sm:min-w-[150px] ">
         <img
-          src={mode === "dark" ? logoImage : logoImageDark}
+          src={mode !== "dark" ? logoImage : logoImageDark}
           alt="logoImage"
-          className="w-[25px] h-[31.6px]  sm:w-[30px] sm:h-[38px] mx-1"
-        />
+          className="w-[25px] h-[31.6px]  sm:w-[50px] sm:h-[50px] "
+          />
         <p className="self-center text-[18px] sm:text-[21px]">
-          MOVIE <span className="text-btn">MAN</span>{" "}
+          KEYSER <span className="text-btn">SöZE</span>{" "}
         </p>
       </div>
       <div>

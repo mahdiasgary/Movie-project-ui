@@ -18,6 +18,7 @@ import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import AddSeasonFile from "./AddSeasonFile/AddSeasonFile";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
+import UplaodBox from "../../movie/addMovie/UplaodBox";
 const AddSeries = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -87,7 +88,10 @@ const AddSeries = ({ history }) => {
     country: [],
     artist: [],
   });
+  const [trailer, settrailer] = useState("");
   const [qw, we] = useState(70);
+  let filteredFiles = seriesFiles.filter((s) => s.id !== "Trailer");
+  console.log(filteredFiles);
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
@@ -112,18 +116,22 @@ const AddSeries = ({ history }) => {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
 
-    for (let i = 0; i < seriesFiles.length; i++) {
-      formData.append(`Files[${i}].Quality`, seriesFiles[i].quality);
+    for (let i = 0; i < filteredFiles.length; i++) {
+      formData.append(`Files[${i}].Quality`, filteredFiles[i].quality);
     }
-    for (let i = 0; i < seriesFiles.length; i++) {
-      formData.append(`Files[${i}].File`, seriesFiles[i].file);
+    for (let i = 0; i < filteredFiles.length; i++) {
+      formData.append(`Files[${i}].File`, filteredFiles[i].file);
     }
-    for (let i = 0; i < seriesFiles.length; i++) {
-      formData.append(`Files[${i}].Season`, seriesFiles[i].season);
+    for (let i = 0; i < filteredFiles.length; i++) {
+      formData.append(`Files[${i}].Season`, filteredFiles[i].season);
     }
-    for (let i = 0; i < seriesFiles.length; i++) {
-      formData.append(`Files[${i}].Episode`, seriesFiles[i].episode);
+    for (let i = 0; i < filteredFiles.length; i++) {
+      formData.append(`Files[${i}].Episode`, filteredFiles[i].episode);
     }
+    formData.append(
+      "Trailer",
+      seriesFiles[seriesFiles.findIndex((m) => m.quality === "Trailer")].file
+    );
     const options = {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
@@ -136,25 +144,19 @@ const AddSeries = ({ history }) => {
     // };
     axios
       .post("https://localhost:7175/Admin/Series/Add", formData, options)
-      .then((res) => {
+      .then((r) => {
         // setLoadingButton(false);
-        console.log(res);
+        if (r.data.isSuccessFull) {
+          toast.success(`${Formik.values.title} add to Series `, {
+            autoClose: 1100,
+            position: "top-right",
+          });
+          setTimeout(() => history.push("serieslist"), 300);
+        }
+        console.log(r);
       });
-
-    // addNewMovie(formData)
-    //   .unwrap()
-    //   .then((r) => {
-    //     // toast.success(`${Formik.values.title} add to Movies `, {
-    //     //   autoClose: 1100,
-    //     //   position: "top-right",
-    //     // });
-    //     // setTimeout(() => history.push("movieslist"), 800);
-    //   })
-    //   .then((error) => {}); movieFiles.length!==0 &&
   };
-  // console.log(
-  //   movieFiles.length !== 0 && Math.floor(movieFiles[0].file.size / 1000000)
-  // );
+
   return (
     <div>
       <IdontKnowName
@@ -232,12 +234,43 @@ const AddSeries = ({ history }) => {
                     </span>
                   )}
 
-                  {/* <UplaodBox
-                  setMovieFiles={setMovieFiles}
-                  movieFiles={movieFiles}
-                  loadingButton={loadingButton}
-                  qw={qw}
-                /> */}
+                  <div className="min-w-[200px]  mt-20 md:mt-8 mx-3 ">
+                    <div
+                      className={` flex ${
+                        loadingButton && "hidden"
+                      }   mx-2 my-1 bg-gray-300 dark:bg-border px-1 rounded-md py-1 justify-between`}
+                    >
+                      <input
+                        onChange={(e) =>
+                          setSeasonFile((v) => [
+                            ...v,
+                            {
+                              id: "Trailer",
+                              season: "Trailer",
+                              episode: "Trailer",
+                              quality: "Trailer",
+                              file: e.target.files[0],
+                            },
+                          ])
+                        }
+                        // onChange={(e) => settrailer(e.target.files[0])}
+                        type="file"
+                        className="text-sm text-grey-500
+        file:mr-5 file:py-2 file:px-3 md:file:px-6  self-center
+        file:rounded-full file:border-0
+        file:text-sm file:font-medium
+        file:bg-blue-50 file:text-blue-700
+        hover:file:cursor-pointer hover:file:bg-screenDark
+        hover:file:text-screenLight
+        "
+                      />
+                      <p
+                        className={`text-btn font-semibold self-center md:text-[16px] text-[13px] `}
+                      >
+                        Trailer{" "}
+                      </p>
+                    </div>
+                  </div>
                   {loadingButton ? (
                     <div
                       className={` px-5 pb-6 md:mx-3 mx-4 mt-16 rounded-lg cursor-pointer border-2 border-[#787f98] border-dashed text-center m-2   flex flex-col`}
@@ -390,7 +423,7 @@ const AddSeries = ({ history }) => {
               >
                 DONE !
               </button>
-              <button onClick={SubmiHandler}>55555</button>
+              {/* <button onClick={SubmiHandler}>55555</button> */}
             </div>
           </div>
         </section>

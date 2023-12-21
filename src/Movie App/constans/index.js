@@ -29,8 +29,22 @@ import {
 } from "../common/icons";
 import { FaBloggerB } from "react-icons/fa";
 
-export const adminArtistListTh = ["ID", "IMAGE", "NAME", "BIRTHDATE", "ACTION"];
-export const adminArtistListTd = ["id", "image", "name", "birthDate", "action"];
+export const adminArtistListTh = [
+  "ID",
+  "IMAGE",
+  "NAME",
+  "BIRTH DATE",
+  "CREATED DATE",
+  "ACTION",
+];
+export const adminArtistListTd = [
+  "id",
+  "image",
+  "name",
+  "birthDate",
+  "createdAt",
+  "action",
+];
 export const adminMoviesListTh = [
   "ID",
   "COVER",
@@ -44,15 +58,21 @@ export const adminMoviesListTd = [
   "id",
   "image",
   "title",
-  "createdDate",
+  "createdAt",
   "time",
   "releasedDate",
   "action",
 ];
-export const adminNormalListTd = ["id", "title", "action"];
-export const adminNormalListTh = ["ID", "TITLE", "ACTION"];
-export const adminGenreListTd = ["id", "image", "title", "action"];
-export const adminGenreListTh = ["ID", "IMAGE", "TITLE", "ACTION"];
+export const adminNormalListTd = ["id", "title", "createdAt", "action"];
+export const adminNormalListTh = ["ID", "TITLE", "CREATED DATE", "ACTION"];
+export const adminGenreListTd = ["id", "image", "title", "createdAt", "action"];
+export const adminGenreListTh = [
+  "ID",
+  "IMAGE",
+  "TITLE",
+  "CREATED DATE",
+  "ACTION",
+];
 
 export const sidbarItem = [
   { id: 1, title: "Explore", icon: <MdOutlineExplore /> },
@@ -66,6 +86,8 @@ export const sidbarItem = [
 export const adminSidbarItem = [
   [{ id: 1, title: "Dashboard", icon: <RiHome2Line /> }],
   [{ id: 5, title: "Users", icon: <FiUsers /> }],
+  [{ id: 10, title: "Comments", icon: <BiComment /> }],
+
   [
     { id: 9, title: "Artists", icon: <FaTheaterMasks /> },
     [
@@ -73,13 +95,16 @@ export const adminSidbarItem = [
         id: 9,
         title: "Add New Artist",
         main: "addnewartist",
+        parent: "Artists",
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
       },
       {
         id: 9,
         title: "Artists List",
-        main: "artistList",
+        main: "artistslist",
+        parent: "Artists",
+
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
       },
@@ -92,6 +117,8 @@ export const adminSidbarItem = [
         id: 2,
         title: "Add New Movie",
         main: "addnewmovie",
+        parent: "Movies",
+
         icon1: <CgAddR />,
         icon2: <MdAddBox className="text-[22px]" />,
       },
@@ -99,6 +126,8 @@ export const adminSidbarItem = [
         id: 2,
         title: "Movies List",
         main: "movieslist",
+        parent: "Movies",
+
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
       },
@@ -111,6 +140,8 @@ export const adminSidbarItem = [
         id: 3,
         title: "Add New Series",
         main: "addnewseries",
+        parent: "Series",
+
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
       },
@@ -118,6 +149,8 @@ export const adminSidbarItem = [
         id: 3,
         title: "Series List",
         main: "serieslist",
+        parent: "Series",
+
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
       },
@@ -130,6 +163,8 @@ export const adminSidbarItem = [
         id: 4,
         title: "Add New Genre",
         main: "addnewgenre",
+        parent: "Genre",
+
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
       },
@@ -137,6 +172,8 @@ export const adminSidbarItem = [
         id: 4,
         title: "Genres List",
         main: "genreslist",
+        parent: "Genre",
+
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
       },
@@ -149,6 +186,8 @@ export const adminSidbarItem = [
         id: 6,
         title: "Add New Profession",
         main: "addnewprofession",
+        parent: "Profession",
+
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
       },
@@ -156,6 +195,8 @@ export const adminSidbarItem = [
         id: 6,
         title: "Profession List",
         main: "professionlist",
+        parent: "Profession",
+
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
       },
@@ -167,6 +208,7 @@ export const adminSidbarItem = [
       {
         id: 7,
         title: "Add New Language",
+        parent: "Languages",
         main: "addnewlanguage",
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
@@ -174,6 +216,7 @@ export const adminSidbarItem = [
       {
         id: 7,
         title: "Languages List",
+        parent: "Languages",
         main: "languageslist",
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
@@ -186,6 +229,7 @@ export const adminSidbarItem = [
       {
         id: 8,
         title: "Add New Country",
+        parent: "Countries",
         main: "addnewcountry",
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
@@ -193,6 +237,7 @@ export const adminSidbarItem = [
       {
         id: 8,
         title: "Countries List",
+        parent: "Countries",
         main: "countrieslist",
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
@@ -200,20 +245,21 @@ export const adminSidbarItem = [
     ],
   ],
 
-  [{ id: 10, title: "Comments", icon: <BiComment /> }],
   [
     { id: 11, title: "Blogs", icon: <FaBloggerB /> },
     [
       {
-        id: 8,
+        id: 11,
         title: "Add New Blog",
-        main: "addblog",
+        parent: "Blogs",
+        main: "addnewblog",
         icon1: <CgAddR />,
         icon2: <MdAddBox />,
       },
       {
-        id: 8,
+        id: 11,
         title: "Blog List",
+        parent: "Blogs",
         main: "bloglist",
         icon1: <FaRegListAlt />,
         icon2: <FaListAlt />,
@@ -363,7 +409,9 @@ export const adminAddMovieListItems = [
   ["Created Date", "Released Date"],
   ["Summary"],
 ];
-export const adminAddOthersListItems = [["Title"], ["TimeForRead"]];
+export const adminAddOthersListItems = [["Title"]];
+
+export const adminAddBlogListItems = [["Title"], ["TimeForRead"]];
 export const adminAddArtistListItems = [
   ["Name"],
   ["Date Birth"],

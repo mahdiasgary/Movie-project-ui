@@ -65,7 +65,7 @@ const AddArtist = ({ history }) => {
           autoClose: 1100,
           position: "top-right",
         });
-        setTimeout(() => history.push("artistslist"), 800);
+        setTimeout(() => history.push("artistslist"), 200);
         setLoadingButton(false);
       })
       .catch((error) => {

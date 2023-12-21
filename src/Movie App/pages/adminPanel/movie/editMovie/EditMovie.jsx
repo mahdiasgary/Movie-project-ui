@@ -21,6 +21,7 @@ import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
+import { BeatLoader } from "react-spinners";
 const EditMovie = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -140,13 +141,10 @@ const EditMovie = ({ history }) => {
     });
     setMovieCover(data?.data.cover);
     setMovieBackground(data?.data.image);
-    // setArtistImage(data?.data.image);
-    // setArtistImageIni(data?.data.image);
   }, [data]);
-  // console.log(typeof movieCover === "string");
   const SubmiHandler = () => {
     setLoadingButton(true);
-    console.log(5)
+    // console.log(5);
     const formData = new FormData();
     formData.append("id", inputs.id);
     formData.append("title", inputs.Title);
@@ -169,11 +167,6 @@ const EditMovie = ({ history }) => {
     for (let i = 0; i < selectedOptions.genre.length; i++) {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
-    // movieFiles.find((m) => m.quality === "Trailer") &&
-    //   formData.append(
-    //     "Trailer",
-    //     movieFiles[movieFiles.findIndex((m) => m.quality === "Trailer")].file
-    //   );
 
     const options = {
       onUploadProgress: (progressEvent) => {
@@ -192,11 +185,14 @@ const EditMovie = ({ history }) => {
       });
   };
 
-  return (
+  return data ? (
     <div>
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
-        prob={[{ path: "/admin/editmovie", value: "Edit Movie" }]}
+        prob={[
+          { path: `/admin/editmovie?id=${inputs.id}`, value: "Edit Movie" },
+          { path: `/admin/editmovie?id=${inputs.id}`, value: inputs.Title },
+        ]}
       />{" "}
       <div className=" my-10 min-h-screen pb-20  mx-6 sm:mx-10 md:mx-28">
         <div className="text-[23px] font-bold mt-10 mb-6 ">{"Edit Movie"}</div>
@@ -269,17 +265,17 @@ const EditMovie = ({ history }) => {
                       <BiLinkAlt className="font-bold text-[20px] " />
                     </span>
                   )}
-
-                  <UplaodBox
-                    setMovieFiles={setMovieFiles}
-                    movieFiles={movieFiles}
-                    loadingButton={loadingButton}
-                    qw={qw}
-                    initialInputs={initialInputs}
-                    from={"edit"}
-                    selectedOptions={selectedOptions}
-
-                  />
+                  <div className="min-w-[200px]  mt-20 md:mt-8 mx-3 ">
+                    <UplaodBox
+                      setMovieFiles={setMovieFiles}
+                      movieFiles={movieFiles}
+                      loadingButton={loadingButton}
+                      qw={qw}
+                      initialInputs={initialInputs}
+                      from={"edit"}
+                      selectedOptions={selectedOptions}
+                    />
+                  </div>
                 </li>
                 <li className="ml-6 ">
                   <AdminFormDoneIcon preDone={movieCover} />
@@ -310,10 +306,18 @@ const EditMovie = ({ history }) => {
               >
                 SAVE !
               </button>
-              <button onClick={SubmiHandler}>55555</button>
+              {/* <button onClick={SubmiHandler}>55555</button> */}
             </div>
           </div>
-        </section>
+        </section> 
+      </div>
+    </div>
+  ) : (
+    <div className="flex h-screen justify-center">
+      <div className="flex mt-20 text-[19px]">
+        <div className="flex justify-center">
+          <BeatLoader size={"20px"} color="#1e74f1" />
+        </div>
       </div>
     </div>
   );

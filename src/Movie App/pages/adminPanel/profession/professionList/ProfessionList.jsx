@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+// import "react-tooltip/dist/react-tooltip.css";
+// import { Tooltip as ReactTooltip } from "react-tooltip";
 import { BsArrowDown } from "react-icons/bs";
 import { withRouter } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import AdminListItems from "../../../../common/adminPanel/AdminListItems";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
 import toast from "react-hot-toast";
 import Pagenation from "../../../../common/Pagenation";
+import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 
 const ProfessionList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
@@ -50,26 +51,18 @@ const ProfessionList = ({ history }) => {
               color: "#fff",
             },
           });
-          // toast.custom(
-          //   <div>
-          //     <Toast>
-          //       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-          //         <HiCheck className="h-5 w-5" />
-          //       </div>
-          //       <div className="ml-3 text-sm font-normal">
-          //         Edit is successfully.
-          //       </div>
-          //       <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
-          //     </Toast>
-          //   </div>,
-          //   {position:'top-center'}
-          // );
+     
         }
       })
       .then((error) => {});
   };
   return (
     <div className=" w-full">
+       
+      <IdontKnowName
+        root={{ path: "/admin", value: "Dashboard" }}
+        prob={[{ path: "/admin/professonlist", value: "Profession List" }]}
+      />
       <div className="flex justify-center mt-20 mb-2">
         <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[50vw] md:max-w-[50vw]">
           <div className="text-[23px] font-bold ">Career List</div>

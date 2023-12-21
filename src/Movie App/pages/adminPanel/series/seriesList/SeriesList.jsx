@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+// import "react-tooltip/dist/react-tooltip.css";
+// import { Tooltip as ReactTooltip } from "react-tooltip";
 import { BsArrowDown } from "react-icons/bs";
 import { useGetUsersListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
 import SeriesListItem from './SeriesListItem'
@@ -8,7 +8,7 @@ import SeriesListItem from './SeriesListItem'
 const SeriesList = () => {
   const {data}=useGetUsersListInAdminPanelQuery()
  
-
+ 
     return (
       <div className=" w-full"> 
     <div className="flex justify-center mt-20 mb-2">

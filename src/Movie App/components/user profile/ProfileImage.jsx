@@ -18,7 +18,7 @@ const ProfileImage = ({
           {inputs.loading && inputs.loadingFor === "image" && profilePicture ? (
             <div className="relative self-center items-center ">
               <img
-                className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
+                className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]   w-[80px]    sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
                 src={profilePicture}
                 alt="profile picture"
               />
@@ -47,7 +47,7 @@ const ProfileImage = ({
             </div>
           ) : (
             <img
-              className="ring-2 ring-btn  h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   rounded-[50%]"
+              className="ring-2 ring-btn  h-[80px]   w-[80px]    sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   rounded-[50%]"
               src={"https://localhost:7175/images/" + inputs.image}
               alt="profile picture"
             />
@@ -58,7 +58,7 @@ const ProfileImage = ({
           {inputs.loading && inputs.loadingFor === "image" && profilePicture ? (
             <div className="relative self-center items-center ">
               <img
-                className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
+                className=" ring-2 ring-btn opacity-70  blur-sm h-[80px]   w-[80px]    sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
                 src={profilePicture}
                 alt="profile picture"
               />
@@ -87,7 +87,7 @@ const ProfileImage = ({
             </div>
           ) : (
             <img
-              className=" ring-2  ring-btn  h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
+              className=" ring-2  ring-btn  h-[80px]   w-[80px]    sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   bg-red-500 rounded-[50%]"
               src={
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHKSo2ZUSLlAHjb6-DiCknAURt7kSAtty30zP5N59ogAtNGe-xyToWkP0SbLalpAPNq5U&usqp=CAU"
               }

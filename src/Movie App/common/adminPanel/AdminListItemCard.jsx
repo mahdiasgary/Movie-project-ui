@@ -214,7 +214,7 @@ const AdminListItemCard = ({
                 : td === "name" ||
                   td === "title" ||
                   td === "birthDate" ||
-                  td === "createdDate" ||
+                  td === "createdAt" ||
                   td === "releasedDate"
                 ? "min-w-[169px]"
                 : ""
@@ -228,48 +228,30 @@ const AdminListItemCard = ({
                 <img
                   src={"https://localhost:7175/images/" + item[td]}
                   alt={item[td]}
-                  className="w-[40px] h-[40px] self-center rounded-[28%] "
+                  className="w-[50px] h-[50px] self-center rounded-[28%] "
                 />
               ) : td === "birthDate" ||
-                td === "createdDate" ||
+                td === "createdAt" ||
                 td === "releasedDate" ? (
-                item[td]?.split(" ")[0]
+                item[td]?.split("T")[0]
               ) : td === "action" ? (
                 <div className="flex justify-center hover:text-btn duration-200  gap-3 text-[19px] py-[2px]">
                   {from === "movie" || from === "artist" ? (
-                    // <Link
-                    // to={'#'}
-                    //   // to={{
-                    //   //   pathname: `${
-                    //   //     from === "movie"
-                    //   //       ? "edit"
-                    //   //       : from === "artist"
-                    //   //       ? `editartist?id=${item["id"]}`
-                    //   //       : ""
-                    //   //   }`,
-                    //   //   state: { data: item["id"], editProccss: true },
-                    //   // }}
-                    // >
                     <Tooltip content="edit">
                       <span
-                        // onClick={() =>
-                        //   (from !== "movie" || from !== "artist") &&
-                        //   setSelectedID(item["id"])
-                        // }
                         className="cursor-pointer text-[21px]"
                         onClick={() => {
-                          // a();
-                          setOpenModal2("pop-up");
-                          // history.push({
-                          //   pathname: `${
-                          //     from === "movie"
-                          //       ? "edit"
-                          //       : from === "artist"
-                          //       ? `editartist?id=${item["id"]}`
-                          //       : ""
-                          //   }`,
-                          //   state: { data: item["id"], editProccss: true },
-                          // });
+                          // setOpenModal2("pop-up");editMovie
+                          history.push({
+                            pathname: `${
+                              from === "movie"
+                                ? `editMovie?id=${item["id"]}`
+                                : from === "artist"
+                                ? `editartist?id=${item["id"]}`
+                                : ""
+                            }`,
+                            state: { data: item["id"], editProccss: true },
+                          });
                         }}
                       >
                         <AiOutlineEdit />

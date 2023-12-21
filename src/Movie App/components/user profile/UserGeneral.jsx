@@ -25,7 +25,7 @@ const UserGeneral = ({
       <legend className="hidden md:flex text-btn  mx-2 text-[18px] font-bold">
         General
       </legend>
-      <div className="flex px-4 y:px-0 sm:px-5  md:px-10">
+      <div className="flex   md:px-10">
         <ProfileImage
           inputs={inputs}
           changeInput={changeInput}

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
+// import "react-tooltip/dist/react-tooltip.css";
 import BlogListItem from "./BlogListItem";
 import { withRouter } from "react-router-dom";
 import Pagenation from "../../../common/Pagenation";

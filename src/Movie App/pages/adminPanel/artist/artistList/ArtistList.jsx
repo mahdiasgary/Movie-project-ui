@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
+// import "react-tooltip/dist/react-tooltip.css";
 import { useGetArtisitListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
 import AdminListItems from "../../../../common/adminPanel/AdminListItems";
 import { adminArtistListTd, adminArtistListTh } from "../../../../constans";
@@ -13,6 +13,7 @@ const ArtistList = () => {
     { searchkey: search, page: correctPage },
     { refetchOnMountOrArgChange: true }
   );
+  // console.log(ArtistListInAdminPanelQuery);
   const [thAndTdAdminArtistList] = useState([
     adminArtistListTh,
     adminArtistListTd,

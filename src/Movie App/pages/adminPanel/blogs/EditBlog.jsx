@@ -82,6 +82,8 @@ const EditBlog = ({ history }) => {
       .unwrap()
       .then((r) => {
         setqw(Math.random());
+        setTimeout(() => history.push("bloglist"), 300);
+
         setLoadingButton(false);
         toast.success(`Edit successfully`, {
           style: {

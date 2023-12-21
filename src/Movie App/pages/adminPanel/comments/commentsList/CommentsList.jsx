@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
+// import "react-tooltip/dist/react-tooltip.css";
 import CommentListItem from "./CommentListItem";
 import { BsArrowDown } from "react-icons/bs"; 
 

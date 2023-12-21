@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import {
-  useDeleteBlogAdminPanelMutation,
-} from "../../../redux/services/movieDatabase";
+import { useDeleteBlogAdminPanelMutation } from "../../../redux/services/movieDatabase";
 import { withRouter } from "react-router-dom";
 import AlertModal from "../../../common/AlertModal";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
@@ -25,6 +23,7 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
     replyText: "",
     from: "",
   });
+  console.log(comment);
   const alertHandler = () => {
     setLoading(true);
     if (states.alertTitle === "delete") {
@@ -59,9 +58,9 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
     }
   };
   //   console.log(states);
-  //   const date1 = new Date(comment.createdAt.split("T")[0]);
-  //   const date2 = new Date();
-  //   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
+  const date1 = new Date(comment.createdAt.split("T")[0]);
+  const date2 = new Date();
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
 
   // console.log(diffDays);
   return (
@@ -70,7 +69,7 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
         <img
           src={"https:/localhost:7175/images/" + comment.image}
           alt=""
-          className=" h-[190px] w-[253px]  mt-3 sm:flex absolute hidden shadow-xl  top-2 -left-[30px] rounded-2xl  z-2  "
+          className=" h-[190px] max-w-[253px]  mt-3 sm:flex absolute hidden shadow-xl  top-2 -left-[30px] rounded-2xl  z-2  "
         />
 
         <div className="flex justify-center">
@@ -80,52 +79,72 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
             className=" max-h-[200px] mt-3 sm:hidden shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px]  top-5 -left-[30px] rounded-2xl  z-2  "
           />
         </div>
+        <div className="flex">
+          <img
+            src={"https:/localhost:7175/images/" + comment.image}
+            alt=""
+            className="opacity-0  h-[190px] max-w-[200px] relative -left-5  mt-3 sm:flex  hidden shadow-xl  rounded-2xl   "
+          />
+          <div className="pb-8 w-full ">
+            <div className="flex mx-4 mt-10 sm:ml-10 sm:mr-3 justify-between">
+              <p className="hidden  sm:flex text-btn font-semibold">
+                {comment.tittle}{" "}
+                {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
+              </p>
 
-        <div className="pb-8 sm:pl-[200px]">
-          <div className="flex mx-4 mt-10 sm:ml-10 sm:mr-3 justify-between">
-            <p className="hidden  sm:flex text-btn font-semibold">
-              {comment.tittle}{" "}
-              {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
-            </p>
-
-            <p className="text-gray-500 flex gap-1 text-sm">
-              <RiTimerFill className="text-[18px] self-center  " />{" "}
-              {/* {comment.autor} */}5 min
-            </p>
-            <p className="text-sm self-center dark:text-gray-400">
-              2020/02/18
-              {/* {diffDays === 0
-                ? "today"
-                : diffDays === 1
-                ? "1 day ago"
-                : diffDays === 2
-                ? "2 days ago"
-                : diffDays === 3
-                ? "3 days ago"
-                : diffDays === 4
-                ? "4 days ago"
-                : diffDays === 5
-                ? "5 days ago"
-                : diffDays === 6
-                ? "6 days ago"
-                : diffDays >= 7 && diffDays <= 14
-                ? "one week ago"
-                : new Date(comment.createdAt.split("T")[0]).toDateString()} */}
-              {/* 2 week ago */}
-            </p>
-          </div>
-          <div>
-            <p className="sm:hidden flex px-5 text-btn mt-3 font-semibold">
-              {comment.tittle}{" "}
-              {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
-            </p>
-          </div>
-          <div className="px-9  dark:opacity-90 max-h-[72px] overflow-y-hidden sm:mt-5">
-            {/* {comment.text} */}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ea
+              <p className="text-gray-500 flex gap-1 text-sm">
+                <RiTimerFill className="text-[18px] self-center  " />{" "}
+                {comment.readingTime} min
+              </p>
+              <p className="text-sm self-center dark:text-gray-400">
+                {/* 2020/02/18 */}
+                {diffDays === 0
+                  ? "today"
+                  : diffDays === 1
+                  ? "1 day ago"
+                  : diffDays === 2
+                  ? "2 days ago"
+                  : diffDays === 3
+                  ? "3 days ago"
+                  : diffDays === 4
+                  ? "4 days ago"
+                  : diffDays === 5
+                  ? "5 days ago"
+                  : diffDays === 6
+                  ? "6 days ago"
+                  : diffDays >= 7 && diffDays <= 14
+                  ? "one week ago"
+                  : new Date(comment.createdAt.split("T")[0]).toDateString()}
+              </p>
+            </div>
+            <div>
+              <p className="sm:hidden flex px-5 text-btn mt-3 font-semibold">
+                {comment.tittle}{" "}
+                {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
+              </p>
+            </div>
+            <div className="px-9  dark:opacity-90 max-h-[72px] overflow-y-hidden sm:mt-5">
+              {/* {comment.description} */}
+              <div
+                className="mt-10"
+                dangerouslySetInnerHTML={{
+                  __html: comment.description
+                    .replace("ql-font-monospace", "font-mono")
+                    // .replace("ql-size-large", "text-[18px]")
+                    // .replace("ql-size-huge", "text-[25px]")
+                    .replace("<ul>", " <ul class='list-disc'	/>")
+                    .replace("<ol>", " <ul class='list-decimal'	/>")
+                    .replace("</ol>", "</ul>")
+                    .replace("ql-align-center", "text-center")
+                    .replace("ql-align-right", "text-end"),
+                  // .replace("ql-align-center", "text-center"),
+                }}
+              ></div>
+              {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ea
             inventore porro aliquid mollitia voluptas sit consectetur quaerat
             deserunt dolores iusto ipsum, asperiores delectus ducimus minima
-            pariatur deleniti molestias repudiandae.
+            pariatur deleniti molestias repudiandae. */}
+            </div>
           </div>
         </div>
         <div className="flex justify-between sm:pt-3">
@@ -139,8 +158,7 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setState((v) => ({ ...v, alertTitle: "edit" }));
-                setOpenModal("pop-up");
+                history.push(`/admin/editBlog?id=${comment.id}`);
               }}
               className="duration-200 hover:text-white hover:bg-opacity-100 text-btn bg-opacity-20 text-[20px] bg-btn p-2 rounded-xl"
             >

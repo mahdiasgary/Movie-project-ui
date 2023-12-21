@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+// import "react-tooltip/dist/react-tooltip.css";
+// import { Tooltip as ReactTooltip } from "react-tooltip";
 import { withRouter } from "react-router-dom";
 import {
   useAdminEditCountryMutation,
@@ -11,6 +11,7 @@ import { adminNormalListTd, adminNormalListTh } from "../../../../constans";
 import { useStateContext } from "../../../../contextProvider/ContextProvider";
 import Pagenation from "../../../../common/Pagenation";
 import toast from "react-hot-toast";
+import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 
 const CountriesList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
@@ -54,8 +55,12 @@ const CountriesList = ({ history }) => {
   };
   return (
     <div className=" w-full">
+      <IdontKnowName
+        root={{ path: "/admin", value: "Dashboard" }}
+        prob={[{ path: "/admin/countrieslist", value: "Countries List" }]}
+      />
       <div className="flex justify-center mt-20 mb-2">
-        <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[50vw] md:max-w-[50vw]">
+        <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[60vw] md:max-w-[60vw]">
           <div className="text-[23px] font-bold ">Countries List</div>
           <div>
             <input
@@ -71,7 +76,7 @@ const CountriesList = ({ history }) => {
 
       <div className="flex justify-center w-full">
         <div className="dark:bg-[#1c1d21] bg-white rounded-2xl  ">
-          <div className="dark:bg-[#1c1d21] bg-white    bg-opacity-40 overflow-x-auto scrollbar-thin dark:scrollbar-track-[#1c1d21] scrollbar-track-gray-300 dark:scrollbar-thumb-border scrollbar-thumb-gray-400 scrollbar-track-rounded-md   scrollbar-thumb-rounded-md overflow-x-auto min-w-[80vw] max-w-[80vw] md:min-w-[50vw] md:max-w-[50vw] rounded-2xl">
+          <div className="dark:bg-[#1c1d21] bg-white    bg-opacity-40 overflow-x-auto scrollbar-thin dark:scrollbar-track-[#1c1d21] scrollbar-track-gray-300 dark:scrollbar-thumb-border scrollbar-thumb-gray-400 scrollbar-track-rounded-md   scrollbar-thumb-rounded-md overflow-x-auto min-w-[90vw] max-w-[90vw] md:min-w-[50vw] md:max-w-[50vw] rounded-2xl">
             <AdminListItems
               dataQuery={countryListQuery}
               thAndTdAdminList={thAndTdAdminMovieList}

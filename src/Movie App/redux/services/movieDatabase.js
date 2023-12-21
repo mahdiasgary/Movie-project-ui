@@ -45,6 +45,10 @@ export const movieCoreApi = createApi({
       query: ({ searchkey, page }) =>
         `Admin/Movie/GetList?Page=${page}&searchkey=${searchkey}`,
     }),
+    getSeriesListInAdminPanel: builder.query({
+      query: ({ searchkey, page }) =>
+        `Admin/Series/GetList?Page=${page}&searchkey=${searchkey}`,
+    }),
     getDashBoadrdDataInAdminPanel: builder.query({
       query: () => "Admin/Home/GetDashBoadrdData",
     }),
@@ -398,6 +402,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useGetSeriesListInAdminPanelQuery,
   useGetUserWatchListUserSideQuery,
   useAddMovieToWatchListUserSideMutation,
   useDeleteBlogAdminPanelMutation,

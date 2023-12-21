@@ -4,13 +4,14 @@ import { SeasonItem } from "./SeasonItem";
 
 const AddSeasonFile = ({ seasonFile,loadingButton, setSeasonFile ,qw}) => {
   const [seasonLength, setSeasonLength] = useState([1]);
-
+// console.log(seasonLength)
   return (
     <div>
       {seasonLength.map((season, index) => (
         <SeasonItem
           season={season}
           key={index}
+          setSeasonLength={setSeasonLength}
           seasonFile={seasonFile}
           loadingButton={loadingButton}
           setSeasonFile={setSeasonFile}
@@ -18,7 +19,7 @@ const AddSeasonFile = ({ seasonFile,loadingButton, setSeasonFile ,qw}) => {
         />
       ))}
       <div
-        className="px-2 mt-10 shadow-xl  py-2 bg-btn w-36 rounded-md text-screenLight cursor-pointer hover:bg-slate-800 duration-300 ml-5"
+        className="px-2 mt-4 shadow-xl  py-2 bg-btn w-36 rounded-md text-screenLight cursor-pointer hover:bg-slate-800 duration-300 ml-5"
         onClick={() =>
           setSeasonLength([
             ...seasonLength,

@@ -188,31 +188,9 @@ const EditItem1 = ({ td, item, setSelectedID, editHandler }) => {
                   />
                 </div>
               ) : td === "birthDate" ||
-                td === "createdDate" ||
+                td === "createdAt" ||
                 td === "releasedDate" ? (
-                // item[td].split(" ")[0]
-                // 'f'
-                <div className={` `}>
-                  <div
-                    className={`${"flex flex-col  justify-center dark:text-white text-screenDark  bg-border  bg-opacity-40"}   focus-within:border-btn focus-within:border-2 border-[#787f98]   h-[40px] flex flex-col justify-center px-3 rounded-lg  `}
-                  >
-                    <Datepicker
-                      //   onSelectedDateChanged={(date) =>
-                      //     datePiker.setDate({
-                      //       ...datePiker.date,
-                      //       [title.replace(/\s/g, "")]: new Date(
-                      //         date
-                      //       ).toLocaleDateString("zh-Hans-CN"),
-                      //     })
-                      //   }
-                      class="border-0  pl-10  bg-transparent"
-                      formNoValidate={"r"}
-                      theme={theme}
-                      value={item[td].split(" ")[0]}
-                      placeholder="yyyy/mm/dd"
-                    />
-                  </div>
-                </div>
+                ""
               ) : td === "action" ? (
                 <div className="flex justify- self-end mr-2 gap-3 text-[19px] py-[2px]">
                   <span
@@ -227,7 +205,9 @@ const EditItem1 = ({ td, item, setSelectedID, editHandler }) => {
                     }
                     onClick={() => props.setOpenModal("pop-up")}
                     className={`text-base ${
-                      item["title"] !== input.title || file ? 'hover:bg-blue-900 bg-btn' : 'cursor-not-allowed bg-gray-700 opacity-80'
+                      item["title"] !== input.title || file
+                        ? "hover:bg-blue-900 bg-btn"
+                        : "cursor-not-allowed bg-gray-700 opacity-80"
                     } text-white  py-2 px-6  duration-200 rounded-lg  text-[20px] `}
                   >
                     edit

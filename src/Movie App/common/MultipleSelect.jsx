@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreatableSelect from "react-select/creatable";
+// import CreatableSelect from "react-select/creatable";
 
 const MultipleSelect = ({ options, handleChange, lable,selectedValue }) => {
   options = options?.data.map((item) => {
@@ -74,7 +74,7 @@ const MultipleSelect = ({ options, handleChange, lable,selectedValue }) => {
         {lable}
       </legend>
       <div className="text-btn ">
-        <CreatableSelect
+        {/* <CreatableSelect
           options={options}
           onChange={handleChange}
           isMulti
@@ -84,7 +84,7 @@ const MultipleSelect = ({ options, handleChange, lable,selectedValue }) => {
           className="h-12 text-white border border-transparent focus:border-transparent  focus:ring-0"
           styles={colorStyles}
           isValidNewOption={() => false}
-        />
+        /> */}
       </div>
     </fieldset>
   );

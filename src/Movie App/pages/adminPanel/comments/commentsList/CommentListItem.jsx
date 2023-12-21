@@ -136,10 +136,10 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
         <img
           src={"https:/localhost:7175/images/" + comment.image}
           alt=""
-          className="w-[60px] shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] absolute top-5 -left-[30px] rounded-[50%]  z-2  h-[60px]"
+          className="w-[70px] shadow-[rgba(0,0,0,0.1)0px_10px_15px_3px,rgba(0,0,0,0.05)0px_-1px_15px_3px] absolute top-5 -left-[35px] rounded-[50%]  z-2  h-[70px]"
         />
         <div className="pb-8">
-          <div className="flex mt-10 ml-10 mr-3 justify-between">
+          <div className="flex mt-10 ml-12 mr-3 justify-between">
             <div>
               <p className=" flex text-btn font-semibold">
                 {comment.userName}{" "}
@@ -148,7 +148,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
             </div>
 
             <p className="text-gray-500 flex text-sm">
-              <BiSolidMoviePlay className="text-[18px] self-center " />{" "}
+              <BiSolidMoviePlay className="text-[21px] self-center " />{" "}
               {comment.movieName}
             </p>
             <p className="text-sm self-center dark:text-gray-400">
@@ -255,7 +255,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                     props.setOpenModal("pop-up");
                     setState((v) => ({ ...v, alertTitle: "delete" }));
                   }}
-                  className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                  className="text-red-500 text-[22px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
                 >
                   <IoMdTrash />
                 </p>
@@ -331,7 +331,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                       props.setOpenModal("pop-up");
                       setState((v) => ({ ...v, alertTitle: "delete" }));
                     }}
-                    className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                    className="text-red-500 text-[22px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
                   >
                     <IoMdTrash />
                   </p>
@@ -386,7 +386,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                       props.setOpenModal("pop-up");
                       setState((v) => ({ ...v, alertTitle: "delete" }));
                     }}
-                    className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                    className="text-red-500 text-[22px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
                   >
                     <IoMdTrash />
                   </p>
@@ -423,7 +423,7 @@ const CommentListItem = ({ comment, removeUserHandler, history }) => {
                   props.setOpenModal("pop-up");
                   setState((v) => ({ ...v, alertTitle: "delete" }));
                 }}
-                className="text-red-500 text-[20px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
+                className="text-red-500 text-[22px] cursor-pointer hover:bg-red-200 t px-2 mx-3 py-1 mb-1 rounded-lg "
               >
                 <IoMdTrash />
               </p>

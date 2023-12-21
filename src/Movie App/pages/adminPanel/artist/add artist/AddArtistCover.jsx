@@ -56,7 +56,7 @@ const AddArtistCover = ({
             <div className="text-center self-center overflow-hidden">
               <DragDropImage setImage={setArtistImage} content={"cover"} />
               <p className="text-btn mt-3 font-semibold pr-1">
-                Upload Movies Cover
+                Upload Artist Cover
               </p>
             </div>
           )}

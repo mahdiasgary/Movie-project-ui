@@ -3,24 +3,31 @@ import { useStateContext } from "../../../contextProvider/ContextProvider";
 import { styles } from "../../../styles/styles";
 import { Link, withRouter } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
+import { set } from "nprogress";
 
 const AdminSideBarItems = ({ history, item, menu }) => {
-  const [state, setState] = useState(false);
-  useEffect(()=>{
-    const screenWidht=window.innerWidth
-  
-    if(screenWidht<1024)return setState(true)
-  },[])
+  const [state, setState] = useState(true);
+  console.log(state);
+  // console.log(window.location.pathname.split("/")[2]);
+  useEffect(() => {
+    // const screenWidht = window.innerWidth;
+    // parent
+    // if (screenWidht < 1024) return setState(true);
+    item[1] &&
+      item[1].find((v) => v.main === window.location.pathname.split("/")[2]) &&
+      setState(item[1][0].parent);
+  }, []);
   const { selectedSideBarItem, setSelectedSideBarItem, rtl } =
     useStateContext();
   const pathname = history.location.pathname;
+  const [subSelected, setSubSelected] = useState();
   useEffect(() => {
     setSubSelected(pathname.split("/")[2]);
-    setSelectedSideBarItem(pathname.split("/")[2])
+    setSelectedSideBarItem(pathname.split("/")[2]);
   }, [pathname]);
 
-  const [subSelected, setSubSelected] = useState();
   const [hovered, setHovered] = useState();
+  console.log(subSelected);
   return (
     <div>
       <div>
@@ -31,7 +38,7 @@ const AdminSideBarItems = ({ history, item, menu }) => {
               onMouseLeave={() => setHovered()}
               onClick={(e) => {
                 e.preventDefault();
-                setState(!state);
+                setState(state === item[0].title ? 5 : item[0].title);
               }}
               className={`
           ${!menu && "pl-2 mx-0"}
@@ -71,7 +78,7 @@ const AdminSideBarItems = ({ history, item, menu }) => {
                 </div>
                 <div
                   className={`text-[15px] mx-4 self-center text-btn
-                   ${!state ? "rotate-0" : "-rotate-90"} 
+                   ${state === item[0].title ? "rotate-0" : "-rotate-90"} 
                   duration-300`}
                 >
                   <FaChevronDown />{" "}
@@ -88,7 +95,9 @@ const AdminSideBarItems = ({ history, item, menu }) => {
                 >
                   <li
                     className={`origin-left flex  hover:text-btn border-btn  pl-8  ${
-                      !state ? " py-3 duration-300" : "scale-x-0  h-0 text-0"
+                      state === item[0].title
+                        ? " py-3 duration-300"
+                        : "scale-x-0  h-0 text-0"
                     }
                    ${
                      subSelected === subItem.main &&

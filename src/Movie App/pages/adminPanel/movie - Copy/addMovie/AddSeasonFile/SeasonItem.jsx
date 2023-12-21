@@ -3,25 +3,37 @@ import PartItem from "./EpisodeItem";
 import { HiPlus } from "react-icons/hi";
 import EpisodeItem from "./EpisodeItem";
 import { BiSolidMoviePlay } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
 
 export const SeasonItem = ({
   season,
   loadingButton,
   seasonFile,
   setSeasonFile,
+  setSeasonLength,
   qw,
 }) => {
   const [episodes, setEpisodes] = useState([1]);
   const [selectedEpisode, setSelectedEpisode] = useState(1);
-  console.log(seasonFile);
+  // console.log(seasonFile);
   return (
     <div>
-     
-      <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-10  max-w-[1300px]  ">
-        <legend className="text-btn px-1 mx-3">Add Season {season}</legend>
-
+      <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-5  max-w-[1300px]  ">
+        <legend className="text-btn px-1  mx-3">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setSeasonLength((v) => v.filter((q) => q !== season));
+            }}
+            className="duration-200 mx-1  hover:text-white hover:bg-opacity-100 text-btn bg-opacity-20 text-[17px] bg-btn p-1 rounded-xl"
+          >
+            <RxCross2 />
+          </button>
+          Season {season}
+        </legend>
+        <div className="flex justify-end  "></div>
         <div className="flex flex-col lg:flex-row lg:justify-between my-2">
-          <div className="flex lg:flex-col   max-h-[300px] md:min-w-[150px] max-w-[400px] lg:min-w-[160px] mt-3 mx-6 overflow-x-scroll  md:overflow-y-auto  scrollbar-thin dark:scrollbar-track-[#1c1d21] scrollbar-track-gray-300 dark:scrollbar-thumb-border scrollbar-thumb-gray-400 scrollbar-track-rounded-md   scrollbar-thumb-rounded-md">
+          <div className="flex lg:flex-col   max-h-[300px] md:min-w-[150px] max-w-[400px] lg:min-w-[160px] mt-3 mx-6 overflow-x-scroll md:overflow-x-hidden md:overflow-y-auto  scrollbar-thin dark:scrollbar-track-[#1c1d21] scrollbar-track-gray-300 dark:scrollbar-thumb-border scrollbar-thumb-gray-400 scrollbar-track-rounded-md   scrollbar-thumb-rounded-md">
             <div className="flex gap-2 lg:flex-col  ">
               {episodes.map((episode, index) => (
                 <div

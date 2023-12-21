@@ -66,7 +66,7 @@ const AdminAddItemList = ({
               />
             ) : // ''
             item === "Summary" ? (
-              <div className="max-w-[900px] w-full ">
+              <div className=" w-full ">
                 <fieldset className="border  border-[#787f98] focus-within:border-btn focus-within:border-2 my-1 px-3 rounded-lg w-full">
                   <legend className="px-1 text-btn text-[17px]">Summary</legend>
                   {from === "edit" ? (

@@ -3,7 +3,7 @@ import { useStateContext } from "../../contextProvider/ContextProvider";
 import { Route, withRouter } from "react-router-dom";
 import AddMovies from "./movie/addMovie/AddMovies";
 import MoviesList from "./movie/movieList/MoviesList";
-import SeriesList from "./series/seriesList/SeriesList";
+import SeriesList from "./movie - Copy/movieList/MoviesList";
 import AddGenre from "./genre/AddGenre";
 import Users from "./users/Users";
 import AdminSideBar from "../../components/admin/AdminSideBar/AdminSideBar";
@@ -29,6 +29,8 @@ import AddSeries from "./movie - Copy/addMovie/AddMovies";
 import EditMovie from "./movie/editMovie/EditMovie";
 import BlogList from "./blogs/BlogList";
 import EditBlog from "./blogs/EditBlog";
+// import { DrawerDefault } from "./SSS";
+// import Editor from "./Editor";
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
   const [openMenu, setOpenMenu] = useState(false);
@@ -76,6 +78,11 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <AddMovies />}
             />
+            {/* <Route
+              path={"/admin/b"}
+              exact
+              component={() => <Editor />}
+            /> */}
             <Route path={"/admin/users"} exact component={() => <Users />} />
             <Route
               path={"/admin/movieslist"}

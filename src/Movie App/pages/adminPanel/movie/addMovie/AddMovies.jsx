@@ -51,11 +51,11 @@ const AddMovies = ({ history }) => {
   });
 
   const initialValues = {
-    title: "qw",
-    imdb: "7",
-    year: "7",
-    time: "7",
-    summary: "qw",
+    title: "",
+    imdb: "",
+    year: "",
+    time: "",
+    summary: "",
   };
   const [addNewMovie] = useAddMovieInAdminPanelMutation();
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -64,26 +64,20 @@ const AddMovies = ({ history }) => {
   const [selectedArtist, setSelectedArtist] = useState([]);
   const [loadingButton, setLoadingButton] = useState(false);
   const [date, setDate] = useState({
-    ReleasedDate: "2020/2/8",
-    CreatedDate: "2020/8/5",
+    ReleasedDate: "yyyy/mm/dd",
+    CreatedDate: "yyyy/mm/dd",
   });
-  //const validationSchema = Yup.object({
-  //  title: Yup.string().required("title is requried"),
-  //  imdb: Yup.string()
-  //    .required("imdb is requried")
-  //    .matches(/(?=.*[0-9])/, "imdb should be a number"),
-  //  year: Yup.string()
-  //    .required("Year is requried")
-  //    .matches(/(?=.*[0-9])(?=.{4,})/, "Year should be a number be 4 digits"),
-  //  time: Yup.string().required("Time is requried"),
-  //  summary: Yup.string().required("Summary is requried"),
-  //  ReleasedDate : Yup.string().required("ReleasedDate is requried"),
-  //  CreatedDate : Yup.string().required("CreatedDate is requried"),
-
-  //});
+  const validationSchema = Yup.object({
+    title: Yup.string().required("title is requried"),
+    imdb: Yup.string()
+      .required("imdb is requried")
+      .matches(/(?=.*[0-9])/, "imdb should be a number"),
+    time: Yup.string().required("Time is requried"),
+    summary: Yup.string().required("Summary is requried"),
+  });
   const Formik = useFormik({
     initialValues,
-    /*validationSchema*/
+    validationSchema,
     validateOnMount: true,
   });
 
@@ -143,14 +137,14 @@ const AddMovies = ({ history }) => {
     axios
       .post("https://localhost:7175/Admin/Movie/Add", formData, options)
       .then((r) => {
-        console.log(r);
+        // console.log(r);
         // setqw(Math.random());
         if (r.data.isSuccessFull) {
           toast.success(`${Formik.values.title} add to Movies `, {
             autoClose: 1100,
             position: "top-right",
           });
-          setTimeout(() => history.push("movieslist"), 800);
+          setTimeout(() => history.push("movieslist"), 300);
         }
       });
 
@@ -240,14 +234,15 @@ const AddMovies = ({ history }) => {
                       <BiLinkAlt className="font-bold text-[20px] " />
                     </span>
                   )}
-
-                  <UplaodBox
-                    setMovieFiles={setMovieFiles}
-                    movieFiles={movieFiles}
-                    loadingButton={loadingButton}
-                    qw={qw}
-                    from={"add"}
-                  />
+                  <div className="min-w-[200px]  mt-20 md:mt-8 mx-3 ">
+                    <UplaodBox
+                      setMovieFiles={setMovieFiles}
+                      movieFiles={movieFiles}
+                      loadingButton={loadingButton}
+                      qw={qw}
+                      from={"add"}
+                    />
+                  </div>
                 </li>
                 <li className="ml-6 ">
                   <AdminFormDoneIcon preDone={movieCover} />
@@ -278,7 +273,7 @@ const AddMovies = ({ history }) => {
               >
                 DONE !
               </button>
-              <button onClick={SubmiHandler}>55555</button>
+              {/* <button onClick={SubmiHandler}>55555</button> */}
             </div>
           </div>
         </section>

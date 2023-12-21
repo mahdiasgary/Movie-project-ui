@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-import { useGetMovieListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
+// import "react-tooltip/dist/react-tooltip.css";
+// import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useGetSeriesListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
 import { adminMoviesListTd, adminMoviesListTh } from "../../../../constans";
 import AdminListItems from "../../../../common/adminPanel/AdminListItems";
 import Pagenation from "../../../../common/Pagenation";
+import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 
 const MoviesList = () => {
   const [correctPage, setCorrectPage] = useState(1);
 
   const [search, setSearch] = useState("");
-  const movieListInAdminPanelQuery = useGetMovieListInAdminPanelQuery(
+  const movieListInAdminPanelQuery = useGetSeriesListInAdminPanelQuery(
     { searchkey: search, page: correctPage },
     { refetchOnMountOrArgChange: true }
   );
@@ -18,12 +19,16 @@ const MoviesList = () => {
     adminMoviesListTh,
     adminMoviesListTd,
   ]);
-
+// console.log(movieListInAdminPanelQuery)
   return (
     <div className=" w-full">
+       <IdontKnowName
+        root={{ path: "/admin", value: "Dashboard" }}
+        prob={[{ path: "/admin/serieslist", value: "Series List" }]}
+      />
       <div className="flex justify-center mt-20 mb-2">
         <div className="flex justify-between  min-w-[90vw] max-w-[90vw] md:min-w-[70vw] md:max-w-[70vw]">
-          <div className="text-[23px] font-bold ">Movies List</div>
+          <div className="text-[23px] font-bold ">Series List</div>
           <div>
             <input
               value={search}

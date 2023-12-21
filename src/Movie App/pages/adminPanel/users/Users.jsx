@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
-import "react-tooltip/dist/react-tooltip.css";
-import UsersItem from "./UsersItem";
+// import "react-tooltip/dist/react-tooltip.css";
+// import UsersItem from "./UsersItem";
 import { BsArrowDown } from "react-icons/bs";
 import {
   useGetUsersListInAdminPanelQuery,
@@ -11,6 +11,7 @@ import LoadingAdminListItem from "../../../common/LoadingAdminListItem";
 import Pagenation from "../../../common/Pagenation";
 import { Dropdown, Tooltip } from "flowbite-react";
 import { IdontKnowName } from "../../../components/admin/IdontKnowName";
+import toast from "react-hot-toast";
 const Users = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -29,12 +30,16 @@ const Users = ({ history }) => {
     removeUser({ id })
       .unwrap()
       .then((r) => {
-        Swal.fire({
-          title: "Deleted!",
-          text: `${username} has been deleted.`,
-          icone: "success",
-          confirmButtonColor: "#3085d6",
-        });
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: `${username} has been deleted.`,
+        //   icone: "success",
+        //   confirmButtonColor: "#3085d6",
+        // });
+        if (r.isSuccessFull) {
+          toast.success(`${username} has been deleted.`);
+        }
+        console.log(r);
       })
       .then((error) => {
         console.log(error);
@@ -123,8 +128,15 @@ const Users = ({ history }) => {
                     </div>
                   </th>
 
-                  <th className="px-3 py-2 text-sm  w-[10%]  ">
+                  {/* <th className="flex justify-center py-2 text-sm text-center w-[10%]  ">
                     <Tooltip content={"profile"}>PROFILE</Tooltip>
+                  </th> */}
+                  <th className=" py-2 w-[10%]  ">
+                    <div className="flex justify-center cursor-pointer w-full ">
+                      <Tooltip content={"profile"} className="">
+                        <div className="">PROFILE</div>
+                      </Tooltip>
+                    </div>
                   </th>
                   <th className=" py-2 w-[20%]  ">
                     <div
@@ -150,41 +162,45 @@ const Users = ({ history }) => {
                   <th className=" py-2 w-[20%]  ">
                     <div className="flex justify-center  w-full ">
                       <Tooltip content={"email"} className="">
-                        <div className="">Email</div>
+                        <div className="">EMAIL</div>
                       </Tooltip>
                     </div>
                   </th>
                   <th className="w-[10%] px-5">
                     <div className="flex justify-center">
                       {/* <div className="">ROLE</div> */}
-                      <Dropdown label="ROLE" inline className="px-0 mx-0">
-                        <Dropdown.Item
-                          onClick={(e) => setFilterType("RoleAdmin")}
-                        >
-                          Admin
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={(e) => setFilterType("RoleUser")}
-                        >
-                          User
-                        </Dropdown.Item>
-                      </Dropdown>
+                      <Tooltip content={"sort by Role"}>
+                        <Dropdown label="ROLE" inline className="px-0 mx-0">
+                          <Dropdown.Item
+                            onClick={(e) => setFilterType("RoleAdmin")}
+                          >
+                            Admin
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={(e) => setFilterType("RoleUser")}
+                          >
+                            User
+                          </Dropdown.Item>
+                        </Dropdown>
+                      </Tooltip>
                     </div>
                   </th>
                   <th className="w-[10%] px-5">
                     <div className="flex justify-center">
-                      <Dropdown label="STATUS" inline>
-                        <Dropdown.Item
-                          onClick={(e) => setFilterType("IsActived")}
-                        >
-                          Active
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={(e) => setFilterType("IsNotActived")}
-                        >
-                          Inactive
-                        </Dropdown.Item>
-                      </Dropdown>
+                      <Tooltip content={"sort by Status"}>
+                        <Dropdown label="STATUS" inline>
+                          <Dropdown.Item
+                            onClick={(e) => setFilterType("IsActived")}
+                          >
+                            Active
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={(e) => setFilterType("IsNotActived")}
+                          >
+                            Inactive
+                          </Dropdown.Item>
+                        </Dropdown>
+                      </Tooltip>
                     </div>
                   </th>
                   <th className=" py-2 w-[20%]  ">

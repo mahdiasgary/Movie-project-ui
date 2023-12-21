@@ -3,7 +3,6 @@ import { RxTrash } from "react-icons/rx";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useRemoveUserMutation } from "../../../redux/services/movieDatabase";
 import { Link, withRouter } from "react-router-dom";
-import Swal from "sweetalert2";
 import { Toast, Tooltip } from "flowbite-react";
 import AlertModal from "../../../common/AlertModal";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
@@ -20,37 +19,26 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
   const props = { openModal, setOpenModal };
   const [loading, setLoading] = useState(false);
   const [from, setfrom] = useState("");
-  const alertHandler = () => {
+  // console.log(user.username);
+  const alertHandler = (qw) => {
     setLoading(true);
     if (from === "delete") {
       removeUser({ id: user.id })
         .unwrap()
         .then((r) => {
           setqw(Math.random());
-          console.log(r);
           if (r.isSuccessFull) {
-            toast.custom(
-              <div>
-                <Toast>
-                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-                    <HiCheck className="h-5 w-5" />
-                  </div>
-                  <div className="ml-3 text-sm font-normal">
-                    Delete is successfully.
-                  </div>
-                  <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
-                </Toast>
-              </div>,
-              { duration: "200" }
-            );
+            toast.success(`Successfully Deleted!`);
           }
-          // history.push("/admin/users");
+          if (!r.isSuccessFull) {
+            toast.error(`The operation was unsuccessful`);
+          }
         })
         .then((error) => {
-          // console.log(error);
+          toast.error(`The operation was unsuccessful`);
         });
     }
-    if (from === "info") {
+    if (qw === "info") {
       history.push(`/admin/user?id=${user.id}`);
     }
   };
@@ -80,7 +68,7 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
           <img
             src={"https://localhost:7175/images/" + user.profileImage}
             alt="ff"
-            className="w-[40px] h-[40px] self-center rounded-[50%] "
+            className="w-[48px] h-[48px] self-center rounded-[50%] "
           />
         </div>
       </td>
@@ -109,7 +97,7 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
       <td>
         <div className="flex px-2 group-hover:dark:bg-[#24272e] group-hover:bg-gray-300 duration-300 self-center h-[64px] flex-col justify-center text-center my-1">
           {user.isActive ? (
-            <div className="bg-[#213242 font-semibold bg-btn bg-opacity-10 px-2 text-sm text-btn rounded-md py-[2px]">
+            <div className="bg-[#213242 font-semibold bg-green-500 bg-opacity-10 px-2 text-sm text-green-500 rounded-md py-[2px]">
               Active
             </div>
           ) : (
@@ -132,8 +120,7 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
             <Tooltip content="info">
               <button
                 onClick={() => {
-                  props.setOpenModal("pop-up");
-                  setfrom("info");
+                  alertHandler("info");
                 }}
                 className=" text-btn cursor-pointer self-center hover:text-btn duration-200 "
               >

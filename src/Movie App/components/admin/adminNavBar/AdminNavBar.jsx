@@ -31,10 +31,10 @@ const AdminNavBar = ({
           <img
             src={IsDarkMode ? logoImage : logoImageDark}
             alt="logoImage"
-            className="w-[25px] h-[31.6px]  sm:w-[30px] sm:h-[38px] mx-1"
+            className="w-[25px] h-[31.6px]  sm:w-[50px] sm:h-[50px] mx-1"
           />
           <p className="self-center text-[18px] sm:text-[21px]">
-            MOVIE <span className="text-btn">MAN</span>{" "}
+            KEYSER <span className="text-btn">SOZE</span>{" "}
           </p>
         </div>
       </div>
