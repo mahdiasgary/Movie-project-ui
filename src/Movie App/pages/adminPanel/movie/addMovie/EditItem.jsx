@@ -29,6 +29,7 @@ const EditFileItem = ({
   initialInputs,
   from,
 }) => {
+  // console.log(initialInputs);
   const uploadMovieHandler = (e) => {
     setMovieFiles([...movieFiles, { quality, file: e.target.files[0] }]);
   };
@@ -107,7 +108,7 @@ const EditFileItem = ({
       axios
         .post("https://localhost:7175/Admin/Movie/AddFile", formData, options)
         .then((r) => {
-        //   console.log(r);
+          //   console.log(r);
           if (r.data.isSuccessFull) {
             setqw(Math.random());
           }
@@ -163,7 +164,8 @@ const EditFileItem = ({
         });
     }
   };
-//   console.log(initialInputs);
+  // console.log(quality)
+  // console.log(initialInputs.files.find((m) => m.quality === quality) ? 'ok' : 'noo' );
   return (
     <div className="">
       <AlertModal
@@ -176,7 +178,7 @@ const EditFileItem = ({
       />
       <div>
         {initialInputs?.files?.find(
-          (m) => m.quality === quality && m.isDeleted
+          (m) => m.quality === quality && !m.isDeleted && m.quality !== "Trailer"
         ) ? (
           <div
             className={`  mx-2 my-1 bg-gray-300 dark:bg-border  rounded-md justify-between`}

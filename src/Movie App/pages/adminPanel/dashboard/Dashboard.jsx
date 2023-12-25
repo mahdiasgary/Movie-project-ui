@@ -7,16 +7,14 @@ const Dashboard = () => {
     useGetDashBoadrdDataInAdminPanelQuery();
 
   return (
-    <div className="dark:text-white mt-14 px-3 sm:px-7  md:px-14">
+    <div className="dark:text-white mt-14 px-3 sm:px-7  md:px-10">
       <div className="">
         <div className="mb-10">
           <DashboardItemNum data={getDashBoadrdDataInAdminPanelQuery} />
         </div>
-        <div className="flex w-full flex-col lg:flex-row justify-between ">
+        <div className="flex w-full flex-col gap-4 lg:flex-row justify-between ">
           <UserChart data={getDashBoadrdDataInAdminPanelQuery} />
-          <div className="lg:max-w-[40vw] mt-9 lg:mt-0 justify-between min-w-[40vw] flex flex-col ">
-            <MovieChart data={getDashBoadrdDataInAdminPanelQuery} />
-          </div>
+          <MovieChart data={getDashBoadrdDataInAdminPanelQuery} />
         </div>
       </div>
     </div>

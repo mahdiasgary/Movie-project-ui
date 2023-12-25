@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
-// import "react-tooltip/dist/react-tooltip.css";
-// import UsersItem from "./UsersItem";
+import UsersItem from "./UsersItem";
 import { BsArrowDown } from "react-icons/bs";
 import {
   useGetUsersListInAdminPanelQuery,
@@ -21,7 +20,6 @@ const Users = ({ history }) => {
       { searchkey: search, page: correctPage, FilterType },
       { refetchOnMountOrArgChange: true }
     );
-  // console.log(data);
   const [removeUser] = useRemoveUserMutation();
   const [sort, setsort] = useState(["id", false, false]);
   const [searc, setSearc] = useState(false);

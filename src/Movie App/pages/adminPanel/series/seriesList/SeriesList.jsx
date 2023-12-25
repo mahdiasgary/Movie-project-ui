@@ -83,11 +83,7 @@ const SeriesList = () => {
           </table>
         </div>
       </div>
-      <ReactTooltip
-        anchorId="a"
-        place="bottom" 
-        content="Hello world! I'm a Tooltip"
-      />
+   
     </div>
   );
 };

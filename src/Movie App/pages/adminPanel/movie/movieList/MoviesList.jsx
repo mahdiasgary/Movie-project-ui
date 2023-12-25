@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import "react-tooltip/dist/react-tooltip.css";
-// import { Tooltip as ReactTooltip } from "react-tooltip";
+
 import { useGetMovieListInAdminPanelQuery } from "../../../../redux/services/movieDatabase";
 import { adminMoviesListTd, adminMoviesListTh } from "../../../../constans";
 import AdminListItems from "../../../../common/adminPanel/AdminListItems";
@@ -19,7 +18,7 @@ const MoviesList = () => {
     adminMoviesListTh,
     adminMoviesListTd,
   ]);
-
+  // console.log(movieListInAdminPanelQuery);
   return (
     <div className="min-h-screen pb-54 w-full">
       <IdontKnowName
@@ -59,11 +58,6 @@ const MoviesList = () => {
           />
         </div>
       </div>
-      <ReactTooltip
-        anchorId="a"
-        place="bottom"
-        content="Hello world! I'm a Tooltip"
-      />
     </div>
   );
 };

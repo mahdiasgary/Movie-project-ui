@@ -29,8 +29,7 @@ import AddSeries from "./movie - Copy/addMovie/AddMovies";
 import EditMovie from "./movie/editMovie/EditMovie";
 import BlogList from "./blogs/BlogList";
 import EditBlog from "./blogs/EditBlog";
-// import { DrawerDefault } from "./SSS";
-// import Editor from "./Editor";
+import EditSeries from './movie - Copy/addMovie/AddMovies'
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
   const [openMenu, setOpenMenu] = useState(false);
@@ -100,6 +99,18 @@ const AdminPage = ({ history }) => {
               exact
               component={() => <EditMovie />}
             />
+            <Route
+              path={"/admin/editSeries:id"}
+              exact
+              component={() => <EditSeries />}
+            />
+
+            <Route
+              path={"/admin/editSeries"}
+              exact
+              component={() => <EditSeries />}
+            />
+
             <Route
               path={"/admin/user"}
               exact

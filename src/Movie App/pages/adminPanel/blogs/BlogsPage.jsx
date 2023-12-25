@@ -1,5 +1,5 @@
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 import { IdontKnowName } from "../../../components/admin/IdontKnowName";
 
 import React, { useState } from "react";
@@ -17,6 +17,14 @@ import { Toast } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
 import { FaEye } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+
+import { Grammarly, GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
+// import { demoClientId, demoText } from "./demo";
+// import "./style.css";
+
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+// Note: I'm  using @ckeditor/ckeditor5-build-classic v32.0.0. I got errors with newer versions
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const BlogsPage = ({ history }) => {
   const [value, setValue] = useState("");
@@ -68,8 +76,18 @@ const BlogsPage = ({ history }) => {
         console.log(error);
       });
   };
+  ClassicEditor.create(document.querySelector("#editor"), {
+    toolbar: [
+      "heading",
+      "|",
+      "alignment:left",
+      "alignment:right",
+      "alignment:center",
+      "alignment:justify",
+    ],
+  });
   return (
-    <div>
+    <div className="fa ">
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
         prob={[{ path: "/admin/addblog", value: "Add blog" }]}
@@ -124,18 +142,15 @@ const BlogsPage = ({ history }) => {
                       </div>
                     </div>
                     <div className=" flex justify-center pt-8 mx-3">
-                      <div className="fa min-w-[200px] min-h-[700px] w-full   dark:bg-[#1c1d21] dark:bg-opacity-50 bg-white border-0 rounded-2xl">
+                      <div className="fa min-w-[200px]  w-full   dark:bg-[#1c1d21] dark:bg-opacity-50 bg-white border-0 rounded-2xl">
                         <ReactQuill
                           style={{ border: "none", "font-family": "Vazirmatn" }}
                           className="border-0 "
                           theme="snow"
                           modules={{
                             toolbar: [
-                              [
-                                { header: "1" },
-                                { header: "2" },
-                                { font: [] },
-                              ],
+                              [{ header: "1" }, { header: "2" }, { font: [] }],
+                              [{ direction: "rtl" }],
                               [
                                 { align: "" },
                                 { align: "center" },
@@ -154,6 +169,7 @@ const BlogsPage = ({ history }) => {
                           value={value}
                           onChange={setValue}
                         ></ReactQuill>
+                       
                       </div>
                     </div>
                   </li>

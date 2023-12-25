@@ -38,7 +38,7 @@ const EditMovie = ({ history }) => {
     id: "",
     Trailer: "",
   });
-  // console.log(data);
+  console.log(data);
 
   // console.log(movieFiles);
   useEffect(() => {

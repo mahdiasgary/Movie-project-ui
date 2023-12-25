@@ -233,10 +233,10 @@ const AdminListItemCard = ({
               ) : td === "birthDate" ||
                 td === "createdAt" ||
                 td === "releasedDate" ? (
-                item[td]?.split("T")[0]
+                item[td]?.split(" ")[0]
               ) : td === "action" ? (
                 <div className="flex justify-center hover:text-btn duration-200  gap-3 text-[19px] py-[2px]">
-                  {from === "movie" || from === "artist" ? (
+                  {from === "movie" || from === "artist" || from === "series" ? (
                     <Tooltip content="edit">
                       <span
                         className="cursor-pointer text-[21px]"
@@ -244,7 +244,9 @@ const AdminListItemCard = ({
                           // setOpenModal2("pop-up");editMovie
                           history.push({
                             pathname: `${
-                              from === "movie"
+                              from === "series"
+                                ? `editSeries?id=${item["id"]}`
+                                : from === "movie"
                                 ? `editMovie?id=${item["id"]}`
                                 : from === "artist"
                                 ? `editartist?id=${item["id"]}`

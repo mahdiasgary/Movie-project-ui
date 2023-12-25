@@ -36,7 +36,7 @@ const UplaodBox = ({
               initialInputs={initialInputs}
               from={from}
             />
-          ) : quality === "Trailer" ? (
+          ) : from !== "add" && quality === "Trailer" ? (
             <AddOrEditTrailer
               key={index}
               loadingButton={loadingButton}
@@ -48,7 +48,7 @@ const UplaodBox = ({
               from={from}
               selectedOptions={selectedOptions}
             />
-          ) : (
+          ) : from !== "add" && quality !== "Trailer" ? (
             <EditFileItem
               key={index}
               loadingButton={loadingButton}
@@ -59,6 +59,8 @@ const UplaodBox = ({
               initialInputs={initialInputs}
               from={from}
             />
+          ) : (
+            ""
           )
         )}
       </div>

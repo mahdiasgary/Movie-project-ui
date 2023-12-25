@@ -338,6 +338,11 @@ const EditUserInfo = () => {
                   </div>
                 ))}
               </div>
+              {watchListQuery["data"].data.length === 0 && (
+                <div className="text-center pb-7 pt-12">
+                  The watch list is empty :(
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -387,26 +392,10 @@ const EditUserInfo = () => {
                                   {/* {data?.ratings.rating}{" "} */}8
                                 </span>
                               </div>
-
-                              {/* <div className="flex flex-wrap mt-1 mx-2 text-sm font-semibold">
-                  {data?.genres.slice(0, 2).map((genre, index) => (
-                    <Link
-                      key={index}
-                      to={{
-                        pathname: `/genres/${genre?.toLocaleLowerCase()}`,
-                        state: { genre },
-                      }}
-                    >
-                      <p className="mr-2 backdrop-blur-sm  bg-gray-200 bg-opacity-10 py-1 px-3 mt-2 rounded-sm hover:bg-screenDark ">
-                        {genre}
-                      </p>
-                    </Link>
-                  ))}
-                </div> */}
                             </div>
                             <div className="text-center pb-6  w-[169px] px-3 ">
                               <button className=" btn py-2 w-full rounded-md  backdrop-blur-sm  font-bold hover:rounded-xl  ">
-                                Watch Movie
+                                Watch List
                               </button>
                             </div>
                           </div>
@@ -417,7 +406,7 @@ const EditUserInfo = () => {
                 </div>
               ))}
             </div>
-            {watchListQuery["data"].data.length === 0 && (
+            {watchListQuery["data"]?.data?.length === 0 && (
               <div className="text-center pb-7 pt-12">
                 The watch list is empty :(
               </div>
