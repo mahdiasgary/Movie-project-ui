@@ -29,7 +29,7 @@ import AddSeries from "./movie - Copy/addMovie/AddMovies";
 import EditMovie from "./movie/editMovie/EditMovie";
 import BlogList from "./blogs/BlogList";
 import EditBlog from "./blogs/EditBlog";
-import EditSeries from './movie - Copy/addMovie/AddMovies'
+import EditSeries from "./movie - Copy/editSeries/EditSeries";
 const AdminPage = ({ history }) => {
   const [mode, setMode] = useState("dark");
   const [openMenu, setOpenMenu] = useState(false);

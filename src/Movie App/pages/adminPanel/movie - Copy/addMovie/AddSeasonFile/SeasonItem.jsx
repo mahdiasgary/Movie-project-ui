@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PartItem from "./EpisodeItem";
 import { HiPlus } from "react-icons/hi";
 import EpisodeItem from "./EpisodeItem";
@@ -12,10 +12,21 @@ export const SeasonItem = ({
   setSeasonFile,
   setSeasonLength,
   qw,
+  from,
+  seriesFilesForEdit,
 }) => {
   const [episodes, setEpisodes] = useState([1]);
   const [selectedEpisode, setSelectedEpisode] = useState(1);
-  // console.log(seasonFile);
+
+  useEffect(() => {
+    from === "edit" &&
+      seriesFilesForEdit.forEach((l) => {
+        l.season === season &&
+          setEpisodes((v) => [...new Set([...v, l.episode])]);
+      });
+  }, []);
+
+  console.log({ se: season, ep: episodes });
   return (
     <div>
       <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-5  max-w-[1300px]  ">
@@ -64,12 +75,14 @@ export const SeasonItem = ({
           <div className="w-full mr-3 flex justify-center">
             {episodes.map((episode, index) => (
               <EpisodeItem
+                from={from}
                 key={index}
                 episode={episode}
                 selectedEpisode={selectedEpisode}
                 selectedSeason={season}
                 setSeasonFile={setSeasonFile}
                 seasonFile={seasonFile}
+                seriesFilesForEdit={seriesFilesForEdit}
               />
             ))}
           </div>

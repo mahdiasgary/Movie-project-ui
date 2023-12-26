@@ -1,5 +1,6 @@
 import React from "react";
 import AddFileItem from "./AddFileItem";
+import EditFileItem from "./EditFileItem";
 
 const EpisodeItem = ({
   episode,
@@ -7,6 +8,7 @@ const EpisodeItem = ({
   selectedSeason,
   seasonFile,
   setSeasonFile,
+  from,seriesFilesForEdit
 }) => {
   const qualities = [
     "WEB-DL 1080p",
@@ -23,14 +25,29 @@ const EpisodeItem = ({
       <p>episode {episode}</p>
       <div className="my-3">
         {qualities.map((quality, index) => (
-          <AddFileItem
-            key={index}
-            episode={episode}
-            quality={quality}
-            season={selectedSeason}
-            setSeasonFile={setSeasonFile}
-            seasonFile={seasonFile}
-          />
+          <div>
+            {from === "add" && (
+              <AddFileItem
+                key={index}
+                episode={episode}
+                quality={quality}
+                season={selectedSeason}
+                setSeasonFile={setSeasonFile}
+                seasonFile={seasonFile}
+              />
+            )}
+            {from === "edit" && (
+              <EditFileItem
+                key={index}
+                episode={episode}
+                quality={quality}
+                season={selectedSeason}
+                setSeasonFile={setSeasonFile}
+                seasonFile={seasonFile}
+                seriesFilesForEdit={seriesFilesForEdit}
+              />
+            )}
+          </div>
         ))}
       </div>
     </div>

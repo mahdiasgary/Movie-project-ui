@@ -1,10 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { SeasonItem } from "./SeasonItem";
 
-const AddSeasonFile = ({ seasonFile,loadingButton, setSeasonFile ,qw}) => {
+const AddSeasonFile = ({
+  from,
+  seasonFile,
+  loadingButton,
+  setSeasonFile,
+  qw,
+}) => {
   const [seasonLength, setSeasonLength] = useState([1]);
-// console.log(seasonLength)
+  const files = [
+    {
+      id: 400,
+      fileName: "55_20231225164102881.png",
+      quality: "WEB-DL 1080p",
+      movieId: 1239,
+      season: 1,
+      episode: 1,
+      createdAt: "2023-12-25T16:41:02.8844786",
+      updatedAt: "2023-12-25T16:41:02.8847949",
+      isDeleted: false,
+    },
+    {
+      id: 400,
+      fileName: "55_20231225164102881.png",
+      quality: "WEB-DL 720p",
+      movieId: 1239,
+      season: 2,
+      episode: 1,
+      createdAt: "2023-12-25T16:41:02.8844786",
+      updatedAt: "2023-12-25T16:41:02.8847949",
+      isDeleted: false,
+    },
+    {
+      id: 400,
+      fileName: "55_20231225164102881.png",
+      quality: "WEB-DL 720p x265 10bit",
+      movieId: 1239,
+      season: 2,
+      episode: 2,
+      createdAt: "2023-12-25T16:41:02.8844786",
+      updatedAt: "2023-12-25T16:41:02.8847949",
+      isDeleted: false,
+    },
+    {
+      id: 400,
+      fileName: "55_20231225164102881.png",
+      quality: "WEB-DL 480p",
+      movieId: 1239,
+      season: 3,
+      episode: 1,
+      createdAt: "2023-12-25T16:41:02.8844786",
+      updatedAt: "2023-12-25T16:41:02.8847949",
+      isDeleted: false,
+    },
+  ];
+
+  useEffect(() => {
+    from === "edit" &&
+      files.forEach((l) => {
+        setSeasonLength((v) => [...new Set([...v, l.season])]);
+      });
+  }, []);
+  // console.log(seasonLength);
   return (
     <div>
       {seasonLength.map((season, index) => (
@@ -16,6 +75,8 @@ const AddSeasonFile = ({ seasonFile,loadingButton, setSeasonFile ,qw}) => {
           loadingButton={loadingButton}
           setSeasonFile={setSeasonFile}
           qw={qw}
+          from={from}
+          seriesFilesForEdit={files}
         />
       ))}
       <div
