@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 
 const EditFileItem = ({
   quality,
-  qw,
+  qw, 
   setMovieFiles,
   movieFiles,
   initialInputs,

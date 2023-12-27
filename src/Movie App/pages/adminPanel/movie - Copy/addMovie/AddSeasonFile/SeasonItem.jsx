@@ -13,20 +13,20 @@ export const SeasonItem = ({
   setSeasonLength,
   qw,
   from,
-  seriesFilesForEdit,
+  seriesFilesForEdit
 }) => {
   const [episodes, setEpisodes] = useState([1]);
   const [selectedEpisode, setSelectedEpisode] = useState(1);
 
   useEffect(() => {
     from === "edit" &&
-      seriesFilesForEdit.forEach((l) => {
+      seriesFilesForEdit["files"].forEach((l) => {
         l.season === season &&
           setEpisodes((v) => [...new Set([...v, l.episode])]);
       });
   }, []);
 
-  console.log({ se: season, ep: episodes });
+  // console.log({ se: season, ep: episodes });
   return (
     <div>
       <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-5  max-w-[1300px]  ">

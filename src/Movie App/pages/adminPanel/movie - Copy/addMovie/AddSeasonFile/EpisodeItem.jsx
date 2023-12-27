@@ -8,10 +8,11 @@ const EpisodeItem = ({
   selectedSeason,
   seasonFile,
   setSeasonFile,
-  from,seriesFilesForEdit
+  from,seriesFilesForEdit,
 }) => {
   const qualities = [
     "WEB-DL 1080p",
+    // 'khv888',
     "WEB-DL 720p",
     "WEB-DL 720p x265 10bit",
     "WEB-DL 480p",
@@ -44,7 +45,7 @@ const EpisodeItem = ({
                 season={selectedSeason}
                 setSeasonFile={setSeasonFile}
                 seasonFile={seasonFile}
-                seriesFilesForEdit={seriesFilesForEdit}
+                seriesFilesForEdits={seriesFilesForEdit}
               />
             )}
           </div>

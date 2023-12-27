@@ -85,6 +85,12 @@ export const movieCoreApi = createApi({
         credentials: "include",
       }),
     }),
+    getSeriesForEditInAdminPanel: builder.query({
+      query: ({ id }) => ({
+        url: `Admin/Movie/GetDetailById?Id=${id}`,
+        credentials: "include",
+      }),
+    }),
     addMovieInAdminPanel: builder.mutation({
       query: (payload) => ({
         url: "Admin/Movie/AddMovie",
@@ -402,6 +408,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useGetSeriesForEditInAdminPanelQuery,
   useGetSeriesListInAdminPanelQuery,
   useGetUserWatchListUserSideQuery,
   useAddMovieToWatchListUserSideMutation,

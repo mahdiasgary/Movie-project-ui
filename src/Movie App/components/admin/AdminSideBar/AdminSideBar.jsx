@@ -6,7 +6,12 @@ import logoImage from "../../../assets/logoImage.png";
 import logoImageDark from "../../../assets/logoImageDark.png";
 import AdminSideBarList from "./AdminSideBarList";
 import { adminSidbarItem } from "../../../constans";
+import { useStateContext } from "../../../contextProvider/ContextProvider";
+import { FaPowerOff } from "react-icons/fa6";
+
 const AdminSideBar = ({ openMenu, setOpenMenu, mode, setMode }) => {
+  const { loginStatus } = useStateContext();
+  // console.log(loginStatus);
   return (
     <div
       className={`${
@@ -27,10 +32,17 @@ const AdminSideBar = ({ openMenu, setOpenMenu, mode, setMode }) => {
           src={mode !== "dark" ? logoImage : logoImageDark}
           alt="logoImage"
           className="w-[25px] h-[31.6px]  sm:w-[50px] sm:h-[50px] "
-          />
+        />
         <p className="self-center text-[18px] sm:text-[21px]">
           KEYSER <span className="text-btn">SöZE</span>{" "}
         </p>
+      </div>
+      <div className="flex justify-between pb-4 pt-6 lg:pt-0 px-5 font-semibold text-btn">
+        <div className="self-center">{loginStatus?.data?.userName}</div>
+        <div className="text-red-500 cursor-pointer hover:bg-opacity-100 hover:text-white duration-200 p-[10px] flex bg-red-500 bg-opacity-20  rounded-2xl text-sm font-semibold self-center">
+          {/* logout */}
+          <FaPowerOff className="self-center text-[15px] " />
+        </div>
       </div>
       <div>
         <AdminSideBarList

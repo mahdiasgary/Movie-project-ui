@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiLinkAlt, BiSolidMoviePlay } from "react-icons/bi";
 import AddMoveImage from "../addMovie/AddMovieImage";
 import { useFormik } from "formik";
-import { useAddSeriesInAdminPanelMutation } from "../../../../redux/services/movieDatabase";
+import {
+  useAddSeriesInAdminPanelMutation,
+  useGetSeriesForEditInAdminPanelQuery,
+} from "../../../../redux/services/movieDatabase";
 import {
   useGetArtistSelectListInAdminPanelQuery,
   useGetCountrySelectListInAdminPanelQuery,
@@ -19,6 +22,7 @@ import axios from "axios";
 import AddSeasonFile from "../addMovie/AddSeasonFile/AddSeasonFile";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
 import UplaodBox from "../../movie/addMovie/UplaodBox";
+import { BeatLoader } from "react-spinners";
 const EditSeries = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -28,7 +32,56 @@ const EditSeries = ({ history }) => {
   const seriesFiles = seasonFile?.filter(
     ({ id }, index) => !ids.includes(id, index + 1)
   );
-  console.log(seriesFiles);
+  const { data } = useGetSeriesForEditInAdminPanelQuery(
+    { id: window.location.search.split("=")[1] },
+    { refetchOnMountOrArgChange: true }
+  );
+  const [initialInputs, setInitialInputs] = useState({
+    files: [],
+    id: "",
+    Trailer: "",
+  });
+  // console.log(data);
+
+  // console.log(movieFiles);
+  useEffect(() => {
+    data &&
+      setInitialInputs((v) => ({
+        files: data.data.files,
+        id: data.data.id,
+        Trailer: data.data.trailer,
+      }));
+  }, [data]);
+  const [inputs, setInputs] = useState({
+    Title: data?.data.title,
+    Imdb: data?.data.imdb,
+    year: "7",
+    Time: data?.data.time,
+    summary: data?.data.summary,
+  });
+  useEffect(() => {
+    setInputs({
+      Title: data?.data.title,
+      Imdb: data?.data.imdbRate,
+      year: "7",
+      Time: data?.data.time,
+      summary: data?.data.summary,
+      id: data?.data.id,
+    });
+    setDate({
+      CreatedDate: data?.data.createdDate?.split("T")[0],
+      ReleasedDate: data?.data.releasedDate?.split("T")[0],
+    });
+    setSelectedOptionss({
+      artist: data?.data.artists,
+      country: data?.data.country,
+      genre: data?.data.genre,
+      language: data?.data.languages,
+    });
+    // setMovieCover(data?.data.cover);
+    // setMovieBackground(data?.data.image);
+  }, [data]);
+  // console.log(initialInputs);
   const [movieCover, setMovieCover] = useState(null);
   const [movieBackground, setMovieBackground] = useState(null);
   const [state, setState] = useState(false);
@@ -91,7 +144,7 @@ const EditSeries = ({ history }) => {
   const [trailer, settrailer] = useState("");
   const [qw, we] = useState(70);
   let filteredFiles = seriesFiles.filter((s) => s.id !== "Trailer");
-  console.log(filteredFiles);
+  // console.log(filteredFiles);
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
@@ -157,16 +210,14 @@ const EditSeries = ({ history }) => {
       });
   };
 
-  return (
+  return data ? (
     <div>
       <IdontKnowName
         root={{ path: "/admin", value: "Dashboard" }}
         prob={[{ path: "/admin/addnewseries", value: "Edit Series" }]}
       />{" "}
       <div className=" my-10 min-h-screen pb-20  mx-6 sm:mx-10 md:mx-28">
-        <div className="text-[23px] font-bold mt-10 mb-6 ">
-          {"Edit Series"}
-        </div>
+        <div className="text-[23px] font-bold mt-10 mb-6 ">{"Edit Series"}</div>
         <section className=" dark:text-screenLight text-sideBarDark  self-center mt-2  ">
           <div className="">
             <form className="">
@@ -201,6 +252,9 @@ const EditSeries = ({ history }) => {
                       itemList={adminAddMovieListItems}
                       selectedOptions={selectedOptions}
                       setSelectedOptions={setSelectedOptionss}
+                      inputs={inputs}
+                      changeInput={setInputs}
+                      from={"edit"}
                     />
                   </div>
                 </li>
@@ -391,6 +445,7 @@ const EditSeries = ({ history }) => {
                       seasonFile={seriesFiles}
                       setSeasonFile={setSeasonFile}
                       loadingButton={loadingButton}
+                      files={initialInputs}
                       qw={qw}
                     />
                   )}
@@ -428,6 +483,14 @@ const EditSeries = ({ history }) => {
             </div>
           </div>
         </section>
+      </div>
+    </div>
+  ) : (
+    <div className="flex h-screen justify-center">
+      <div className="flex mt-20 text-[19px]">
+        <div className="flex justify-center">
+          <BeatLoader size={"20px"} color="#1e74f1" />
+        </div>
       </div>
     </div>
   );

@@ -8,62 +8,63 @@ const AddSeasonFile = ({
   loadingButton,
   setSeasonFile,
   qw,
+  files,
 }) => {
   const [seasonLength, setSeasonLength] = useState([1]);
-  const files = [
-    {
-      id: 400,
-      fileName: "55_20231225164102881.png",
-      quality: "WEB-DL 1080p",
-      movieId: 1239,
-      season: 1,
-      episode: 1,
-      createdAt: "2023-12-25T16:41:02.8844786",
-      updatedAt: "2023-12-25T16:41:02.8847949",
-      isDeleted: false,
-    },
-    {
-      id: 400,
-      fileName: "55_20231225164102881.png",
-      quality: "WEB-DL 720p",
-      movieId: 1239,
-      season: 2,
-      episode: 1,
-      createdAt: "2023-12-25T16:41:02.8844786",
-      updatedAt: "2023-12-25T16:41:02.8847949",
-      isDeleted: false,
-    },
-    {
-      id: 400,
-      fileName: "55_20231225164102881.png",
-      quality: "WEB-DL 720p x265 10bit",
-      movieId: 1239,
-      season: 2,
-      episode: 2,
-      createdAt: "2023-12-25T16:41:02.8844786",
-      updatedAt: "2023-12-25T16:41:02.8847949",
-      isDeleted: false,
-    },
-    {
-      id: 400,
-      fileName: "55_20231225164102881.png",
-      quality: "WEB-DL 480p",
-      movieId: 1239,
-      season: 3,
-      episode: 1,
-      createdAt: "2023-12-25T16:41:02.8844786",
-      updatedAt: "2023-12-25T16:41:02.8847949",
-      isDeleted: false,
-    },
-  ];
+  // const files = [
+  //   {
+  //     id: 400,
+  //     fileName: "55_20231225164102881.png",
+  //     quality: "WEB-DL 1080p",
+  //     movieId: 1239,
+  //     season: 1,
+  //     episode: 1,
+  //     createdAt: "2023-12-25T16:41:02.8844786",
+  //     updatedAt: "2023-12-25T16:41:02.8847949",
+  //     isDeleted: false,
+  //   },
+  //   {
+  //     id: 400,
+  //     fileName: "55_20231225164102881.png",
+  //     quality: "WEB-DL 720p",
+  //     movieId: 1239,
+  //     season: 2,
+  //     episode: 1,
+  //     createdAt: "2023-12-25T16:41:02.8844786",
+  //     updatedAt: "2023-12-25T16:41:02.8847949",
+  //     isDeleted: false,
+  //   },
+  //   {
+  //     id: 400,
+  //     fileName: "55_20231225164102881.png",
+  //     quality: "WEB-DL 720p x265 10bit",
+  //     movieId: 1239,
+  //     season: 2,
+  //     episode: 2,
+  //     createdAt: "2023-12-25T16:41:02.8844786",
+  //     updatedAt: "2023-12-25T16:41:02.8847949",
+  //     isDeleted: false,
+  //   },
+  //   {
+  //     id: 400,
+  //     fileName: "55_20231225164102881.png",
+  //     quality: "WEB-DL 480p",
+  //     movieId: 1239,
+  //     season: 3,
+  //     episode: 1,
+  //     createdAt: "2023-12-25T16:41:02.8844786",
+  //     updatedAt: "2023-12-25T16:41:02.8847949",
+  //     isDeleted: false,
+  //   },
+  // ];
 
   useEffect(() => {
     from === "edit" &&
-      files.forEach((l) => {
+      files.files.forEach((l) => {
         setSeasonLength((v) => [...new Set([...v, l.season])]);
       });
-  }, []);
-  // console.log(seasonLength);
+  }, [files]);
+  console.log(seasonLength);
   return (
     <div>
       {seasonLength.map((season, index) => (

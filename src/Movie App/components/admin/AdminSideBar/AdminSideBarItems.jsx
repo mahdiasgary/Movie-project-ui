@@ -7,7 +7,7 @@ import { set } from "nprogress";
 
 const AdminSideBarItems = ({ history, item, menu }) => {
   const [state, setState] = useState(true);
-  console.log(state);
+  // console.log(state);
   // console.log(window.location.pathname.split("/")[2]);
   useEffect(() => {
     // const screenWidht = window.innerWidth;
@@ -27,7 +27,7 @@ const AdminSideBarItems = ({ history, item, menu }) => {
   }, [pathname]);
 
   const [hovered, setHovered] = useState();
-  console.log(subSelected);
+  // console.log(subSelected);
   return (
     <div>
       <div>
