@@ -21,7 +21,7 @@ const SingupForm = ({
           </h1>
           <p className=" mx-1">
             Already A Member ?
-            <span className="text-btn font-semibold m-1 text-[16px] ">
+            <span className="text-btn font-semibold m-1 text-[18px] ">
               <Link to={"/login"}>Log In</Link>
             </span>
           </p>
@@ -183,6 +183,7 @@ const SingupForm = ({
             <div className="text-center flex justify-center ">
               {loadingButton ? (
                 <button
+                disabled={true}
                   className={` outline-none w-[90vw] md:w-[440px] cursor-not-allowed text-white px-5  duration-300 justify-center bg-btn font-bold text-lg shadow-md  my-1 rounded-2xl mt-5  h-[50px] `}
                 >
                   <div className="flex justify-center">

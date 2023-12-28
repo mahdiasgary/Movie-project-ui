@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import React, { useRef, useState } from "react";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import { withRouter } from "react-router-dom";
-import { useActiveAccountMutation } from "../../../redux/services/movieDatabase";
-import { toast } from "react-toastify";
-import { set } from "nprogress";
+import {
+  useActiveAccountMutation,
+  useSubmitOtp2ForForgotPasswordMutation,
+} from "../../../redux/services/movieDatabase";
+import toast from "react-hot-toast";
 
 const VerifyEmail = ({
   setSwichBetweenFormAndVerify,
@@ -16,6 +18,7 @@ const VerifyEmail = ({
   setOPT,
 }) => {
   const [activeAccountMutation] = useActiveAccountMutation();
+  const [useSubmitOtpPass] = useSubmitOtp2ForForgotPasswordMutation();
   const [loadingButton, setLoadingButton] = useState(false);
   const itemsRef = useRef([]);
 
@@ -52,30 +55,33 @@ const VerifyEmail = ({
 
   const verifyEmailHandler = () => {
     // setLoadingButton(true);
-    activeAccountMutation({
-      firstNumber: Formik.values.digit1.toString(),
-      secondNumber: Formik.values.digit2.toString(),
-      thirdNumber: Formik.values.digit3.toString(),
-      furthNumber: Formik.values.digit4.toString(),
-      fifthNumber: Formik.values.digit5.toString(),
-      Email: userEmail,
-    })
-      .unwrap()
-      .then((res) => {
-        if (!res.isSuccessFull) {
-          setCorrectCode(-1);
-          toast.error(res.message, {
-            autoClose: 2100,
-            position: "top-right",
-          });
-        }
-        if (res.isSuccessFull) {
-          setCorrectCode(1);
-          toast.success(res.message, {
-            autoClose: 2100,
-            position: "top-right",
-          });
-          if (from === "forgotPasswordForm") {
+    let opt =
+      Formik.values.digit1 +
+      Formik.values.digit2 +
+      Formik.values.digit3 +
+      Formik.values.digit4 +
+      Formik.values.digit5;
+    const formData = new FormData();
+    formData.append("Otp", opt.toString());
+    formData.append("Email", userEmail);
+    if (from === "forgotPasswordForm") {
+      useSubmitOtpPass(formData)
+        .unwrap()
+        .then((res) => {
+          if (!res.isSuccessFull) {
+            setCorrectCode(-1);
+            toast.error(res.message, {
+              autoClose: 2100,
+              position: "top-right",
+            });
+          }
+          if (res.isSuccessFull) {
+            setCorrectCode(1);
+            toast.success(res.message, {
+              autoClose: 2100,
+              position: "top-right",
+            });
+
             setOPT(
               Formik.values.digit1 +
                 Formik.values.digit2 +
@@ -83,18 +89,38 @@ const VerifyEmail = ({
                 Formik.values.digit4 +
                 Formik.values.digit5
             );
-            setTimeout(() => setSwichBetweenCreateAndVerify(true), 800);
+            setTimeout(() => setSwichBetweenCreateAndVerify(true), 300);
           }
-          if (from === "login") {
-            setlogin(9);
-            setTimeout(() => history.push("/"), 800);
+        });
+    }
+    if (from !== "forgotPasswordForm") {
+      activeAccountMutation(formData)
+        .unwrap()
+        .then((res) => {
+          if (!res.isSuccessFull) {
+            setCorrectCode(-1);
+            toast.error(res.message, {
+              autoClose: 2100,
+              position: "top-right",
+            });
           }
-          if (from === "singUp") {
-            // setlogin(78)
-            setTimeout(() => history.push("/login"), 800);
+          if (res.isSuccessFull) {
+            setCorrectCode(1);
+            toast.success(res.message, {
+              autoClose: 2100,
+              position: "top-right",
+            });
+            if (from === "login") {
+              // setlogin(9);
+              setTimeout(() => history.push("/"), 300);
+            }
+            if (from === "singUp") {
+              // setlogin(78)
+              setTimeout(() => history.push("/"), 300);
+            }
           }
-        }
-      });
+        });
+    }
   };
   const [counter, setCounter] = React.useState(120);
 

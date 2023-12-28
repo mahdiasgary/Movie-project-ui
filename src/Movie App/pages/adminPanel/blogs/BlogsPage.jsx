@@ -1,7 +1,5 @@
 import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
 import { IdontKnowName } from "../../../components/admin/IdontKnowName";
-
 import React, { useState } from "react";
 import AddGenreCover from "./AddBlogCover";
 import { useFormik } from "formik";
@@ -17,14 +15,6 @@ import { Toast } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
 import { FaEye } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
-
-import { Grammarly, GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
-// import { demoClientId, demoText } from "./demo";
-// import "./style.css";
-
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-// Note: I'm  using @ckeditor/ckeditor5-build-classic v32.0.0. I got errors with newer versions
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const BlogsPage = ({ history }) => {
   const [value, setValue] = useState("");
@@ -76,16 +66,7 @@ const BlogsPage = ({ history }) => {
         console.log(error);
       });
   };
-  ClassicEditor.create(document.querySelector("#editor"), {
-    toolbar: [
-      "heading",
-      "|",
-      "alignment:left",
-      "alignment:right",
-      "alignment:center",
-      "alignment:justify",
-    ],
-  });
+
   return (
     <div className="fa ">
       <IdontKnowName

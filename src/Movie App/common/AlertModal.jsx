@@ -17,6 +17,7 @@ const AlertModal = ({
   // console.log(loading);
   const props = { openModal, setOpenModal };
   return (
+    
     <Modal
       // dismissible
       show={props.openModal === "pop-up"}
@@ -38,7 +39,7 @@ const AlertModal = ({
             <Button
               disabled={loading ? true : false}
               onClick={() => functionHandler(from)}
-              className="bg-red-500 text-white  duration-150"
+              className="en bg-btn text-white  duration-150"
               color="red-500"
               // onClick={() => props.setOpenModal(undefined)}
             >
@@ -76,6 +77,7 @@ const AlertModal = ({
                 from ==='user' &&   functionHandler2(input);
                 props.setOpenModal(undefined);
               }}
+              className="en"
             >
               No, cancel
             </Button>

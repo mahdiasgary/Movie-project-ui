@@ -7,15 +7,16 @@ import {
   useGetLoginStatusQuery,
   useLoginUserMutation,
 } from "../../../redux/services/movieDatabase";
-import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 
 import VerifyEmail from "../../../components/singup login/verify email/VerifyEmail";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
+import toast from "react-hot-toast";
+
 const LogInPage = ({ history }) => {
   const [LoginUser] = useLoginUserMutation();
-  const { loginStatus,setlogin } = useStateContext();
+  const { loginStatus, setlogin } = useStateContext();
   if (loginStatus?.isSuccessFull) history.push("/profile");
 
   const [userEmail, setUserEmail] = useState("");
@@ -28,8 +29,8 @@ const LogInPage = ({ history }) => {
   };
   const validationSchema = Yup.object({
     email: Yup.string().email("user@example.com").required("Email is required"),
-    password: Yup.string()
-      .required("No password provided")});
+    password: Yup.string().required("No password provided"),
+  });
   const Formik = useFormik({
     initialValues,
     validationSchema,
@@ -37,10 +38,10 @@ const LogInPage = ({ history }) => {
   });
   const loginUserHandler = () => {
     setLoadingButton(true);
-    LoginUser({
-      input: Formik.values.email,
-      password: Formik.values.password,
-    })
+    const formData = new FormData();
+    formData.append("Input", Formik.values.email);
+    formData.append("Password", Formik.values.password);
+    LoginUser(formData)
       .unwrap()
       .then((res) => {
         setLoadingButton(false);
@@ -53,7 +54,7 @@ const LogInPage = ({ history }) => {
           });
         }
         if (res.isSuccessFull && res.status === "Success") {
-          setlogin(8)
+          setlogin(8);
           history.push("/");
           toast.success(res.data + res.message, {
             autoClose: 2100,
@@ -92,7 +93,7 @@ const LogInPage = ({ history }) => {
           <VerifyEmail
             setSwichBetweenFormAndVerify={setSwichBetweenFormAndVerify}
             userEmail={userEmail}
-            from ={'login'}
+            from={"login"}
             action={loginUserHandler}
           />
         )}

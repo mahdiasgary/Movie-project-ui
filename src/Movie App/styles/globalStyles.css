@@ -13,14 +13,16 @@
 
 }
 
-.ql-toolbar.ql-snow{
+.ql-toolbar.ql-snow {
   @apply border-0;
 
 }
-.ql-toolbar{
+
+.ql-toolbar {
   @apply border-0;
 
 }
+
 .ql-snow {
   @apply border-0;
 
@@ -28,25 +30,16 @@
 }
 
 
-.ck-rounded-corners{
+.ck-rounded-corners {
   /* height: 500px; */
   min-height: 500px;
   @apply font-['Vazirmatn'];
   @apply rounded-2xl;
 
-border-radius: 25%;
+  border-radius: 25%;
 }
 
-.ck-powered-by{
-  display: none;
-}
-.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
-  /* @apply min-h-36; */
-  @apply rounded-2xl;
-  /* @apply bg-red-50; */
-  @apply font-['Vazirmatn'];
 
-}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -75,6 +68,11 @@ border-radius: 25%;
   box-sizing: border-box;
   scroll-behavior: smooth;
   /* font-family: "Eudoxus Sans"; */
+}
+
+.en {
+  font-family: "Eudoxus Sans";
+
 }
 
 #dd {

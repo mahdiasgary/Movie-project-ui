@@ -14,15 +14,15 @@ import {
 } from "../../../../redux/services/movieDatabase";
 import AdminFromBodyInfo from "../../../../common/AdminFromBodyInfo";
 import AdminFormDoneIcon from "../../../../common/AdminFormDoneIcon";
-import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import AdminAddItemList from "../../../../common/adminPanel/AdminAddItemList";
 import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import AddSeasonFile from "../addMovie/AddSeasonFile/AddSeasonFile";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
-import UplaodBox from "../../movie/addMovie/UplaodBox";
 import { BeatLoader } from "react-spinners";
+import AddEditTrailer from "../addMovie/AddEditTrailer";
+import toast from "react-hot-toast";
 const EditSeries = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -41,7 +41,7 @@ const EditSeries = ({ history }) => {
     id: "",
     Trailer: "",
   });
-  // console.log(data);
+  console.log(data);
 
   // console.log(movieFiles);
   useEffect(() => {
@@ -52,12 +52,20 @@ const EditSeries = ({ history }) => {
         Trailer: data.data.trailer,
       }));
   }, [data]);
+  const [movieCover, setMovieCover] = useState(null);
+  const [movieBackground, setMovieBackground] = useState(null);
   const [inputs, setInputs] = useState({
     Title: data?.data.title,
     Imdb: data?.data.imdb,
     year: "7",
     Time: data?.data.time,
     summary: data?.data.summary,
+  });
+  const [selectedOptions, setSelectedOptionss] = useState({
+    genre: [{ id: 7, title: "sef" }],
+    language: [{ id: 7, title: "sef" }],
+    country: [{ id: 7, title: "sef" }],
+    artist: [{ id: 7, title: "sef" }],
   });
   useEffect(() => {
     setInputs({
@@ -68,22 +76,22 @@ const EditSeries = ({ history }) => {
       summary: data?.data.summary,
       id: data?.data.id,
     });
+
     setDate({
       CreatedDate: data?.data.createdDate?.split("T")[0],
       ReleasedDate: data?.data.releasedDate?.split("T")[0],
     });
-    setSelectedOptionss({
-      artist: data?.data.artists,
-      country: data?.data.country,
-      genre: data?.data.genre,
-      language: data?.data.languages,
-    });
-    // setMovieCover(data?.data.cover);
-    // setMovieBackground(data?.data.image);
+    // setSelectedOptionss({
+    //   artist: data?.data.artists,
+    //   country: data?.data.country,
+    //   genre: data?.data.genre,
+    //   language: data?.data.languages,
+    // });
+
+    setMovieCover(data?.data.cover);
+    setMovieBackground(data?.data.image);
   }, [data]);
-  // console.log(initialInputs);
-  const [movieCover, setMovieCover] = useState(null);
-  const [movieBackground, setMovieBackground] = useState(null);
+
   const [state, setState] = useState(false);
   const genreQuery = useGetGenreSelectListInAdminPanelQuery({
     refetchOnMountOrArgChange: true,
@@ -115,43 +123,23 @@ const EditSeries = ({ history }) => {
     ReleasedDate: "2020/2/8",
     CreatedDate: "2020/8/5",
   });
-  //const validationSchema = Yup.object({
-  //  title: Yup.string().required("title is requried"),
-  //  imdb: Yup.string()
-  //    .required("imdb is requried")
-  //    .matches(/(?=.*[0-9])/, "imdb should be a number"),
-  //  year: Yup.string()
-  //    .required("Year is requried")
-  //    .matches(/(?=.*[0-9])(?=.{4,})/, "Year should be a number be 4 digits"),
-  //  time: Yup.string().required("Time is requried"),
-  //  summary: Yup.string().required("Summary is requried"),
-  //  ReleasedDate : Yup.string().required("ReleasedDate is requried"),
-  //  CreatedDate : Yup.string().required("CreatedDate is requried"),
 
-  //});
   const Formik = useFormik({
     initialValues,
-    /*validationSchema*/
     validateOnMount: true,
   });
 
-  const [selectedOptions, setSelectedOptionss] = useState({
-    genre: [],
-    language: [],
-    country: [],
-    artist: [],
-  });
   const [trailer, settrailer] = useState("");
-  const [qw, we] = useState(70);
-  let filteredFiles = seriesFiles.filter((s) => s.id !== "Trailer");
+  const [qw, we] = useState(0);
   // console.log(filteredFiles);
   const SubmiHandler = () => {
     setLoadingButton(true);
     const formData = new FormData();
-    formData.append("title", Formik.values.title);
-    formData.append("imdb", Formik.values.imdb);
-    formData.append("Summary", Formik.values.summary);
-    formData.append("time", Formik.values.time);
+    formData.append("id", initialInputs.id);
+    formData.append("title", inputs.Title);
+    formData.append("imdbRate", inputs.Imdb);
+    formData.append("Summary", inputs.summary);
+    formData.append("time", inputs.Time);
     formData.append("cover", movieCover);
     formData.append("image", movieBackground);
     formData.append("releasedDate", date.ReleasedDate);
@@ -169,42 +157,26 @@ const EditSeries = ({ history }) => {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
 
-    for (let i = 0; i < filteredFiles.length; i++) {
-      formData.append(`Files[${i}].Quality`, filteredFiles[i].quality);
-    }
-    for (let i = 0; i < filteredFiles.length; i++) {
-      formData.append(`Files[${i}].File`, filteredFiles[i].file);
-    }
-    for (let i = 0; i < filteredFiles.length; i++) {
-      formData.append(`Files[${i}].Season`, filteredFiles[i].season);
-    }
-    for (let i = 0; i < filteredFiles.length; i++) {
-      formData.append(`Files[${i}].Episode`, filteredFiles[i].episode);
-    }
-    formData.append(
-      "Trailer",
-      seriesFiles[seriesFiles.findIndex((m) => m.quality === "Trailer")].file
-    );
-    const options = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        let precentage = Math.floor((loaded * 100) / total);
-        we(precentage);
-      },
-    };
+    // const options = {
+    //   onUploadProgress: (progressEvent) => {
+    //     const { loaded, total } = progressEvent;
+    //     let precentage = Math.floor((loaded * 100) / total);
+    //     we(precentage);
+    //   },
+    // };
     // const config = {
     //   onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
     // };
     axios
-      .post("https://localhost:7175/Admin/Series/Add", formData, options)
+      .post("https://localhost:7175/Admin/Series/Edit", formData)
       .then((r) => {
         // setLoadingButton(false);
         if (r.data.isSuccessFull) {
-          toast.success(`${Formik.values.title} add to Series `, {
+          toast.success(`Edited Successfully `, {
             autoClose: 1100,
             position: "top-right",
           });
-          setTimeout(() => history.push("serieslist"), 300);
+          // setTimeout(() => history.push("serieslist"), 300);
         }
         console.log(r);
       });
@@ -223,7 +195,7 @@ const EditSeries = ({ history }) => {
             <form className="">
               <ol className="relative flex flex-col text-gray-500 border-l border-gray-300 dark:border-gray-600 dark:text-gray-400">
                 <AddMoveImage
-                  // editProccss={editProccss}
+                  editProccss={true}
                   movieBackground={movieBackground}
                   setMovieBackground={setMovieBackground}
                   movieCover={movieCover}
@@ -287,8 +259,13 @@ const EditSeries = ({ history }) => {
                       <BiLinkAlt className="font-bold text-[20px] " />
                     </span>
                   )}
+                  <AddEditTrailer
+                    file={initialInputs}
+                    setFile={setInitialInputs}
+                    selectedOptions={selectedOptions}
+                  />
 
-                  <div className="min-w-[200px]  mt-20 md:mt-8 mx-3 ">
+                  {/* <div className="min-w-[200px]  mt-20 md:mt-8 mx-3 ">
                     <div
                       className={` flex ${
                         loadingButton && "hidden"
@@ -324,131 +301,16 @@ const EditSeries = ({ history }) => {
                         Trailer{" "}
                       </p>
                     </div>
-                  </div>
-                  {loadingButton ? (
-                    <div
-                      className={` px-5 pb-6 md:mx-3 mx-4 mt-16 rounded-lg cursor-pointer border-2 border-[#787f98] border-dashed text-center m-2   flex flex-col`}
-                    >
-                      <p className="pt-3 ">Uplaode Box</p>
+                  </div> */}
 
-                      {seriesFiles?.map((file, index) => (
-                        <div key={index}>
-                          {qw >= (100 * (index + 1)) / seriesFiles.length ? (
-                            <div>
-                              <div class="mb-2 flex justify-between items-center">
-                                <div class="flex items-center gap-x-3">
-                                  <span class="w-8 h-8 text-[21px] flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700">
-                                    <BiSolidMoviePlay />
-                                  </span>
-                                  <div>
-                                    <p class="text-sm font-medium text-gray-800 dark:text-white">
-                                      {file.file.name}
-                                    </p>
-                                    <p class="text-xs text-start text-gray-500 dark:text-gray-500">
-                                      {Math.floor(
-                                        seriesFiles[0].file.size / 1000000
-                                      )}{" "}
-                                      MB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="flex items-center gap-x-3 whitespace-nowrap">
-                                <div
-                                  class="flex w-full h-[5px] bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700"
-                                  role="progressbar"
-                                  aria-valuenow="25"
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"
-                                >
-                                  <div
-                                    class={`flex  flex-col duration justify-center rounded-full overflow-hidden bg-btn text-xs text-white text-center whitespace-nowrap transition duration-700 dark:bg-btn w-[${qw}%]`}
-                                    style={{
-                                      width: `${
-                                        qw >=
-                                          (100 * (index + 1)) /
-                                            seriesFiles.length && "100"
-                                      }% `,
-                                    }}
-                                  ></div>
-                                </div>
-                                <div class="w-6 text-end">
-                                  <span class="text-sm text-gray-800 dark:text-white">
-                                    {qw >=
-                                      (100 * (index + 1)) /
-                                        seriesFiles.length && "100"}
-                                    %
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            <div>
-                              <div class="mb-2 flex justify-between items-center">
-                                <div class="flex items-center gap-x-3">
-                                  <span class="w-8 h-8 text-[21px] flex justify-center items-center border border-gray-200 text-gray-500 rounded-lg dark:border-neutral-700">
-                                    <BiSolidMoviePlay />
-                                  </span>
-                                  <div>
-                                    <p class="text-sm font-medium text-gray-800 dark:text-white">
-                                      {file.file.name}
-                                    </p>
-                                    <p class="text-xs text-start text-gray-500 dark:text-gray-500">
-                                      {Math.floor(
-                                        seriesFiles[0].file.size / 1000000
-                                      )}{" "}
-                                      MB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="flex items-center gap-x-3 whitespace-nowrap">
-                                <div class="demo-container w-full">
-                                  <div class="progress-bar w-full">
-                                    <div class="progress-bar-value w-full"></div>
-                                  </div>
-                                </div>
-                                <div class="w-6 text-end">
-                                  <div className="pl-3">
-                                    {/* <div className="self-center"> */}
-                                    <svg
-                                      class="w-4 h-4 mr-3 -ml-1 text-btn animate-spin"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <circle
-                                        class="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        stroke-width="4"
-                                      ></circle>
-                                      <path
-                                        class="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                      ></path>
-                                    </svg>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <AddSeasonFile
-                      from={"edit"}
-                      seasonFile={seriesFiles}
-                      setSeasonFile={setSeasonFile}
-                      loadingButton={loadingButton}
-                      files={initialInputs}
-                      qw={qw}
-                    />
-                  )}
+                  <AddSeasonFile
+                    from={"edit"}
+                    seasonFile={seriesFiles}
+                    setSeasonFile={setSeasonFile}
+                    loadingButton={loadingButton}
+                    files={initialInputs}
+                    qw={qw}
+                  />
                 </li>
                 <li className="ml-6 ">
                   <AdminFormDoneIcon preDone={movieCover} />
@@ -477,7 +339,7 @@ const EditSeries = ({ history }) => {
                 //     : false
                 // }
               >
-                DONE !
+                SAVE !
               </button>
               {/* <button onClick={SubmiHandler}>55555</button> */}
             </div>

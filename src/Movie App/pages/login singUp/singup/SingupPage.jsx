@@ -5,12 +5,12 @@ import SingupForm from "../../../components/singup login/singup/SingupForm";
 import VerifyEmail from "../../../components/singup login/verify email/VerifyEmail";
 import { useFormik } from "formik";
 import { useRegisterUserMutation } from "../../../redux/services/movieDatabase";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
 import { withRouter } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const SingupPage = ({history}) => {
+const SingupPage = ({ history }) => {
   const [useRegisterUser] = useRegisterUserMutation();
   const [swichBetweenFormAndVerify, setSwichBetweenFormAndVerify] =
     useState(false);
@@ -49,13 +49,16 @@ const SingupPage = ({history}) => {
   const userRegister = () => {
     setLoadingButton(true);
     setUserEmail(Formik.values.email);
-    useRegisterUser({
-      username: Formik.values.firstName + "" + Formik.values.lastName,
-      email: Formik.values.email,
-      password: Formik.values.password,
-      confirmPassword: Formik.values.confirmPassword,
-      mobile: Formik.values.mobile,
-    })
+    const formData = new FormData();
+    formData.append(
+      "Username",
+      `${Formik.values.firstName} ${Formik.values.lastName}`
+    );
+    formData.append("Email", Formik.values.email);
+    formData.append("Password", Formik.values.password);
+    formData.append("ConfirmPassword", Formik.values.confirmPassword);
+    formData.append("Mobile", Formik.values.mobile);
+    useRegisterUser(formData)
       .unwrap()
       .then((res) => {
         setLoadingButton(false);
@@ -63,13 +66,13 @@ const SingupPage = ({history}) => {
 
         if (res.isSuccessFull && res.status === "EmailSend") {
           setSwichBetweenFormAndVerify(true);
-          toast.info(res.message, {
+          toast.success(res.message, {
             autoClose: 2100,
             position: "top-right",
           });
         }
         if (!res.isSuccessFull && res.status === "UserExist") {
-          toast.info(res.message, {
+          toast.error(res.message, {
             autoClose: 2100,
             position: "top-right",
           });
@@ -77,7 +80,7 @@ const SingupPage = ({history}) => {
       });
   };
   return (
-    <div className="w-full h-[900px] bg-[#f9f9f9] dark:bg-[#282a37] text-white">
+    <div className="w-full min-h-[1000px]  bg-[#f9f9f9] dark:bg-[#282a37] text-white">
       <div className=" z-[5] absolute py-20 xl:px-32 flex xl:justify-start justify-center w-full text-textLight dark:text-white">
         {swichBetweenFormAndVerify ? (
           <VerifyEmail

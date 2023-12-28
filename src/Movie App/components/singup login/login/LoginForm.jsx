@@ -18,9 +18,9 @@ const LoginForm = ({ Formik, loginUserHandler, loadingButton }) => {
             <div>
               <input
                 {...Formik.getFieldProps("email")}
-                type="email"
+                type="text"
                 disabled={loadingButton && true}
-                placeholder="Enter your email"
+                placeholder="Enter your email or mobile"
                 className={`flex  px-5 flex-col outline-none
          focus:ring-2 duration-150 focus:ring-btn justify-center
           text-textLight dark:text-textDark bg-white
@@ -135,9 +135,9 @@ const LoginForm = ({ Formik, loginUserHandler, loadingButton }) => {
         </Link>
 
         {/* singup button */}
-        <p className=" mx-1">
+        <p className=" mx-1 text-[16px]">
           Not registered yet ?
-          <span className="text-btn m-1 font-semibold  text-[16px] ">
+          <span className="text-btn m-1 font-semibold  text-[18px] ">
             <Link to={"/singup"}>Sing up</Link>
           </span>
         </p>

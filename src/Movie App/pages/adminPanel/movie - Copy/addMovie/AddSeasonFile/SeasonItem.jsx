@@ -24,7 +24,7 @@ export const SeasonItem = ({
         l.season === season &&
           setEpisodes((v) => [...new Set([...v, l.episode])]);
       });
-  }, []);
+  }, [seriesFilesForEdit]);
 
   // console.log({ se: season, ep: episodes });
   return (

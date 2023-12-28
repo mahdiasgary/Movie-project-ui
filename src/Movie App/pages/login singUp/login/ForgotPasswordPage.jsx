@@ -9,8 +9,8 @@ import {
   useSendEmailForForgotPasswordMutation,
   useSubmitOtpForForgotPasswordMutation,
 } from "../../../redux/services/movieDatabase";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 const ForgotPasswordPage = () => {
   const initialValues = {
@@ -48,15 +48,15 @@ const ForgotPasswordPage = () => {
 
   const [ForForgotPassword] = useSendEmailForForgotPasswordMutation();
   const sendEmailForForgotPasswordHandler = () => {
-    ForForgotPassword({
-      email: Formik.values.email,
-    })
+    const formData = new FormData();
+    formData.append("Email", Formik.values.email);
+    ForForgotPassword(formData)
       .unwrap()
       .then((res) => {
         setloadingButton(false);
         if (res.isSuccessFull && res.status === "EmailSend") {
           setSwichBetweenFormAndVerify(true);
-          toast.info(res.message, {
+          toast.success(res.message, {
             autoClose: 2100,
             position: "top-right",
           });
@@ -86,7 +86,7 @@ const ForgotPasswordPage = () => {
             />
           ) : (
             <VerifyEmail
-            setOPT={setOTP}
+              setOPT={setOTP}
               userEmail={Formik.values.email}
               setSwichBetweenFormAndVerify={setSwichBetweenFormAndVerify}
               setSwichBetweenCreateAndVerify={setSwichBetweenCreateAndVerify}

@@ -214,6 +214,14 @@ export const movieCoreApi = createApi({
     //   }),
     //   invalidatesTags: ["Get"],
     // }),
+    SubmitOtp2ForForgotPassword: builder.mutation({
+      query: (payload) => ({
+        url: "Account/ForgotPassword",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Post"],
+    }),
     SubmitOtpForForgotPassword: builder.mutation({
       query: (payload) => ({
         url: "Account/SubmitForgotPassword",
@@ -245,6 +253,8 @@ export const movieCoreApi = createApi({
       query: (payload) => ({
         url: "Account/SendForgotPassword",
         method: "POST",
+        credentials: "include",
+
         body: payload,
       }),
       invalidatesTags: ["Post"],
@@ -408,6 +418,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useSubmitOtp2ForForgotPasswordMutation,
   useGetSeriesForEditInAdminPanelQuery,
   useGetSeriesListInAdminPanelQuery,
   useGetUserWatchListUserSideQuery,

@@ -68,7 +68,7 @@ const AdminSideBarItems = ({ history, item, menu }) => {
                     {item[0].icon}
                   </span>
                   <p
-                    className={`origin-left dark:lg:text-white text-black text-[18px] ${
+                    className={`origin-left dark:text-white text-black text-[18px] ${
                       selectedSideBarItem === item[0].title.toLowerCase() &&
                       "text-btn"
                     } `}
@@ -148,7 +148,7 @@ const AdminSideBarItems = ({ history, item, menu }) => {
                   {item[0].icon}
                 </span>
                 <p
-                  className={`origin-left  dark:dark:lg:text-white text-black text-[18px] ${
+                  className={`origin-left  dark:dark:text-white text-black text-[18px] ${
                     selectedSideBarItem === item[0].title.toLowerCase() &&
                     "text-btn "
                   } `}

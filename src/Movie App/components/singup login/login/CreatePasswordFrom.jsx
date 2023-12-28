@@ -3,7 +3,7 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { useSubmitOtpForForgotPasswordMutation } from "../../../redux/services/movieDatabase";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const CreatePasswordFrom = ({ Formik, email, history, otp }) => {
   const [loadingButton, setLoadingButton] = useState(false);
@@ -12,12 +12,13 @@ const CreatePasswordFrom = ({ Formik, email, history, otp }) => {
     useSubmitOtpForForgotPasswordMutation();
   const submitOtpForForgotPasswordHandler = () => {
     setLoadingButton(true);
-    submitOtpForForgotPasswordMutation({
-      email,
-      password: Formik.values.newPassword,
-      confirmPassword: Formik.values.confirmPassword,
-      otp,
-    })
+    const formData = new FormData();
+    formData.append("Otp", opt.toString());
+    formData.append("Email", email);
+    formData.append("Password", Formik.values.newPassword);
+    formData.append("ConfirmPassword", Formik.values.confirmPassword);
+
+    submitOtpForForgotPasswordMutation(formData)
       .unwrap()
       .then((res) => {
         setLoadingButton(false);

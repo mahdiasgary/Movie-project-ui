@@ -5,7 +5,7 @@ import Chart from "react-apexcharts";
 
 const UserChart = ({data}) => {
   const queryData =data?.data?.data
-
+ 
   let state = {
     series: [
       {

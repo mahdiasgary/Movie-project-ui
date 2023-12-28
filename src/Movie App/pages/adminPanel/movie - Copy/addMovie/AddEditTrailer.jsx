@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import DragDropSeriesFile from "./DragDropSeriesFile";
-import { useStateContext } from "../../../../../contextProvider/ContextProvider";
+
 import { TbTrashFilled } from "react-icons/tb";
 import { MdChangeCircle } from "react-icons/md";
 import { BiSolidMoviePlay } from "react-icons/bi";
@@ -12,17 +11,12 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import AlertModal from "../../../../../common/AlertModal";
 import axios from "axios";
-const AddFileItem = ({
-  quality,
-  season,
-  episode,
-  seasonFile,
-  setSeasonFile,
-  seriesFilesForEdits,
-}) => {
-  let seriesFilesForEdit = seriesFilesForEdits.files;
+import { useStateContext } from "../../../../contextProvider/ContextProvider";
+import AlertModal from "../../../../common/AlertModal";
+
+const AddEditTrailer = ({ file, setFile,selectedOptions }) => {
+  let seriesFilesForEdit = file.Trailer;
   const { IsDarkMode, setqw } = useStateContext();
   const [editUploadProccess, seteditUploadProccess] = useState(0);
 
@@ -33,12 +27,12 @@ const AddFileItem = ({
     file: "",
     newFile: "",
   });
-  const [openModal, setOpenModal] = useState();
   const [open, setOpen] = React.useState(0);
   const [alwaysOpen, setAlwaysOpen] = React.useState(true);
 
   const handleAlwaysOpen = () => setAlwaysOpen((cur) => !cur);
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
+  const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
 
   //   console.log(seriesFilesForEdit);
@@ -47,19 +41,20 @@ const AddFileItem = ({
     setState((v) => ({ ...v, loading: true }));
     if (state.alertTitle === "editfile") {
       const formData = new FormData();
-      formData.append(
-        `Id`,
-        seriesFilesForEdit[
-          seriesFilesForEdit.findIndex((m) => m.quality === quality)
-        ].id
-      );
-      // formData.append("Quality", quality);
-      // formData.append("File", state.newFile);
-      formData.append("Season", season);
-      formData.append("Episode", episode);
-      formData.append("Quality", quality);
-      formData.append("File", state.file);
-      formData.append("IsDeleted", false);
+      formData.append(`Id`, file.id);
+      formData.append("Trailer", state.file);
+      for (let i = 0; i < selectedOptions.artist.length; i++) {
+        formData.append("SelectedArtistsIds", selectedOptions.artist[i].id);
+      }
+      for (let i = 0; i < selectedOptions.language.length; i++) {
+        formData.append("SelectedLanguagesIds", selectedOptions.language[i].id);
+      }
+      for (let i = 0; i < selectedOptions.country.length; i++) {
+        formData.append("SelectedCountryIds", selectedOptions.country[i].id);
+      }
+      for (let i = 0; i < selectedOptions.genre.length; i++) {
+        formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
+      }
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
@@ -69,7 +64,7 @@ const AddFileItem = ({
       };
 
       axios
-        .post("https://localhost:7175/Admin/Series/EditFile", formData, options)
+        .post("https://localhost:7175/Admin/Series/Edit", formData, options)
         .then((r) => {
           if (r.data.isSuccessFull) {
             setqw(Math.random());
@@ -89,11 +84,21 @@ const AddFileItem = ({
     }
     if (state.alertTitle === "addfile") {
       const formData = new FormData();
-      formData.append(`MovieId`, seriesFilesForEdits.id);
-      formData.append("Quality", quality);
-      formData.append("Season", season);
-      formData.append("File", state.newFile);
-      formData.append("Episode", episode);
+      formData.append(`Id`, file.id);
+      formData.append("Trailer", state.newFile);
+
+      for (let i = 0; i < selectedOptions.artist.length; i++) {
+        formData.append("SelectedArtistsIds", selectedOptions.artist[i].id);
+      }
+      for (let i = 0; i < selectedOptions.language.length; i++) {
+        formData.append("SelectedLanguagesIds", selectedOptions.language[i].id);
+      }
+      for (let i = 0; i < selectedOptions.country.length; i++) {
+        formData.append("SelectedCountryIds", selectedOptions.country[i].id);
+      }
+      for (let i = 0; i < selectedOptions.genre.length; i++) {
+        formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
+      }
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
@@ -103,7 +108,7 @@ const AddFileItem = ({
       };
 
       axios
-        .post("https://localhost:7175/Admin/Series/AddFile", formData, options)
+        .post("https://localhost:7175/Admin/Series/Edit", formData, options)
         .then((r) => {
           //   console.log(r);
           if (r.data.isSuccessFull) {
@@ -124,15 +129,8 @@ const AddFileItem = ({
     }
     if (state.alertTitle === "delete") {
       const formData = new FormData();
-      formData.append(
-        `Id`,
-        seriesFilesForEdit[
-          seriesFilesForEdit.findIndex((m) => m.quality === quality)
-        ].id
-      );
-      formData.append("Quality", quality);
-      // formData.append("File", state.file);
-      formData.append("IsDeleted", true);
+      formData.append(`Id`, file.id);
+      formData.append("File", null);
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
@@ -142,7 +140,7 @@ const AddFileItem = ({
       };
 
       axios
-        .post("https://localhost:7175/Admin/Series/EditFile", formData, options)
+        .post("https://localhost:7175/Admin/Series/Edit", formData, options)
         .then((r) => {
           console.log(r);
           if (r.data.isSuccessFull) {
@@ -162,7 +160,7 @@ const AddFileItem = ({
         });
     }
   };
-  // console.log(seriesFilesForEdit);
+  console.log(seriesFilesForEdit);
   return (
     <div>
       <AlertModal
@@ -173,15 +171,9 @@ const AddFileItem = ({
         openModal={openModal}
         setOpenModal={setOpenModal}
       />
-      {seriesFilesForEdit.find(
-        (s) =>
-          s.quality === quality &&
-          s.episode === episode &&
-          s.season === season &&
-          !s.isDeleted
-      ) ? (
+      {seriesFilesForEdit ? (
         <div
-          className={`  mx-2 my-1 bg-gray-300 dark:bg-border  rounded-md justify-between`}
+          className={`min-w-[200px]  mt-20 md:mt-8 mx-5   my-1 bg-gray-300 dark:bg-border  rounded-md justify-between`}
         >
           <Accordion open={open === 1} className="">
             <AccordionHeader onClick={() => handleOpen(1)} className="border-0">
@@ -193,7 +185,8 @@ const AddFileItem = ({
                     File Uploaded{" "}
                   </div>
                   <div className="mx-2 self-center dark:text-gray-400 text-sm">
-                    Quality : {quality}
+                    {/* Quality : {quality} */}
+                    Trailer
                   </div>
                 </div>
                 <FaCaretDown
@@ -257,6 +250,7 @@ const AddFileItem = ({
                               ...v,
                               file: e.target.files[0],
                             }));
+                            // setFile((v) => ({ Trailer: e.target.files[0] }));
                           }}
                           type="file"
                           className="text-sm text-grey-500
@@ -305,28 +299,10 @@ const AddFileItem = ({
                     <div className="flex">
                       <div className="flex  dark:text-gray-200 text-sm">
                         <BiSolidMoviePlay className="self-center pr-1 text-[21px]" />
-                        {
-                          seriesFilesForEdit[
-                            seriesFilesForEdit.findIndex(
-                              (m) => m.quality === quality
-                            )
-                          ].fileName
-                        }
+                        {seriesFilesForEdit}
                       </div>
                     </div>
 
-                    <div className=" flex dark:text-gray-400 text-sm">
-                      uploaded time:{" "}
-                      <span className="text-white mr-1">
-                        {
-                          seriesFilesForEdit[
-                            seriesFilesForEdit.findIndex(
-                              (m) => m.quality === quality
-                            )
-                          ].updatedAt?.split("T")[0]
-                        }
-                      </span>
-                    </div>
                     <div className="flex justify-center">
                       <video
                         className="h-full mt-5 w-[90%] mb-4 flex justify-center  rounded-xl"
@@ -337,11 +313,7 @@ const AddFileItem = ({
                           // src="https://docs.material-tailwind.com/demo.mp4"
                           src={
                             "https://localhost:7175/Movies/" +
-                            seriesFilesForEdit[
-                              seriesFilesForEdit.findIndex(
-                                (m) => m.quality === quality
-                              )
-                            ].fileName
+                            seriesFilesForEdit.fileName
                           }
                           type="video/mp4"
                         />
@@ -431,9 +403,13 @@ const AddFileItem = ({
               className={` flex    mx-2 my-1 bg-gray-300 dark:bg-border px-1 rounded-md py-1 justify-between`}
             >
               <input
-                onChange={(e) =>
-                  setState((v) => ({ ...v, newFile: e.target.files[0] }))
-                }
+                onChange={(e) => {
+                  e.preventDefault();
+                  setState((v) => ({
+                    ...v,
+                    newFile: e.target.files[0],
+                  }));
+                }}
                 type="file"
                 className="text-sm text-grey-500
           file:mr-5 file:py-2 file:px-3 md:file:px-6  self-center
@@ -445,11 +421,9 @@ const AddFileItem = ({
           "
               />
               <p
-                className={`${
-                  quality === "Trailer" && "text-btn font-semibold"
-                } self-center md:text-[16px] text-[13px] `}
+                className={`text-btn font-semibold self-center md:text-[16px] text-[13px] `}
               >
-                {quality}
+                Trailer
                 {state.newFile && (
                   <div className="flex justify-end">
                     <div className="flex gap-2 justify-end">
@@ -492,4 +466,4 @@ const AddFileItem = ({
   );
 };
 
-export default AddFileItem;
+export default AddEditTrailer;

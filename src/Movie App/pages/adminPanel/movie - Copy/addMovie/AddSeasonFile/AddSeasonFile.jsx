@@ -64,7 +64,7 @@ const AddSeasonFile = ({
         setSeasonLength((v) => [...new Set([...v, l.season])]);
       });
   }, [files]);
-  console.log(seasonLength);
+  // console.log(seasonLength);
   return (
     <div>
       {seasonLength.map((season, index) => (

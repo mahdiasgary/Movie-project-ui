@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@ckeditor/ckeditor5-build-classic": "^40.2.0",
-    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@emotion/styled": "^11.11.0",
     "@grammarly/editor-sdk-react": "^2.5.5",
     "@material-tailwind/html": "^2.1.0",
