@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiLinkAlt, BiSolidMoviePlay } from "react-icons/bi";
-import AddMoveImage from "../addMovie/AddMovieImage";
+import AddMoveImage from "../../movie/addMovie/AddMovieImage";
 import { useFormik } from "formik";
 import {
   useAddSeriesInAdminPanelMutation,
@@ -62,10 +62,10 @@ const EditSeries = ({ history }) => {
     summary: data?.data.summary,
   });
   const [selectedOptions, setSelectedOptionss] = useState({
-    genre: [{ id: 7, title: "sef" }],
-    language: [{ id: 7, title: "sef" }],
-    country: [{ id: 7, title: "sef" }],
-    artist: [{ id: 7, title: "sef" }],
+    genre: [],
+    language: [],
+    country: [],
+    artist: [],
   });
   useEffect(() => {
     setInputs({
@@ -81,12 +81,12 @@ const EditSeries = ({ history }) => {
       CreatedDate: data?.data.createdDate?.split("T")[0],
       ReleasedDate: data?.data.releasedDate?.split("T")[0],
     });
-    // setSelectedOptionss({
-    //   artist: data?.data.artists,
-    //   country: data?.data.country,
-    //   genre: data?.data.genre,
-    //   language: data?.data.languages,
-    // });
+    setSelectedOptionss({
+      artist: data?.data.artists,
+      country: data?.data.country,
+      genre: data?.data.genre,
+      language: data?.data.languages,
+    });
 
     setMovieCover(data?.data.cover);
     setMovieBackground(data?.data.image);
@@ -157,16 +157,6 @@ const EditSeries = ({ history }) => {
       formData.append("SelectedGenreIds", selectedOptions.genre[i].id);
     }
 
-    // const options = {
-    //   onUploadProgress: (progressEvent) => {
-    //     const { loaded, total } = progressEvent;
-    //     let precentage = Math.floor((loaded * 100) / total);
-    //     we(precentage);
-    //   },
-    // };
-    // const config = {
-    //   onUploadProgress: (progressEvent) => console.log(progressEvent.loaded),
-    // };
     axios
       .post("https://localhost:7175/Admin/Series/Edit", formData)
       .then((r) => {
@@ -176,7 +166,7 @@ const EditSeries = ({ history }) => {
             autoClose: 1100,
             position: "top-right",
           });
-          // setTimeout(() => history.push("serieslist"), 300);
+          setTimeout(() => history.push("serieslist"), 300);
         }
         console.log(r);
       });
@@ -322,7 +312,6 @@ const EditSeries = ({ history }) => {
               <button
                 onClick={SubmiHandler}
                 className={
-                  Object.keys(Formik.errors).length > 0 ||
                   movieCover === null ||
                   movieBackground === null ||
                   selectedArtist.length === 0 ||

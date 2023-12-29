@@ -20,6 +20,7 @@ import { HiCheck, HiOutlineExclamationCircle } from "react-icons/hi";
 import { withRouter } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import AlertModal from "../../../common/AlertModal";
+import { IdontKnowName } from "../../../components/admin/IdontKnowName";
 
 const UserProfile = ({ history }) => {
   let { setqw } = useStateContext();
@@ -91,58 +92,59 @@ const UserProfile = ({ history }) => {
   }, [data]);
 
   const [editUser] = useAdminEditUserMutation();
+  const [logout] = useLoginOutMutation();
 
   const editHandler = (type, photo) => {
-    let image0 = type === 1 && dataURLtoFile(photo, "qw.png");
-    inputs.loading = true;
-    const formDate = new FormData();
-    formDate.append("Id", data?.data?.id);
-    formDate.append("Username", inputs.name);
-    formDate.append("Email", inputs.email);
-    formDate.append("IsAdmin", inputs.IsAdmin);
-    formDate.append("IsActive", inputs.IsActive);
-    formDate.append("Image", type === 8 ? null : image0);
+    if (inputs.from === "logout") {
+      logout()
+        .unwrap()
+        .then((r) => {
+          console.log(r);
+        });
+    }
+    if (inputs.from !== "logout") {
+      let image0 = type === 1 && dataURLtoFile(photo, "qw.png");
+      inputs.loading = true;
+      const formDate = new FormData();
+      formDate.append("Id", data?.data?.id);
+      formDate.append("Username", inputs.name);
+      formDate.append("Email", inputs.email);
+      formDate.append("IsAdmin", inputs.IsAdmin);
+      formDate.append("IsActive", inputs.IsActive);
+      formDate.append("Image", type === 8 ? null : image0);
 
-    editUser(formDate)
-      .unwrap()
-      .then((r) => {
-        setqw(Math.random());
-        if (r.isSuccessFull) {
-          changeInput((values) => ({
-            ...values,
-            loadingFor: "",
-            loading: false,
-          }));
-          toast.success("Successfully Edited!", {
-            position: "top-center",
-            style: {
-              borderRadius: "10px",
-              background: "#333",
-              color: "#fff",
-            },
-          });
-        }
-      })
-      .then((error) => {});
+      editUser(formDate)
+        .unwrap()
+        .then((r) => {
+          setqw(Math.random());
+          if (r.isSuccessFull) {
+            changeInput((values) => ({
+              ...values,
+              loadingFor: "",
+              loading: false,
+            }));
+            toast.success("Successfully Edited!", {
+              position: "top-center",
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            });
+          }
+        })
+        .then((error) => {});
+    }
   };
 
   return data ? (
     <div className="flex flex-col w-full min-h-screen pb-20">
-      <button onClick={editHandler}>555555</button>
-      {/* <img
-        className="ring-2 ring-btn  h-[80px]  y9:h-[85px] w-[80px]  y9:w-[85px]  sm:h-[100px]  sm:w-[100px] md:h-[120px] md:w-[120px] duration-300   rounded-[50%]"
-        src={URL.createObjectURL(file)}
-        alt="profile picture"
-      /> */}
-      {/* <input type="file" onChange={(e) => console.log(e.target.files[0])} /> */}
+      {/* <button onClick={editHandler}>555555</button> */}
 
-      {/* <IdontKnowName
-        root={{ path: "/admin", value: "Dashboard" }}
-        prob={[
-          { path: "/admin/users", value: "Users" },
-          { path: "/admin/users", value: input.name },
-        ]}
-      /> */}
+      <IdontKnowName
+        root={{ path: "/", value: "Home" }}
+        prob={[{ path: "/profile", value: input.name }]}
+      />
 
       <AlertModal
         loading={inputs.loading}
@@ -175,80 +177,16 @@ const UserProfile = ({ history }) => {
       )}
       <div className="flex justify-between font-bold mx-5 mt-8 mb-10 md:mb-8">
         <h1 className="text-2xl self-center ">Account</h1>
-        <div className="flex gap-4">
-          <div className="px-4 text-btn text-sm hover:text-white   py-2 hover:bg-btn bg-btn bg-opacity-20 duration-200 rounded-xl">
-            <Dropdown
-              className="mr-8"
-              label={data?.data?.isAdmin ? "Admin" : "User"}
-              inline
-            >
-              <Dropdown.Item
-                className={inputs.IsAdmin ? "" : "hidden"}
-                onClick={(e) => {
-                  changeInput((values) => ({
-                    ...values,
-                    IsAdmin: false,
-                  }));
-                  props.setOpenModal("pop-up");
-                }}
-              >
-                {" "}
-                to User
-              </Dropdown.Item>
-              <Dropdown.Item
-                className={!inputs.IsAdmin ? "" : "hidden"}
-                onClick={(e) => {
-                  changeInput((values) => ({
-                    ...values,
-                    IsAdmin: true,
-                  }));
-                  props.setOpenModal("pop-up");
-                }}
-              >
-                to Admin
-              </Dropdown.Item>
-            </Dropdown>{" "}
-          </div>
-          <div
-            className={`px-4 ${
-              !data?.data.isActive
-                ? "text-gray-500 bg-gray-500 hover:bg-opacity-95"
-                : " text-green-400 hover:bg-green-400 bg-green-400"
-            } text-sm hover:text-white   py-2  bg-opacity-20 duration-200 rounded-xl`}
-          >
-            <Dropdown
-              className="mr-8"
-              label={data?.data.isActive ? "Active" : "inActive"}
-              inline
-            >
-              <Dropdown.Item
-                className={!inputs.IsActive ? "" : "hidden"}
-                onClick={(e) => {
-                  changeInput((values) => ({
-                    ...values,
-                    IsActive: true,
-                  }));
-                  props.setOpenModal("pop-up");
-                }}
-              >
-                {" "}
-                to Active
-              </Dropdown.Item>
-              <Dropdown.Item
-                className={inputs.IsActive ? "" : "hidden"}
-                onClick={(e) => {
-                  changeInput((values) => ({
-                    ...values,
-                    IsActive: false,
-                  }));
-                  props.setOpenModal("pop-up");
-                }}
-              >
-                to InActive
-              </Dropdown.Item>
-            </Dropdown>{" "}
-          </div>
-        </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            changeInput((v) => ({ ...v, from: "logout" }));
+            setOpenModal("pop-up");
+          }}
+          className="flex self-center text-sm sm:text-base px-4 py-2 bg-btn text-btn rounded-2xl hover:bg-opacity-100 hover:text-white duration-200 bg-opacity-20"
+        >
+          Log Out
+        </button>
         {/* </button> */}
       </div>
       <div className="md:flex w-full px-4 y7:px-6 xl:px-16">

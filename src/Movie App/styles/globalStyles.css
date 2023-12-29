@@ -22,6 +22,7 @@
   @apply border-0;
 
 }
+iframe#webpack-dev-server-client-overlay{display:none!important}
 
 .ql-snow {
   @apply border-0;

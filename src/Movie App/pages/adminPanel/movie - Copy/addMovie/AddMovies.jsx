@@ -18,7 +18,7 @@ import { adminAddMovieListItems } from "../../../../constans";
 import axios from "axios";
 import AddSeasonFile from "./AddSeasonFile/AddSeasonFile";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
-import UplaodBox from "../../movie/addMovie/UplaodBox";
+import * as Yup from "yup";
 const AddSeries = ({ history }) => {
   // Movie File
   const [movieFiless, setMovieFiles] = useState([]);
@@ -46,11 +46,11 @@ const AddSeries = ({ history }) => {
   });
 
   const initialValues = {
-    title: "qw",
-    imdb: "7",
-    year: "7",
-    time: "7",
-    summary: "qw",
+    title: "",
+    imdb: "",
+    year: "",
+    time: "",
+    summary: "",
   };
   const [addNewMovie] = useAddSeriesInAdminPanelMutation();
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -62,23 +62,17 @@ const AddSeries = ({ history }) => {
     ReleasedDate: "2020/2/8",
     CreatedDate: "2020/8/5",
   });
-  //const validationSchema = Yup.object({
-  //  title: Yup.string().required("title is requried"),
-  //  imdb: Yup.string()
-  //    .required("imdb is requried")
-  //    .matches(/(?=.*[0-9])/, "imdb should be a number"),
-  //  year: Yup.string()
-  //    .required("Year is requried")
-  //    .matches(/(?=.*[0-9])(?=.{4,})/, "Year should be a number be 4 digits"),
-  //  time: Yup.string().required("Time is requried"),
-  //  summary: Yup.string().required("Summary is requried"),
-  //  ReleasedDate : Yup.string().required("ReleasedDate is requried"),
-  //  CreatedDate : Yup.string().required("CreatedDate is requried"),
-
-  //});
+  const validationSchema = Yup.object({
+    title: Yup.string().required("title is requried"),
+    imdb: Yup.string()
+      .required("imdb is requried")
+      .matches(/(?=.*[0-9])/, "imdb should be a number"),
+    time: Yup.string().required("Time is requried"),
+    summary: Yup.string().required("Summary is requried"),
+  });
   const Formik = useFormik({
     initialValues,
-    /*validationSchema*/
+    validationSchema,
     validateOnMount: true,
   });
 
@@ -391,6 +385,7 @@ const AddSeries = ({ history }) => {
                       setSeasonFile={setSeasonFile}
                       loadingButton={loadingButton}
                       qw={qw}
+                      from={"add"}
                     />
                   )}
                 </li>

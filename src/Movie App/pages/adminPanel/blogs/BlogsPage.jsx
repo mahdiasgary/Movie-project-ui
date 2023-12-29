@@ -15,6 +15,7 @@ import { Toast } from "flowbite-react";
 import { HiCheck } from "react-icons/hi";
 import { FaEye } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import { RiTimerFill } from "react-icons/ri";
 
 const BlogsPage = ({ history }) => {
   const [value, setValue] = useState("");
@@ -25,6 +26,7 @@ const BlogsPage = ({ history }) => {
   const initialValues = {
     title: "",
     timeforread: "",
+    labels: "",
   };
   const [loadingButton, setLoadingButton] = useState(false);
   const [addNewBlog] = useAddGenreAdminPanelMutation();
@@ -44,7 +46,7 @@ const BlogsPage = ({ history }) => {
     formData.append("Tittle", Formik.values.title);
     formData.append("Image", blogCover);
     formData.append("Description", value);
-    formData.append("Labels", "mahdi asgary");
+    formData.append("Labels", Formik.values.labels);
     formData.append("ReadingTime", Formik.values.timeforread);
 
     addNewBlog(formData)
@@ -150,7 +152,6 @@ const BlogsPage = ({ history }) => {
                           value={value}
                           onChange={setValue}
                         ></ReactQuill>
-                       
                       </div>
                     </div>
                   </li>
@@ -214,19 +215,27 @@ const BlogsPage = ({ history }) => {
         ) : (
           <div className="fa mt-20">
             <div>
-              <img
-                alt="not found"
-                src={blogCover && URL.createObjectURL(blogCover)}
-                className="w-full rounded-xl "
-              />
+              {blogCover && (
+                <img
+                  alt="not found"
+                  src={blogCover && URL.createObjectURL(blogCover)}
+                  className="w-full rounded-xl "
+                />
+              )}
               <div className="flex justify-between mt-8">
                 <p className="text-[23px] font-semibold">
                   {Formik.values.title}
                 </p>
-                <p className="self-center">
-                  {" "}
-                  {Formik.values.timeforread} minites
-                </p>
+                {Formik.values.timeforread && (
+                  <p className="self-center">
+                    {" "}
+                    {/* minites */}
+                    <p className="text-gray-500 flex self-center  text-sm">
+                      <RiTimerFill className="text-[18px]   self-center" />{" "}
+                      {Formik.values.timeforread} min
+                    </p>
+                  </p>
+                )}
               </div>
             </div>
             <div className="font- ">
@@ -246,6 +255,18 @@ const BlogsPage = ({ history }) => {
                 }}
               ></div>
             </div>
+            {Formik.values.labels && (
+              <div className="flex mt-10 gap-3">
+                <p className="self-center">labels:</p>
+                <div className="flex gap-3 flex-wrap">
+                  {Formik.values.labels.split("-").map((l) => (
+                    <div className="bg-gray-400 bg-opacity-25 rounded-lg px-3 py-1">
+                      {l}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

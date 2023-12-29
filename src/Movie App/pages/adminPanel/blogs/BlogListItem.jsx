@@ -57,7 +57,7 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
       history.push(`/admin/editBlog?id=${comment.id}`);
     }
   };
-  //   console.log(states);
+    console.log(comment);
   const date1 = new Date(comment.createdAt.split("T")[0]);
   const date2 = new Date();
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
@@ -123,7 +123,7 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
                 {/* <p className="ml-10 text-sm">id:{comment.userId}</p> */}
               </p>
             </div>
-            <div className="px-9  dark:opacity-90 max-h-[72px] overflow-y-hidden sm:mt-5">
+            <div className="px-9  dark:opacity-90 max-h-[85px] overflow-y-hidden sm:mt-5">
               {/* {comment.description} */}
               <div
                 className="mt-10"
@@ -148,11 +148,12 @@ const BlogListItem = ({ comment, removeUserHandler, history }) => {
           </div>
         </div>
         <div className="flex justify-between sm:pt-3">
-          <div className="self-center pl-4 ">
+          <div className="self-center flex pl-4 ">
             <p className="dark:text-gray-400 gap-1 flex text-sm">
               <GiAstronautHelmet className="text-[18px] self-center " />{" "}
               {comment.autor}
             </p>
+            {/* {comment.labels} */}
           </div>
           <div className="flex gap-2  m-4">
             <button

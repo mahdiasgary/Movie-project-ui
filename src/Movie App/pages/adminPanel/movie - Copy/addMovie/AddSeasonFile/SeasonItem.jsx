@@ -13,20 +13,36 @@ export const SeasonItem = ({
   setSeasonLength,
   qw,
   from,
-  seriesFilesForEdit
+  seriesFilesForEdit,
 }) => {
   const [episodes, setEpisodes] = useState([1]);
+  const [episodesq, setEpisodesq] = useState([1]);
+  const [bigestN, setBigestN] = useState();
   const [selectedEpisode, setSelectedEpisode] = useState(1);
+
+  let countE = function (num) {
+    if (num === 1) return "1";
+    return countE(num - 1) + num;
+  };
+  // console.log(Array.from(new Set(countE(5))).map(Number));
 
   useEffect(() => {
     from === "edit" &&
       seriesFilesForEdit["files"].forEach((l) => {
         l.season === season &&
-          setEpisodes((v) => [...new Set([...v, l.episode])]);
+          setEpisodesq((v) => [...new Set([...v, l.episode])]);
       });
   }, [seriesFilesForEdit]);
+  useEffect(() => {
+    from === "edit" &&
+      setBigestN(episodesq.sort((a, b) => a - b)[episodesq.length - 1]);
+  }, [episodesq]);
+  useEffect(() => {
+    from === "edit" &&
+      setEpisodes(Array.from(new Set(countE(bigestN))).map(Number));
+  }, [bigestN]);
 
-  // console.log({ se: season, ep: episodes });
+  // console.log({ se: season, ep: bigestN });
   return (
     <div>
       <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-5  max-w-[1300px]  ">

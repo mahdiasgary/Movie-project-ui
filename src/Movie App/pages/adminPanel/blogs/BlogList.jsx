@@ -10,13 +10,16 @@ import { useGetBlogListInAdminPanelQuery } from "../../../redux/services/movieDa
 const BlogList = ({ history }) => {
   const [correctPage, setCorrectPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [FilterType, setFilterType] = useState("sort by");
+  const [FilterType, setFilterType] = useState({
+    value: "sort by",
+    label: "sort by",
+  });
   const { data, isFetching, isLoading, error } =
     useGetBlogListInAdminPanelQuery(
       {
         searchkey: search,
         page: correctPage,
-        FilterType: FilterType === "sort by" ? "" : FilterType,
+        FilterType: FilterType.value === "sort by" ? "" : FilterType.value,
       },
       { refetchOnMountOrArgChange: true }
     );
@@ -40,34 +43,13 @@ const BlogList = ({ history }) => {
             />
             <div className="  flex justify-end">
               <div className="bg-white self-center dark:bg-border px-3 py-2 rounded-lg ">
-                <Dropdown className="text-sm" label={FilterType} inline>
+                <Dropdown className="text-sm" label={FilterType.label} inline>
                   <Dropdown.Item
                     onClick={(e) => {
-                      setFilterType("ApprovedComments");
-                    }}
-                    className="text-sm"
-                  >
-                    Approved
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={(e) => {
-                      setFilterType("RejectedComments");
-                    }}
-                    className="text-sm"
-                  >
-                    Rejected
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={(e) => {
-                      setFilterType("PendedComments");
-                    }}
-                    className="text-sm"
-                  >
-                    Pended
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={(e) => {
-                      setFilterType("CreatedDateAsc");
+                      setFilterType({
+                        value: "CreatedDateAsc",
+                        label: "Newest",
+                      });
                     }}
                     className="text-sm"
                   >
@@ -75,7 +57,10 @@ const BlogList = ({ history }) => {
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={(e) => {
-                      setFilterType("CreatedDateDesc");
+                      setFilterType({
+                        value: "CreatedDateDesc",
+                        label: "Oldest",
+                      });
                     }}
                     className="text-sm"
                   >

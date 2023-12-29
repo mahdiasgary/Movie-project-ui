@@ -3,7 +3,6 @@ import AvatarCrop from "../../../profile/profile/AvatarCrop";
 import UserProfileGenral from "../../../profile/profile/UserProfileGenral";
 import { Link } from "react-router-dom";
 import UserGeneral from "../../../../components/user profile/UserGeneral";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -19,11 +18,7 @@ import {
 } from "../../../../redux/services/movieDatabase";
 import AlertModal from "../../../../common/AlertModal";
 import { IdontKnowName } from "../../../../components/admin/IdontKnowName";
-import {
-  AccordionBody,
-  AccordionHeader,
-  Accordion,
-} from "@material-tailwind/react";
+
 import { BeatLoader } from "react-spinners";
 
 const EditUserInfo = () => {

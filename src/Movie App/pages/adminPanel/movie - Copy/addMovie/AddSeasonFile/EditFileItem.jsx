@@ -50,7 +50,13 @@ const AddFileItem = ({
       formData.append(
         `Id`,
         seriesFilesForEdit[
-          seriesFilesForEdit.findIndex((m) => m.quality === quality)
+          seriesFilesForEdit.findIndex(
+            (s) =>
+              s.quality == quality &&
+              s.episode == episode &&
+              s.season == season &&
+              !s.isDeleted
+          )
         ].id
       );
       // formData.append("Quality", quality);
@@ -127,7 +133,13 @@ const AddFileItem = ({
       formData.append(
         `Id`,
         seriesFilesForEdit[
-          seriesFilesForEdit.findIndex((m) => m.quality === quality)
+          seriesFilesForEdit.findIndex(
+            (s) =>
+              s.quality == quality &&
+              s.episode == episode &&
+              s.season == season &&
+              !s.isDeleted
+          )
         ].id
       );
       formData.append("Quality", quality);
@@ -162,7 +174,17 @@ const AddFileItem = ({
         });
     }
   };
-  // console.log(seriesFilesForEdit);
+  // console.log(
+  //   seriesFilesForEdit[
+  //     seriesFilesForEdit.findIndex(
+  //       (s) =>
+  //         s.quality == quality &&
+  //         s.episode == episode &&
+  //         s.season == season &&
+  //         !s.isDeleted
+  //     )
+  //   ]?.fileName
+  // );
   return (
     <div>
       <AlertModal
@@ -175,9 +197,9 @@ const AddFileItem = ({
       />
       {seriesFilesForEdit.find(
         (s) =>
-          s.quality === quality &&
-          s.episode === episode &&
-          s.season === season &&
+          s.quality == quality &&
+          s.episode == episode &&
+          s.season == season &&
           !s.isDeleted
       ) ? (
         <div
@@ -190,7 +212,7 @@ const AddFileItem = ({
                 <div className="flex  text-sm ">
                   <div className="bg-btn text-btn  bg-opacity-10 rounded-xl px-3 py-1 flex self-center font-semibold text-sm">
                     <FaRegCircleCheck className="self-center mr-1 " />
-                    File Uploaded{" "}
+                    File Uploaded {}
                   </div>
                   <div className="mx-2 self-center dark:text-gray-400 text-sm">
                     Quality : {quality}
@@ -262,7 +284,7 @@ const AddFileItem = ({
                           className="text-sm text-grey-500
   file:mr-5 file:py-2 file:px-3 md:file:px-6  self-center
   file:rounded-full file:border-0
-  file:text-sm file:font-medium
+  file:text-sm file:font-medium 
   file:bg-blue-50 file:text-blue-700
   hover:file:cursor-pointer hover:file:bg-screenDark
   hover:file:text-screenLight
@@ -308,7 +330,11 @@ const AddFileItem = ({
                         {
                           seriesFilesForEdit[
                             seriesFilesForEdit.findIndex(
-                              (m) => m.quality === quality
+                              (s) =>
+                                s.quality == quality &&
+                                s.episode == episode &&
+                                s.season == season &&
+                                !s.isDeleted
                             )
                           ].fileName
                         }
@@ -321,7 +347,11 @@ const AddFileItem = ({
                         {
                           seriesFilesForEdit[
                             seriesFilesForEdit.findIndex(
-                              (m) => m.quality === quality
+                              (s) =>
+                                s.quality == quality &&
+                                s.episode == episode &&
+                                s.season == season &&
+                                !s.isDeleted
                             )
                           ].updatedAt?.split("T")[0]
                         }
@@ -335,14 +365,17 @@ const AddFileItem = ({
                       >
                         <source
                           // src="https://docs.material-tailwind.com/demo.mp4"
-                          src={
-                            "https://localhost:7175/Movies/" +
+                          src={`https://localhost:7175/Movies/${
                             seriesFilesForEdit[
                               seriesFilesForEdit.findIndex(
-                                (m) => m.quality === quality
+                                (s) =>
+                                  s.quality == quality &&
+                                  s.episode == episode &&
+                                  s.season == season &&
+                                  !s.isDeleted
                               )
-                            ].fileName
-                          }
+                            ]?.fileName
+                          }`}
                           type="video/mp4"
                         />
                         Your browser does not support the video tag.
@@ -447,7 +480,7 @@ const AddFileItem = ({
               <p
                 className={`${
                   quality === "Trailer" && "text-btn font-semibold"
-                } self-center md:text-[16px] text-[13px] `}
+                } self-center  text-[13px] `}
               >
                 {quality}
                 {state.newFile && (

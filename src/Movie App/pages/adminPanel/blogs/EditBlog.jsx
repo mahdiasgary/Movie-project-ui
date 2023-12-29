@@ -243,7 +243,7 @@ const EditBlog = ({ history }) => {
                   </button>
                 )}
               </div>
-              <p onClick={SubmitHandler}>5555555</p>
+              {/* <p onClick={SubmitHandler}>5555555</p> */}
             </div>
           </section>
         ) : (
@@ -274,7 +274,7 @@ const EditBlog = ({ history }) => {
             <p className="text-[23px]  mt-4 font-semibold">{inputs?.Title}</p>
             <div className="font-">
               <div
-                className="mt-10"
+                className="mt-10 fa"
                 dangerouslySetInnerHTML={{
                   __html:
                     value &&
@@ -289,6 +289,17 @@ const EditBlog = ({ history }) => {
                       .replace("ql-align-right", "text-end"),
                 }}
               ></div>
+            </div>
+
+            <div className="flex mt-10 gap-3">
+              <p className="self-center">labels:</p>
+              <div className="flex gap-3 flex-wrap">
+                {inputs.labels.split("-").map((l) => (
+                  <div className="bg-gray-400 bg-opacity-25 rounded-lg px-3 py-1">
+                    {l}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

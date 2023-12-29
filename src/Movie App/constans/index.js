@@ -411,7 +411,7 @@ export const adminAddMovieListItems = [
 ];
 export const adminAddOthersListItems = [["Title"]];
 
-export const adminAddBlogListItems = [["Title"], ["TimeForRead"]];
+export const adminAddBlogListItems = [["Title"], ["TimeForRead"], ["Labels"]];
 export const adminAddArtistListItems = [
   ["Name"],
   ["Date Birth"],
