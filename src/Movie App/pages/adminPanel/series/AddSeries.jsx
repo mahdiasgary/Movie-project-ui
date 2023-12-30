@@ -34,7 +34,6 @@ const AddSeries = () => {
   const [seasonFile, setSeasonFile] = useState([]);
   console.log(seasonFile);
 
-  
   const genreQuery = useGetGenreListInAdminPanelQuery(
     {},
     { refetchOnMountOrArgChange: true }
@@ -57,8 +56,8 @@ const AddSeries = () => {
     year: "",
     time: "",
     summary: "",
-    ReleasedDate:'',
-    CreatedDate:''
+    ReleasedDate: "",
+    CreatedDate: "",
   };
   const [addNewMovie] = useAddMovieInAdminPanelMutation();
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -144,9 +143,14 @@ const AddSeries = () => {
       .then((r) => {
         toast.success(`${Formik.values.title} add to Movies `, {
           autoClose: 1100,
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
           position: "top-right",
         });
-        // setTimeout(() => history.push("movieslist"), 800);
+        setTimeout(() => history.push("serieslist"), 800);
       })
       .then((error) => {});
   };
@@ -173,11 +177,24 @@ const AddSeries = () => {
                 <h3 className="font-medium leading-tight pt-2 ml-3 px-1">
                   Series Info
                 </h3>
-                  <div className="min-w-[200px] mt-4 md:mt-8 mx-3 ">
-                 
-                  <AdminAddItemList dataQuery={{artistQuery,genreQuery,languageQuery,countryQuery}} Formik={Formik} itemList={adminAddMovieListItems} selectHandler={[languageHandleChange , genreHandleChange , countryHandleChange,artistHandleChange]}/>
-
-                  </div>
+                <div className="min-w-[200px] mt-4 md:mt-8 mx-3 ">
+                  <AdminAddItemList
+                    dataQuery={{
+                      artistQuery,
+                      genreQuery,
+                      languageQuery,
+                      countryQuery,
+                    }}
+                    Formik={Formik}
+                    itemList={adminAddMovieListItems}
+                    selectHandler={[
+                      languageHandleChange,
+                      genreHandleChange,
+                      countryHandleChange,
+                      artistHandleChange,
+                    ]}
+                  />
+                </div>
               </li>
 
               <li className="mb-10 ml-2 sm:ml-6 flex flex-col w-full">

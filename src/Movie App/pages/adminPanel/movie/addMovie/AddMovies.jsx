@@ -142,6 +142,11 @@ const AddMovies = ({ history }) => {
         if (r.data.isSuccessFull) {
           toast.success(`${Formik.values.title} add to Movies `, {
             autoClose: 1100,
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
             position: "top-right",
           });
           setTimeout(() => history.push("movieslist"), 300);
@@ -184,7 +189,17 @@ const AddMovies = ({ history }) => {
                   <AdminFromBodyInfo
                     preInfo={movieCover}
                     scondePreInfo={movieBackground}
-                    thirdPreInfo={state}
+                    thirdPreInfo={
+                      Object.keys(Formik.errors).length === 0 &&
+                      movieCover &&
+                      movieBackground &&
+                      selectedOptions.artist.length !== 0 &&
+                      selectedOptions.country.length !== 0 &&
+                      selectedOptions.genre.length !== 0 &&
+                      selectedOptions.language.length !== 0 &&
+                      date.CreatedDate !== "yyyy/mm/dd" &&
+                      date.ReleasedDate !== "yyyy/mm/dd"
+                    }
                   />
                   <h3 className="font-medium leading-tight pt-2 ml-3 px-1">
                     Movie Info
@@ -207,8 +222,16 @@ const AddMovies = ({ history }) => {
                 </li>
 
                 <li className="mb-10 ml-2 sm:ml-6 flex flex-col w-full">
-                  {movieCover && movieBackground ? (
-                    !state ? (
+                  {Object.keys(Formik.errors).length === 0 &&
+                  movieCover &&
+                  movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country !== 0 &&
+                  selectedOptions.genre !== 0 &&
+                  selectedOptions.language !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd" ? (
+                    true ? (
                       <div className="absolute flex text-screenLight items-center justify-center w-10 h-10 bg-btn rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 ">
                         <BiLinkAlt className="font-bold text-[20px] " />
                       </div>
@@ -245,7 +268,19 @@ const AddMovies = ({ history }) => {
                   </div>
                 </li>
                 <li className="ml-6 ">
-                  <AdminFormDoneIcon preDone={movieCover} />
+                  <AdminFormDoneIcon
+                    preDone={
+                      Object.keys(Formik.errors).length === 0 &&
+                      movieCover &&
+                      movieBackground &&
+                      selectedOptions.artist.length !== 0 &&
+                      selectedOptions.country.length !== 0 &&
+                      selectedOptions.genre.length !== 0 &&
+                      selectedOptions.language.length !== 0 &&
+                      date.CreatedDate !== "yyyy/mm/dd" &&
+                      date.ReleasedDate !== "yyyy/mm/dd"
+                    }
+                  />
                 </li>
               </ol>
             </form>
@@ -254,22 +289,32 @@ const AddMovies = ({ history }) => {
               <button
                 onClick={SubmiHandler}
                 className={
-                  Object.keys(Formik.errors).length > 0 ||
-                  movieCover === null ||
-                  movieBackground === null ||
-                  selectedArtist.length === 0 ||
-                  selectedCountries.length === 0 ||
-                  selectedGenres.length === 0 ||
-                  selectedLanguages.length === 0
-                    ? "bg-[#787f98] text-gray-800 opacity-60 px-16  py-2 rounded-lg font-semibold"
-                    : "bg-btn text-white px-16 py-3 rounded-xl hover:bg-blue-800 duration-300 font-semibold"
+                  Object.keys(Formik.errors).length === 0 &&
+                  movieCover &&
+                  movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country !== 0 &&
+                  selectedOptions.genre !== 0 &&
+                  selectedOptions.language !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd"
+                    ? "bg-btn text-white px-16 py-3 rounded-xl hover:bg-blue-800 duration-300 font-semibold"
+                    : "bg-[#787f98] text-gray-800 opacity-60 px-16  py-2 rounded-lg font-semibold"
                 }
-                // type="submit"
-                // disabled={
-                //   (Object.keys(Formik.errors).length>0 ||movieCover===null ||movieBackground===null ||selectedOption.length===0)
-                //     ? true
-                //     : false
-                // }
+                type="submit"
+                disabled={
+                  Object.keys(Formik.errors).length === 0 &&
+                  movieCover &&
+                  movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country.length !== 0 &&
+                  selectedOptions.genre.length !== 0 &&
+                  selectedOptions.language.length !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd"
+                    ? false
+                    : true
+                }
               >
                 DONE !
               </button>

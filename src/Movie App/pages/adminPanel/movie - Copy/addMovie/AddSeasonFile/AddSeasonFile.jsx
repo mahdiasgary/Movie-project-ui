@@ -64,7 +64,7 @@ const AddSeasonFile = ({
         setSeasonLength((v) => [...new Set([...v, l.season])]);
       });
   }, [files]);
-  // console.log(seasonLength);
+  console.log(seasonLength.slice(-1)[0]);
   return (
     <div>
       {seasonLength.map((season, index) => (
@@ -78,6 +78,7 @@ const AddSeasonFile = ({
           qw={qw}
           from={from}
           seriesFilesForEdit={files}
+          lastS={seasonLength.slice(-1)[0]}
         />
       ))}
       <div

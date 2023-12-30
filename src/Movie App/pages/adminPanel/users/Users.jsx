@@ -28,14 +28,14 @@ const Users = ({ history }) => {
     removeUser({ id })
       .unwrap()
       .then((r) => {
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: `${username} has been deleted.`,
-        //   icone: "success",
-        //   confirmButtonColor: "#3085d6",
-        // });
         if (r.isSuccessFull) {
-          toast.success(`${username} has been deleted.`);
+          toast.success(`${username} has been deleted.`, {
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
         }
         console.log(r);
       })

@@ -9,6 +9,7 @@ import {
   useAdminDeleteGenreMutation,
   useAdminDeleteLanguageMutation,
   useAdminDeleteMovieMutation,
+  useAdminDeleteSeriesMutation,
   useLazyGetArtisitListInAdminPanelQuery,
 } from "../../redux/services/movieDatabase";
 import { useStateContext } from "../../contextProvider/ContextProvider";
@@ -39,6 +40,7 @@ const AdminListItemCard = ({
   const [deleteCountry] = useAdminDeleteCountryMutation();
   const [deleteMovie] = useAdminDeleteMovieMutation();
   const [deleteLanguage] = useAdminDeleteLanguageMutation();
+  const [deleteSeries] = useAdminDeleteSeriesMutation();
   const [loading, setLoading] = useState(false);
   const deleteHandler = () => {
     setLoading(true);
@@ -167,6 +169,31 @@ const AdminListItemCard = ({
         })
         .then((error) => {});
     }
+    if (from === "series") {
+      deleteSeries({ id: item["id"] })
+        .unwrap()
+        .then((r) => {
+          setLoading(false);
+          setqw(Math.random());
+          if (r.isSuccessFull) {
+            toast.custom(
+              <div>
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+                    <HiCheck className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-normal">
+                    Delete is successfully.
+                  </div>
+                  <Toast.Toggle onClick={(t) => toast.dismiss(t.id)} />
+                </Toast>
+              </div>,
+              {}
+            );
+          }
+        })
+        .then((error) => {});
+    }
   };
 
   function a() {
@@ -236,7 +263,9 @@ const AdminListItemCard = ({
                 item[td]?.split(" ")[0]
               ) : td === "action" ? (
                 <div className="flex justify-center hover:text-btn duration-200  gap-3 text-[19px] py-[2px]">
-                  {from === "movie" || from === "artist" || from === "series" ? (
+                  {from === "movie" ||
+                  from === "artist" ||
+                  from === "series" ? (
                     <Tooltip content="edit">
                       <span
                         className="cursor-pointer text-[21px]"

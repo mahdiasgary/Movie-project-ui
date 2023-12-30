@@ -28,14 +28,42 @@ const UsersItem = ({ user, removeUserHandler, history }) => {
         .then((r) => {
           setqw(Math.random());
           if (r.isSuccessFull) {
-            toast.success(`Successfully Deleted!`);
+            toast.success(
+              `Successfully Deleted!`,
+              {
+                style: {
+                  borderRadius: "10px",
+                  background: "#333",
+                  color: "#fff",
+                },
+              },
+              {
+                style: {
+                  borderRadius: "10px",
+                  background: "#333",
+                  color: "#fff",
+                },
+              }
+            );
           }
           if (!r.isSuccessFull) {
-            toast.error(`The operation was unsuccessful`);
+            toast.error(`The operation was unsuccessful`, {
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            });
           }
         })
         .then((error) => {
-          toast.error(`The operation was unsuccessful`);
+          toast.error(`The operation was unsuccessful`, {
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
         });
     }
     if (qw === "info") {

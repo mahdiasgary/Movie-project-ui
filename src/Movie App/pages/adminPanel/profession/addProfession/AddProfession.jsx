@@ -36,6 +36,11 @@ const AddProfession = ({ history }) => {
       .then((r) => {
         toast.success(`${Formik.values.title} add to Careers `, {
           autoClose: 1100,
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
           position: "top-right",
         });
         setTimeout(() => history.push("professionlist"), 800);

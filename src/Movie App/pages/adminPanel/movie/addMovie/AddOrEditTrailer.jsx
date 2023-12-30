@@ -46,7 +46,6 @@ const AddOrEditTrailer = ({
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
-  //   console.log(state, quality);
   const editHandler = () => {
     props.setOpenModal(undefined);
     setState((v) => ({ ...v, loading: true }));
@@ -117,7 +116,6 @@ const AddOrEditTrailer = ({
         });
     }
   };
-  // console.log(movieFiles);
   return (
     <div className="">
       <AlertModal
@@ -258,17 +256,11 @@ const AddOrEditTrailer = ({
                       <div className="flex">
                         <div className="flex  dark:text-gray-200 text-sm">
                           <BiSolidMoviePlay className="self-center pr-1 text-[21px]" />
-                          {
-                            initialInputs.files[
-                              initialInputs.files.findIndex(
-                                (m) => m.quality === quality
-                              )
-                            ].fileName
-                          }
+                          {initialInputs.Trailer}
                         </div>
                       </div>
 
-                      <div className=" flex dark:text-gray-400 text-sm">
+                      {/* <div className=" flex dark:text-gray-400 text-sm">
                         uploaded time:{" "}
                         <span className="text-white mr-1">
                           {
@@ -276,10 +268,10 @@ const AddOrEditTrailer = ({
                               initialInputs.files.findIndex(
                                 (m) => m.quality === quality
                               )
-                            ].updatedAt?.split("T")[0]
+                            ]?.updatedAt?.split("T")[0]
                           }
                         </span>
-                      </div>
+                      </div> */}
                       <div className="flex justify-center">
                         <video
                           className="h-full mt-5 w-[90%] mb-4 flex justify-center  rounded-xl"
@@ -290,11 +282,7 @@ const AddOrEditTrailer = ({
                             // src="https://docs.material-tailwind.com/demo.mp4"
                             src={
                               "https://localhost:7175/Movies/" +
-                              initialInputs.files[
-                                initialInputs.files.findIndex(
-                                  (m) => m.quality === quality
-                                )
-                              ].fileName
+                              initialInputs.Trailer
                             }
                             type="video/mp4"
                           />

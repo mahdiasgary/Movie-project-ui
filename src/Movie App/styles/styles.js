@@ -12,14 +12,14 @@ export const styles = {
  loginBtn2:
     "px-12 self-start text-textDark py-2 btn rounded-xl hover:bg-[#ca2b20] hover:rounded-md duration-200 font-bold text-sm",
   searchIcn:
-    "hidden y9:flex text-gray-500 y9:text-[24px] cursor-pointer y9:dark:text-textPDark self-center  border-opacity-70  darbg-transparent border border-textPDark  border-2 y9:border-l-0 rounded-l-2xl y9:rounded-l-[0]  rounded-r-2xl h-[40px]  md:h-[50px]  w-[40px] y9:w-[50px] p-2  ",
+    "hidden y9:flex text-gray-500 y9:text-[24px] cursor-pointer y9:dark:text-textPDark self-center  border-opacity-70  darbg-transparent border border-gray-500  border-2 y9:border-l-0 rounded-l-2xl y9:rounded-l-[0]  rounded-r-2xl h-[40px]  md:h-[50px]  w-[40px] y9:w-[50px] p-2  ",
   searchIcn2:
-    "y9:hidden  cursor-pointer text-gray-500  self-center  border-opacity-70  bg-transparent border border-textPDark border-2 rounded-l-2xl  rounded-r-2xl h-[40px]   w-[40px] y9:w-[50px] p-2  ",
+    "y9:hidden  cursor-pointer text-gray-500  self-center  border-opacity-70  bg-transparent border border-gray-500 border-2 rounded-l-2xl  rounded-r-2xl h-[40px]   w-[40px] y9:w-[50px] p-2  ",
   searchInput2:
     "w-[150px] hidden  y9:flex  sm:w-[185px] md:w-[200px] lg:w-[400px] h-[40px] md:h-[50px]  bg-transparent border border-textPDark border-opacity-70 border-2 border-r-0 px-3 rounded-l-2xl placeholder:text-textPDark outline-none",
 
   searchInput:
-    "y9:w-[150px]  y9:flex  sm:w-[185px] md:w-[200px] lg:w-[400px] h-[40px] md:h-[50px]  bg-transparent border border-gray-500 dark:border-textPDark border-opacity-70 border-2 border-r-0 px-3 rounded-l-2xl placeholder:text-textPDark outline-none",
+    "sm:w-[150px]  y9:flex   md:w-[200px] lg:w-[400px] h-[40px] md:h-[50px]  bg-transparent border border-gray-500 dark:border-textPDark border-opacity-70 border-2 border-r-0 px-3 rounded-l-2xl placeholder:text-textPDark outline-none",
   navbarItem:
     "font-semibold  px-2 mr-5 self-center cursor-pointer hover:text-btn duration-75",
   heartBtn:

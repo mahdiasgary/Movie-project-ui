@@ -33,7 +33,7 @@ const EditUserInfo = () => {
   });
 
   // console.log(watchListQuery?.data?.data);
-  const poi = ["Genral", "Favorite"];
+  const poi = ["Genral", "Watch List"];
   let qqq = ["name", "email", "mobile"];
   let www = {
     name: data && data.data.username,
@@ -298,10 +298,10 @@ const EditUserInfo = () => {
             www={www}
             modal={props}
           />
-        )}
+        )} 
 
-        {/* User Favorite Movies */}
-        {query === "Favorite" && (
+        {/* User Watch List Movies */}
+        {query === "Watch List" && (
           <div className="mt-3 md:self-center w-full  ">
             <div className="dark:bg-border bg-white dark:bg-opacity-40  rounded-3xl p-4  ">
               <div className="flex justify-between mb-3 ">

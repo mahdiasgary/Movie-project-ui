@@ -120,8 +120,8 @@ const EditSeries = ({ history }) => {
   const [selectedArtist, setSelectedArtist] = useState([]);
   const [loadingButton, setLoadingButton] = useState(false);
   const [date, setDate] = useState({
-    ReleasedDate: "2020/2/8",
-    CreatedDate: "2020/8/5",
+    ReleasedDate: "yyyy/mm/dd",
+    CreatedDate: "yyyy/mm/dd",
   });
 
   const Formik = useFormik({
@@ -160,15 +160,20 @@ const EditSeries = ({ history }) => {
     axios
       .post("https://localhost:7175/Admin/Series/Edit", formData)
       .then((r) => {
-        // setLoadingButton(false);
+        setLoadingButton(false);
         if (r.data.isSuccessFull) {
           toast.success(`Edited Successfully `, {
             autoClose: 1100,
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
             position: "top-right",
           });
           setTimeout(() => history.push("serieslist"), 300);
         }
-        console.log(r);
+        // console.log(r);
       });
   };
 
@@ -196,7 +201,19 @@ const EditSeries = ({ history }) => {
                   <AdminFromBodyInfo
                     preInfo={movieCover}
                     scondePreInfo={movieBackground}
-                    thirdPreInfo={state}
+                    thirdPreInfo={
+                      movieBackground &&
+                      selectedOptions.artist.length !== 0 &&
+                      selectedOptions.country.length !== 0 &&
+                      selectedOptions.genre.length !== 0 &&
+                      selectedOptions.language.length !== 0 &&
+                      date.CreatedDate !== "yyyy/mm/dd" &&
+                      date.ReleasedDate !== "yyyy/mm/dd" &&
+                      inputs.Imdb !== "" &&
+                      inputs.summary !== "" &&
+                      inputs.Title !== "" &&
+                      inputs.Time !== ""
+                    }
                   />
                   <h3 className="font-medium leading-tight pt-2 ml-3 px-1">
                     Series Info
@@ -222,7 +239,17 @@ const EditSeries = ({ history }) => {
                 </li>
 
                 <li className="mb-10 ml-2 sm:ml-6 flex flex-col w-full">
-                  {movieCover && movieBackground ? (
+                  {movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country.length !== 0 &&
+                  selectedOptions.genre.length !== 0 &&
+                  selectedOptions.language.length !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd" &&
+                  inputs.Imdb !== "" &&
+                  inputs.summary !== "" &&
+                  inputs.Title !== "" &&
+                  inputs.Time !== "" ? (
                     !state ? (
                       <div className="absolute flex text-screenLight items-center justify-center w-10 h-10 bg-btn rounded-full -left-5 ring-4 ring-white dark:ring-gray-900 ">
                         <BiLinkAlt className="font-bold text-[20px] " />
@@ -303,7 +330,21 @@ const EditSeries = ({ history }) => {
                   />
                 </li>
                 <li className="ml-6 ">
-                  <AdminFormDoneIcon preDone={movieCover} />
+                  <AdminFormDoneIcon
+                    preDone={
+                      movieBackground &&
+                      selectedOptions.artist.length !== 0 &&
+                      selectedOptions.country.length !== 0 &&
+                      selectedOptions.genre.length !== 0 &&
+                      selectedOptions.language.length !== 0 &&
+                      date.CreatedDate !== "yyyy/mm/dd" &&
+                      date.ReleasedDate !== "yyyy/mm/dd" &&
+                      inputs.Imdb !== "" &&
+                      inputs.summary !== "" &&
+                      inputs.Title !== "" &&
+                      inputs.Time !== ""
+                    }
+                  />
                 </li>
               </ol>
             </form>
@@ -312,21 +353,36 @@ const EditSeries = ({ history }) => {
               <button
                 onClick={SubmiHandler}
                 className={
-                  movieCover === null ||
-                  movieBackground === null ||
-                  selectedArtist.length === 0 ||
-                  selectedCountries.length === 0 ||
-                  selectedGenres.length === 0 ||
-                  selectedLanguages.length === 0
-                    ? "bg-[#787f98] text-gray-800 opacity-60 px-16  py-2 rounded-lg font-semibold"
-                    : "bg-btn text-white px-16 py-3 rounded-xl hover:bg-blue-800 duration-300 font-semibold"
+                  movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country.length !== 0 &&
+                  selectedOptions.genre.length !== 0 &&
+                  selectedOptions.language.length !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd" &&
+                  inputs.Imdb !== "" &&
+                  inputs.summary !== "" &&
+                  inputs.Title !== "" &&
+                  inputs.Time !== ""
+                    ? "bg-btn text-white px-16 py-3 rounded-xl hover:bg-blue-800 duration-300 font-semibold"
+                    : "bg-[#787f98] text-gray-800 opacity-60 px-16  py-2 rounded-lg font-semibold"
                 }
                 // type="submit"
-                // disabled={
-                //   (Object.keys(Formik.errors).length>0 ||movieCover===null ||movieBackground===null ||selectedOption.length===0)
-                //     ? true
-                //     : false
-                // }
+                disabled={
+                  movieBackground &&
+                  selectedOptions.artist.length !== 0 &&
+                  selectedOptions.country.length !== 0 &&
+                  selectedOptions.genre.length !== 0 &&
+                  selectedOptions.language.length !== 0 &&
+                  date.CreatedDate !== "yyyy/mm/dd" &&
+                  date.ReleasedDate !== "yyyy/mm/dd" &&
+                  inputs.Imdb !== "" &&
+                  inputs.summary !== "" &&
+                  inputs.Title !== "" &&
+                  inputs.Time !== ""
+                    ? false
+                    : true
+                }
               >
                 SAVE !
               </button>

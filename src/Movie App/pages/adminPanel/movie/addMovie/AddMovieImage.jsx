@@ -14,7 +14,7 @@ const AddMoveImage = ({
   return (
     <li className="mb-7 ml-6 flex flex-col">
       <div className="flex">
-        <AdminFormCoverIcon image={movieCover} secondeImage={false} />
+        <AdminFormCoverIcon image={movieCover} secondeImage={editProccss ? false :movieBackground } />
         <h3 className="font-medium leading-tight self-center mt-2  px-1">
           {editProccss ? "Movie Image" : " Add Movie Image"}
         </h3>

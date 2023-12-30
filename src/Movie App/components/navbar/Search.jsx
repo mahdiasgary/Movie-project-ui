@@ -19,7 +19,7 @@ const Search = ({ isSearch, setIsSearch }) => {
           onChange={(e) => setSearch(e.target.value)}
           className={`${
             styles.searchInput
-          }  placeholder:text-sm origin-right w-[150px] ${
+          }  placeholder:text-sm origin-right w-[250px] ${
             !activeSearch
               ? "scale-x-0 y9:scale-100 duration-300"
               : "duration-500"

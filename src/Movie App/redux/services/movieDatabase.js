@@ -338,6 +338,16 @@ export const movieCoreApi = createApi({
       }),
       invalidatesTags: ["Delete"],
     }),
+    AdminDeleteSeries: builder.mutation({
+      query: (payload) => ({
+        url: "Admin/Series/Delete",
+        method: "Delete",
+        // headers:{{''}}
+        // body: payload,
+        params: payload,
+      }),
+      invalidatesTags: ["Delete"],
+    }),
     AdminEditUser: builder.mutation({
       query: (payload) => ({
         url: "Admin/User/Edit",
@@ -418,6 +428,7 @@ export const movieCoreApi = createApi({
 });
 
 export const {
+  useAdminDeleteSeriesMutation,
   useSubmitOtp2ForForgotPasswordMutation,
   useGetSeriesForEditInAdminPanelQuery,
   useGetSeriesListInAdminPanelQuery,

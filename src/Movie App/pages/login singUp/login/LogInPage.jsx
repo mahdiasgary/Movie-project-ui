@@ -58,7 +58,11 @@ const LogInPage = ({ history }) => {
           history.push("/");
           toast.success(res.data + res.message, {
             autoClose: 2100,
-            position: "top-right",
+            position: "top-right", style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
           });
         }
         if (!res.isSuccessFull && res.status === "UserAccountIsNotActive") {

@@ -14,6 +14,7 @@ export const SeasonItem = ({
   qw,
   from,
   seriesFilesForEdit,
+  lastS,
 }) => {
   const [episodes, setEpisodes] = useState([1]);
   const [episodesq, setEpisodesq] = useState([1]);
@@ -22,40 +23,35 @@ export const SeasonItem = ({
 
   let countE = function (num) {
     if (num === 1) return "1";
-    return countE(num - 1) + num;
+    return countE(num - 1) + " " + num;
   };
-  // console.log(Array.from(new Set(countE(5))).map(Number));
 
   useEffect(() => {
     from === "edit" &&
       seriesFilesForEdit["files"].forEach((l) => {
-        l.season === season &&
-          setEpisodesq((v) => [...new Set([...v, l.episode])]);
+        l.season === season && setEpisodesq((v) => [...v, l.episode]);
       });
   }, [seriesFilesForEdit]);
   useEffect(() => {
-    from === "edit" &&
-      setBigestN(episodesq.sort((a, b) => a - b)[episodesq.length - 1]);
+    let ttt = countE(episodesq.sort((a, b) => a - b)[episodesq.length - 1]);
+    setEpisodes(ttt.toString().split(" ").map(Number));
   }, [episodesq]);
-  useEffect(() => {
-    from === "edit" &&
-      setEpisodes(Array.from(new Set(countE(bigestN))).map(Number));
-  }, [bigestN]);
 
-  // console.log({ se: season, ep: bigestN });
   return (
     <div>
       <fieldset className="border-2 shadow-lg focus-within:border-btn duration-300 dark:focus-within:border-btn dark:border-gray-600 rounded-xl mx-4 mt-5  max-w-[1300px]  ">
         <legend className="text-btn px-1  mx-3">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setSeasonLength((v) => v.filter((q) => q !== season));
-            }}
-            className="duration-200 mx-1  hover:text-white hover:bg-opacity-100 text-btn bg-opacity-20 text-[17px] bg-btn p-1 rounded-xl"
-          >
-            <RxCross2 />
-          </button>
+          {season === lastS && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setSeasonLength((v) => v.filter((q) => q !== season));
+              }}
+              className="duration-200 mx-1  hover:text-white hover:bg-opacity-100 text-btn bg-opacity-20 text-[17px] bg-btn p-1 rounded-xl"
+            >
+              <RxCross2 />
+            </button>
+          )}
           Season {season}
         </legend>
         <div className="flex justify-end  "></div>

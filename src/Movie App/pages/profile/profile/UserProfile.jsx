@@ -12,6 +12,7 @@ import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
 import {
   useAdminEditUserMutation,
   useGetUserForEditInAdminPanelQuery,
+  useGetUserWatchListUserSideQuery,
   useLoginOutMutation,
 } from "../../../redux/services/movieDatabase";
 import { useStateContext } from "../../../contextProvider/ContextProvider";
@@ -21,6 +22,7 @@ import { withRouter } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import AlertModal from "../../../common/AlertModal";
 import { IdontKnowName } from "../../../components/admin/IdontKnowName";
+import { BeatLoader } from "react-spinners";
 
 const UserProfile = ({ history }) => {
   let { setqw } = useStateContext();
@@ -30,7 +32,7 @@ const UserProfile = ({ history }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const poi = ["Genral", "Favorite"];
+  const poi = ["Genral", "Watch List"];
   let qqq = ["name", "email"];
   let www = {
     name: data && data.data.username,
@@ -54,7 +56,9 @@ const UserProfile = ({ history }) => {
     }
     return new File([u8arr], filename, { type: "image/png" });
   }
-
+  const watchListQuery = useGetUserWatchListUserSideQuery({
+    refetchOnMountOrArgChange: true,
+  });
   const [openModal, setOpenModal] = useState();
   const props = { openModal, setOpenModal };
 
@@ -233,99 +237,112 @@ const UserProfile = ({ history }) => {
           />
         )}
 
-        {/* User Favorite Movies */}
-        {query === "Favorite" && (
+        {/* User Watch List Movies */}
+        {query === "Watch List" && (
           <div className="mt-3 md:self-center w-full  ">
             <div className="dark:bg-border bg-white dark:bg-opacity-40  rounded-3xl p-4  ">
               <div className="flex justify-between mb-3 ">
                 <p className="text-[20px] font-semibold mx-3 ">Watch List </p>
-                <Link to={"/movies"}>
-                  <p className="text-btn font-semibold text-sm self-center mt-1 ">
-                    View All
-                  </p>
-                </Link>
-              </div>
-              <div className="flex justify-center">
-                <Swiper
-                  breakpoints={{
-                    320: { slidesPerView: 3, spaceBetween: 6 },
-                    570: { slidesPerView: 3, spaceBetween: 10 },
-                    770: { slidesPerView: 4, spaceBetween: 10 },
-
-                    1527: { slidesPerView: 5, spaceBetween: 9 },
-                    2027: { slidesPerView: 6, spaceBetween: 9 },
-                    2827: { slidesPerView: 7, spaceBetween: 9 },
-                  }}
-                  style={{
-                    "--swiper-navigation-color": "#fff",
-                    "--swiper-navigation-size": "30px",
-                    "--swiper-pagination-color": "#fff",
-                  }}
-                  // slidesPerView={3}
-                  // spaceBetween={10}
-                  autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                  }}
-                  navigation={true}
-                  modules={[Pagination, Navigation, Autoplay]}
-                  className={`relative h-[200px] md:h-[270px] x:h- xl:max-w-[65vw] flex  `}
+                <p
+                  onClick={() => handleOpen(1)}
+                  className="text-btn cursor-pointer font-semibold text-sm self-center mt-1 "
                 >
-                  {/* {data.map((movieId, index) => (
-                <SwiperSlide key={index}>
-                  <ExploreItemCard movieId={movieId} />
-                </SwiperSlide>
-              ))} */}
-                </Swiper>
+                  View All
+                </p>
               </div>
+              <div className={` flex justify-center  flex-wrap gap-3`}>
+                {watchListQuery["data"].data.map((movie, index) => (
+                  <div key={index}>
+                    <Link>
+                      <div className={`flex flex-col text-textDark `}>
+                        <div className="relative group">
+                          <img
+                            src={"https://localhost:7175/images/" + movie.cover}
+                            alt=""
+                            className={`w-[130px] h-[191px] md:w-[170px] md:h-[250px] rounded-xl`}
+                          />
+                          <p className="text-center text-sm mb-2">
+                            {movie.title}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>{" "}
+                  </div>
+                ))}
+              </div>
+              {watchListQuery["data"].data.length === 0 && (
+                <div className="text-center pb-7 pt-12">
+                  The watch list is empty :(
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
-      <div className="hidden sm:flex">
-        <div className="mt-8  md:self-center w-full px-5 y7:px-10 xl:px-16 ">
+      <div className="hidden w-full sm:block">
+        <div className="mt-8  md:self-center  w-full px-4  xl:px-16 ">
           <div className="dark:bg-border bg-white dark:bg-opacity-40  rounded-3xl p-4  ">
             <div className="flex justify-between mb-3 ">
-              <p className="text-[20px] font-semibold mx-3 ">My Favorite </p>
-              <Link to={"/movies"}>
-                <p className="text-btn font-semibold text-sm self-center mt-1 ">
-                  View All
-                </p>
-              </Link>
-            </div>
-            <div className="flex justify-center">
-              <Swiper
-                breakpoints={{
-                  320: { slidesPerView: 3, spaceBetween: 6 },
-                  570: { slidesPerView: 3, spaceBetween: 10 },
-                  770: { slidesPerView: 4, spaceBetween: 10 },
-
-                  1527: { slidesPerView: 5, spaceBetween: 9 },
-                  2027: { slidesPerView: 6, spaceBetween: 9 },
-                  2827: { slidesPerView: 7, spaceBetween: 9 },
-                }}
-                style={{
-                  "--swiper-navigation-color": "#fff",
-                  "--swiper-navigation-size": "30px",
-                  "--swiper-pagination-color": "#fff",
-                }}
-                // slidesPerView={3}
-                // spaceBetween={10}
-                autoplay={{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }}
-                navigation={true}
-                modules={[Pagination, Navigation, Autoplay]}
-                className={`relative h-[200px] md:h-[270px] x:h- xl:max-w-[65vw] flex  `}
+              <p className="text-[20px] font-semibold mx-3 ">Watch List </p>
+              <p
+                onClick={() => handleOpen(1)}
+                className="text-btn cursor-pointer font-semibold text-sm self-center mt-1 "
               >
-                {/* {data.map((movieId, index) => (
-                <SwiperSlide key={index}>
-                  <ExploreItemCard movieId={movieId} />
-                </SwiperSlide>
-              ))} */}
-              </Swiper>
+                View All
+              </p>
             </div>
+
+            <div
+              className={`${
+                !open && "max-h-[200px] md:max-h-[250px] overflow-hidden"
+              } flex justify-center w-full flex-wrap gap-3`}
+            >
+              {watchListQuery["data"]?.data?.map((movie, index) => (
+                <div key={index}>
+                  <Link>
+                    <div className={`flex flex-col text-textDark `}>
+                      <div className="relative group">
+                        <img
+                          // src={data?.title.image.url}
+                          src={"https://localhost:7175/images/" + movie.cover}
+                          alt=""
+                          className={`w-[130px] h-[191px] md:w-[170px] md:h-[250px] rounded-xl`}
+                        />
+                        <div className=" z-20 hidden md:flex absolute md:w-[170px] md:h-[250px] inset-0  rounded-xl origin-bottom opacity-0 group-hover:opacity-100  group-hover:bg-opacity-80   group-hover:bg-screenDark  duration-200 cursor-pointer ">
+                          <div className=" flex flex-col justify-between">
+                            <div>
+                              <p className="text-[17px] mt-2 mx-1 font-semibold ">
+                                {movie.title}{" "}
+                              </p>
+                              <div className="flex mt-2 mx-3">
+                                <img
+                                  src="https://mobomoviez.fun/img/imdb.png"
+                                  alt=""
+                                  className="rounded-xl w-[27px] h-[27px] "
+                                />
+                                <span className="self-center mx-1 font-bold">
+                                  {/* {data?.ratings.rating}{" "} */}8
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-center pb-6  w-[169px] px-3 ">
+                              <button className=" btn py-2 w-full rounded-md  backdrop-blur-sm  font-bold hover:rounded-xl  ">
+                                Watch List
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>{" "}
+                </div>
+              ))}
+            </div>
+            {watchListQuery["data"]?.data?.length === 0 && (
+              <div className="text-center pb-7 pt-12">
+                The watch list is empty :(
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -333,27 +350,9 @@ const UserProfile = ({ history }) => {
   ) : (
     <div className="flex h-screen justify-center">
       <div className="flex mt-20 text-[19px]">
-        <svg
-          class="w-5 h-5 mt-2 mr-2 -ml-1 text-btn animate-spin"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        please be patient
+        <div className="flex justify-center">
+          <BeatLoader size={"20px"} color="#1e74f1" />
+        </div>
       </div>
     </div>
   );
@@ -361,100 +360,3 @@ const UserProfile = ({ history }) => {
 
 export default withRouter(UserProfile);
 
-// <div className="md:flex w-full px-5 y7:px-10 xl:px-16">
-//   <UserGeneral
-//     profilePicture={profilePicture}
-//     setShowCropImg={setShowCropImg}
-//     setProfilePicture={setProfilePicture}
-//   />
-// </div>
-
-// <div className=" w-full px-5 y7:px-10 xl:px-16 sm:hidden">
-//   <ul className="flex gap-5 text-sm pb-2 overflow-x-auto scrollbar:!w-1.5 scrollbar:!h-1.5 md:mx-8  xl:mx-28 2xl:mx-36 text-[17px]">
-//     {poi.map((item, index) => (
-//       <Link
-//         to={{ pathname: "/user", search: item.toLocaleLowerCase() }}
-//         key={index}
-//       >
-//         <li
-//           className={`px-4 py-2   ${
-//             query === item
-//               ? "bg-[length:100%_2px] font-semibold text-btn"
-//               : "bg-[length:0%_2px]"
-//           }  origin-right bg-left-bottom bg-gradient-to-r from-btn to-btn  bg-no-repeat hover:bg-[length:100%_2px] transition-all duration-500 ease-out`}
-//           onClick={() => setQuery(item)}
-//         >
-//           {item}
-//         </li>
-//       </Link>
-//     ))}
-//   </ul>{" "}
-// </div>
-
-// <div className=" w-full px-5 y7:px-10 xl:px-16 sm:hidden">
-//   {/* User Genral information */}
-//   {query === "Genral" && (
-//     <UserProfileGenral
-//       qqq={qqq}
-//       selectedForChange={selectedForChange}
-//       setSelectedForChange={setSelectedForChange}
-//       www={www}
-//     />
-//   )}
-
-//   {/* User Favorite Movies */}
-//   {query === "Favorite" && (
-//     <UserProfileGenral
-//       qqq={qqq}
-//       selectedForChange={selectedForChange}
-//       setSelectedForChange={setSelectedForChange}
-//       www={www}
-//     />
-//   )}
-// </div>
-
-// <div className="mt-8 md:self-center w-full px-5 y7:px-10 xl:px-16 ">
-//   <div className="dark:bg-border bg-white dark:bg-opacity-40  rounded-3xl p-4  ">
-//     <div className="flex justify-between mb-3 ">
-//       <p className="text-[20px] font-semibold mx-3 ">My Favorite </p>
-//       <Link to={"/movies"}>
-//         <p className="text-btn font-semibold text-sm self-center mt-1 ">
-//           View All
-//         </p>
-//       </Link>
-//     </div>
-//     <div className="flex justify-center">
-//       <Swiper
-//         breakpoints={{
-//           320: { slidesPerView: 3, spaceBetween: 6 },
-//           570: { slidesPerView: 3, spaceBetween: 10 },
-//           770: { slidesPerView: 4, spaceBetween: 10 },
-
-//           1527: { slidesPerView: 5, spaceBetween: 9 },
-//           2027: { slidesPerView: 6, spaceBetween: 9 },
-//           2827: { slidesPerView: 7, spaceBetween: 9 },
-//         }}
-//         style={{
-//           "--swiper-navigation-color": "#fff",
-//           "--swiper-navigation-size": "30px",
-//           "--swiper-pagination-color": "#fff",
-//         }}
-//         // slidesPerView={3}
-//         // spaceBetween={10}
-//         autoplay={{
-//           delay: 2500,
-//           disableOnInteraction: false,
-//         }}
-//         navigation={true}
-//         modules={[Pagination, Navigation, Autoplay]}
-//         className={`relative h-[200px] md:h-[270px] x:h- xl:max-w-[65vw] flex  `}
-//       >
-//         {data.map((movieId, index) => (
-//           <SwiperSlide key={index}>
-//             <ExploreItemCard movieId={movieId} />
-//           </SwiperSlide>
-//         ))}
-//       </Swiper>
-//     </div>
-//   </div>
-// </div>

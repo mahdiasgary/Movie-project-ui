@@ -62,19 +62,27 @@ const SingupPage = ({ history }) => {
       .unwrap()
       .then((res) => {
         setLoadingButton(false);
-        console.log(res);
+        // console.log(res);
 
         if (res.isSuccessFull && res.status === "EmailSend") {
           setSwichBetweenFormAndVerify(true);
           toast.success(res.message, {
             autoClose: 2100,
-            position: "top-right",
+            position: "top-right", style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
           });
         }
         if (!res.isSuccessFull && res.status === "UserExist") {
           toast.error(res.message, {
             autoClose: 2100,
-            position: "top-right",
+            position: "top-right", style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
           });
         }
       });
