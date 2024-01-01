@@ -59,10 +59,10 @@ const MoviePage = ({ history }) => {
   };
 
   return (
-    <div>
-      {/* <div className="dark:bg-[#101018] h-screen fixed w-full "></div> */}
+    <div className="min-h-screen pb-36">
       <div className="w-full z-0 relative group top-[-84px]  bg-screenLight dark:bg-[#101018] h-[2000px]  dark:text-screenLight">
-        <div className=" absolute z-20 w-full mt-28 px-3  sm:px-10 md:px-5 lg:px-2 xl:px-10 2xl:px-20  ">
+
+        <div className=" absolute z-20 w-full pb-20 mt-28 px-3  sm:px-10 md:px-5 lg:px-2 xl:px-10 2xl:px-20  ">
           <div className="flex flex-col">
             <div className="flex flex-col md:flex-row">
               <div className="w-full md:w-auto flex justify-center md:justify-start ">
@@ -161,17 +161,10 @@ const MoviePage = ({ history }) => {
                         </p>
                       </p>
                     </div>
-                    <div className="mt-2  md:text-gray-200">
-                      The sole survivor of a pier shoot-out tells the story of
-                      how a notorious criminal influenced the events that began
-                      with five criminals meeting in a seemingly random police
-                      lineup.
-                    </div>
                   </div>
                   <div className="flex flex-col w-full justify-between mt-4 ">
                     <div className="hidden md:flex md:flex-col md:justify-between self-end ">
                       <div>
-                        <div className="flex gap-2 justify-center "></div>
                         <div className="flex flex-col xl:flex-row gap-2 mt-2 justify-end ">
                           <div className="border md:border-0 border-border px-1 rounded-lg w-[100px] h-[76px] self-center text-center  backdrop-blur-sm  bg-screenDark bg-opacity-80  hover:bg-screenDark  ">
                             <div className="border md:border-0 border-border px-1 rounded-lg w-[100px] h-[76px] self-center text-center  backdrop-blur-sm  bg-screenDark bg-opacity-80  ">
@@ -203,17 +196,13 @@ const MoviePage = ({ history }) => {
                           </div>
                         </div>
                       </div>
-
-                      <div className="self-center mt-32">
-                        <div className="text-btn xl:flex hidden  font-semibold border md:border-0 border-border px-6 py-4 rounded-lg  self-center text-center  backdrop-blur-sm  bg-screenDark bg-opacity-80 hover:bg-screenDark duration-300    ">
-                          <button className="w-[36px] h-[36px]  bg-screenDark bg-opacity-80 hover:bg-screenDark duration-300 border border-btn   text-btn flex justify-center rounded-xl text-[25px] ">
-                            <BsPlay className="self-center pl-1 " />
-                          </button>
-                          <p className="self-center mx-2 ">View Trailar </p>
-                        </div>
-                      </div>
                     </div>
                   </div>
+                </div>
+                <div className="mt- pl-5  md:text-gray-200">
+                  The sole survivor of a pier shoot-out tells the story of how a
+                  notorious criminal influenced the events that began with five
+                  criminals meeting in a seemingly random police lineup.
                 </div>
               </div>
             </div>
@@ -221,12 +210,12 @@ const MoviePage = ({ history }) => {
           <div className="dark:md:mt-28 md:mt-[170px] text-black dark:text-screenLight">
             <div className="w-full ">
               <div className=" sticky lg:relative   lg:dark:bg-transparent dark:bg-[#101018] bg-screenLight z-[50] top-0 ">
-                <ul className="flex  justify-between pb-2 overflow-x-auto scrollbar:!w-1.5 scrollbar:!h-1.5 md:mx-8  xl:mx-28 2xl:mx-36 text-[17px]">
+                <ul className="flex  mt-8 dark:sm:mt-0 dark:mt-8 justify-between pb-2 overflow-x-auto scrollbar:!w-1.5 scrollbar:!h-1.5 md:mx-8  xl:mx-28 2xl:mx-36 text-[17px]">
                   {poi.map((item, index) => (
                     <Link
                       to={{
-                        pathname: "/movies/1",
-                        search: item.toLocaleLowerCase(),
+                        pathname: `#${item.toLocaleLowerCase()}`,
+                        // search: item.toLocaleLowerCase(),
                       }}
                       key={index}
                     >
@@ -244,7 +233,7 @@ const MoviePage = ({ history }) => {
                   ))}
                 </ul>
               </div>
-              <div className=" z-0 flex justify-center w-full">
+              <div className=" z-0 flex  justify-center w-full">
                 {/* <Download/> */}
                 {query === "Details" && <Details />}
                 {query === "Download" && <Download />}
@@ -305,9 +294,6 @@ const MoviePage = ({ history }) => {
           <div className="w-full hidden dark:flex relative gradient-10   dark:h-[150px] dark:-top-[150px] -top-[100px] h-[100px] " />
         </div>
 
-        <div className="relative -top-28 hidden md:flex">
-          {/* <MoviePageDtailes/> */}
-        </div>
       </div>
     </div>
   );

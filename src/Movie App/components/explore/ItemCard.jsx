@@ -8,8 +8,8 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 const ItemCard = ({ data }) => {
   let qw =
     "   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed omnis quam tempore, est facere nostrum non expedita ipsam consequatur architecto atque quis culpa vel assumenda excepturi inventore laborum quisquam eveniet!";
- 
-    return (
+
+  return (
     <Link to={{ pathname: `/movies/${data.title}`, state: { data } }}>
       <div className={`flex flex-col w-[150px]  y9:w-[182px]  `}>
         <div className="relative group text-textDark">

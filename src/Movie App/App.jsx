@@ -26,6 +26,7 @@ import SingupPage from "./pages/login singUp/singup/SingupPage";
 import nprogress from "nprogress";
 import ForgotPasswordPage from "./pages/login singUp/login/ForgotPasswordPage";
 import { Toaster } from "react-hot-toast";
+import Routes from "./Routes";
 const App = () => {
   const { setIsDarkMode, IsDarkMode } = useStateContext();
   const [isSearchItemsShow, setIsSearchItemsShow] = useState(false);
@@ -42,105 +43,7 @@ const App = () => {
       <ToastContainer theme="dark" />
       <Toaster position="top-right" reverseOrder={true} />
       <div className="en font-[Eudoxus Sans]  ">
-        <Switch>
-          {/* <div
-          className={`dark:text-textDark text-textLight   
-            ${IsDarkMode ? "gradient-06" : "lightTheme"} `}
-        > */}
-          {/* <div className="bg-[#f9f9f9] dark:bg-[#282a37]"> */}
-          <Route path={"/login"} exact component={() => <LogInPage />} />
-          <Route
-            path={"/login/:id"}
-            exact
-            component={() => <ForgotPasswordPage />}
-          />
-
-          <Route path={"/singup"} exact component={() => <SingupPage />} />
-          {/* </div> */}
-
-          {/* </div> */}
-          <Route path={"/admin"} exact component={() => <AdminPage />} />
-          <Route path={"/admin/:id"} exact component={() => <AdminPage />} />
-
-          <div className="">
-            <div
-              onClick={() => setIsSearchItemsShow(false)}
-              className={`${
-                !isSearchItemsShow && "hidden"
-              } fixed z-40 w-full h-full bg-black  backdrop-blur-sm dark:bg-opacity-60 bg-opacity-25 `}
-            />
-            <div
-              onClick={() => setOpenMenu(false)}
-              className={`${
-                !openMenu && "left-[-100%]"
-              } fixed z-[51] w-full h-full bg-black lg:hidden backdrop-blur-sm dark:bg-opacity-70 bg-opacity-25 `}
-            />
-            <div
-              className={`dark:text-textDark text-textLight   
-            ${IsDarkMode ? "gradient-06" : "lightTheme"} `}
-            >
-              <FooterMenu setOpenMenu={setOpenMenu} openMenu={openMenu} />
-
-              <div className="flex">
-                <div className="lg:sticky">
-                  <SideBar
-                    mode={mode}
-                    openMenu={openMenu}
-                    setOpenMenu={setOpenMenu}
-                    setMode={setMode}
-                  />
-                </div>
-                <div className=" w-full flex flex-col  ">
-                  <NavBar
-                    isSearch={isSearchItemsShow}
-                    setIsSearch={setIsSearchItemsShow}
-                    setMode={setMode}
-                    mode={mode}
-                    openMenu={openMenu}
-                    setOpenMenu={setOpenMenu}
-                  />
-                  <Route
-                    path={"/user"}
-                    exact
-                    component={() => <UserProfile />}
-                  />
-
-                  <Route
-                    path={"/series"}
-                    exact
-                    component={() => <SeriesPage />}
-                  />
-
-                  <Route
-                    path={"/genres/:id"}
-                    exact
-                    component={() => <MoviesByGenre />}
-                  />
-                  <Route
-                    path={"/profile"}
-                    exact
-                    component={() => <UserProfile />}
-                  />
-                  <Route
-                    path={"/movies"}
-                    exact
-                    component={() => <MoviesPage />}
-                  />
-
-                  <Route path={"/genres"} exact component={() => <Genres />} />
-                  <Route path={"/"} exact component={() => <Explore />} />
-                  <div className="bg-[#101018] ">
-                    <Route
-                      path={"/movies/:id"}
-                      exact
-                      component={() => <MoviePage />}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Switch>
+        <Routes />
       </div>
     </BrowserRouter>
   );

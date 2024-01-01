@@ -5,11 +5,11 @@ const ComingSoonItem = ({ movieId }) => {
 
   return (
     <div className="flex py-2">
-      <img
+      {/* <img
         src={data?.title?.image.url}
         alt=""
         className="w-[120px] h-[176px] rounded-lg "
-      />
+      /> */}
       <div className="ml-3 flex flex-col justify-between ">
         <div>
           <div className="mt-1">

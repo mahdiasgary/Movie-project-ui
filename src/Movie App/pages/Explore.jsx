@@ -10,12 +10,14 @@ const Explore = () => {
   const {rtl}=useStateContext()
 
   return (
-    <div className="lg:flex  w-full " >
-    <div className="mt-8 lg:w-full  mx-5  flex xs:flex-row flex-col xs:justify-between ">
+    <div className="  w-full " >
+    <div className="mt-8   mx-5  flex xs:flex-row flex-col xs:justify-between ">
       <div className="flex w-full flex-col justify-center">
         <TrendMovies />
         <TopMovie /> 
-        <TopSeries />
+
+        <TopMovie /> 
+        {/* <TopSeries /> */}
       </div>
       <div className={`mt-5  relative top-0 ${rtl ? 'x:ml-10 2xl:ml-0' :'x:mr-10 2xl:mr-0'}  ` } >
         <div className="text-[20px] font-semibold flex mt-3 mx-3 ">
@@ -24,7 +26,10 @@ const Explore = () => {
             <GiPopcorn className="text-[25px] self-center" />
           </span>
         </div>
-        <ComingSoon />
+        {/* <ComingSoon /> */}
+        <div className="bg-red-500 h-[400px]">
+        
+        </div>
       </div>
     </div>
     </div>
